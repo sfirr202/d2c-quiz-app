@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第5章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第5章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "D2C（ダイレクトマーケティング）の財務構造の特徴を、大手メーカー（B2B2C）と比較した場合、一般的に当てはまるのはどれか。",
+        "answerOptions": [
+          { "text": "D2Cの方が売上規模が圧倒的に大きい。", "rationale": "売上規模は広く流通網を持つメーカーの方が大きくなる傾向にあります。", "isCorrect": false },
+          { "text": "D2Cの方が営業利益率が高い傾向にある。", "rationale": "D2Cは顧客データを活用した効率的なオペレーションにより、利益率が高くなる傾向にあります。", "isCorrect": true },
+          { "text": "メーカーの方が売上総利益率（粗利率）が高い。", "rationale": "D2Cの方が粗利率も高い傾向にあります。", "isCorrect": false },
+          { "text": "D2Cは販管費が全くかからない。", "rationale": "広告費やフルフィルメント費など販管費はかかります。", "isCorrect": false }
+        ],
+        "hint": "売上（規模）と利益（率）のどちらを強みとしているかに注目してください。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "大手メーカー（B2B2C）とD2Cのビジネスモデルにおける、事業規模の決定的な違いはどこから生まれるか。",
+        "answerOptions": [
+          { "text": "商品の品質の違い", "rationale": "品質そのものがビジネスモデルの構造的違いを生むわけではありません。", "isCorrect": false },
+          { "text": "従業員数の違い", "rationale": "結果であって原因ではありません。", "isCorrect": false },
+          { "text": "中間流通業者を通さず、消費者を直接の顧客として販売するかどうか", "rationale": "メーカーは大規模な卸売網を持つため規模が大きくなり、D2Cは直接販売のため規模が限定的になりやすい構造があります。", "isCorrect": true },
+          { "text": "資本金の大きさの違い", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "誰に商品を卸している（売っている）かの違いです。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "D2C企業が原価コントロールにおいて優位性を発揮し、「売上高総利益率（粗利率）」を高く保てる背景にあるものは何か。",
+        "answerOptions": [
+          { "text": "海外の安い労働力の徹底活用", "rationale": "D2C特有の強みではありません。", "isCorrect": false },
+          { "text": "顧客データを活用した精緻な売上予測と生産計画", "rationale": "顧客データに基づく正確な予測により、無駄な在庫や製造ロスを減らすことで原価をコントロールします。", "isCorrect": true },
+          { "text": "材料の品質を意図的に落とすこと", "rationale": "ブランド価値を毀損します。", "isCorrect": false },
+          { "text": "下請け企業への不当な値引き要求", "rationale": "コンプライアンス違反です。", "isCorrect": false }
+        ],
+        "hint": "誰がどれくらい買ってくれるか「予測しやすい」ことがポイントです。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "D2C企業において、「売上高販管費率」のコントロールに寄与している要素は何か。",
+        "answerOptions": [
+          { "text": "広告を一切出さないことによるコスト削減", "rationale": "D2Cでも広告（新規獲得投資）は重要です。", "isCorrect": false },
+          { "text": "コールセンターの完全無人化", "rationale": "顧客対応は重要です。", "isCorrect": false },
+          { "text": "セグメントごとの顧客特性にマッチした媒体戦略とフルフィルメント対応による効率性", "rationale": "データを活用して無駄打ちをなくし、適切な相手に適切な対応をすることで効率化を図ります。", "isCorrect": true },
+          { "text": "顧客へのサービス提供の完全廃止", "rationale": "価値提供を放棄することになります。", "isCorrect": false }
+        ],
+        "hint": "全員に同じアプローチをするのではなく、データを基に「狙い撃ち」するからです。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "「顧客資産価値（CE：カスタマー・エクイティ）」という概念を最初に提唱した学者の組み合わせとして正しいものはどれか。",
+        "answerOptions": [
+          { "text": "コトラー と ケラー", "rationale": "マーケティングの大家ですが、CEの最初の提唱者ではありません。", "isCorrect": false },
+          { "text": "ブラットバーグ と デイトン", "rationale": "テキストでCEの提唱者として紹介されています。", "isCorrect": true },
+          { "text": "ペパーズ と ロジャース", "rationale": "One to Oneマーケティングの提唱者です。", "isCorrect": false },
+          { "text": "ドラッカー と ポーター", "rationale": "経営学や競争戦略の大家です。", "isCorrect": false }
+        ],
+        "hint": "テキストで「二人の学者」として紹介されています。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "ブラットバーグとデイトンが定義したCE（カスタマー・エクイティ）の説明として、最もシンプルな表現はどれか。",
+        "answerOptions": [
+          { "text": "ある企業が1年間に獲得した新規顧客の総売上", "rationale": "単年度の売上ではありません。", "isCorrect": false },
+          { "text": "ある企業の全顧客のLTV（顧客生涯価値）の合計", "rationale": "CEは、保有する全顧客が生涯にもたらす利益の現在価値（LTV）の合計と定義されます。", "isCorrect": true },
+          { "text": "ある企業が保有するすべての有形資産の合計", "rationale": "有形資産ではなく「顧客」という無形資産の価値です。", "isCorrect": false },
+          { "text": "ある企業の株式時価総額", "rationale": "異なります。", "isCorrect": false }
+        ],
+        "hint": "顧客一人ひとりの価値を、全員分足し合わせたものです。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "ブラットバーグとデイトンの主張によれば、CEが「最大」になるのはどのような時か。",
+        "answerOptions": [
+          { "text": "すべてのマーケティング予算を新規顧客獲得に全振りした時", "rationale": "既存顧客への投資が欠けています。", "isCorrect": false },
+          { "text": "広告費をゼロにして既存顧客のみに依存した時", "rationale": "新規獲得の投資が欠けています。", "isCorrect": false },
+          { "text": "新規顧客獲得投資と既存顧客維持投資の双方が最適なバランスになっている時", "rationale": "獲得と維持のバランスが最適化された時に、CEは最大化すると主張しています。", "isCorrect": true },
+          { "text": "商品の価格を限界まで下げた時", "rationale": "利益が圧迫されCEは下がります。", "isCorrect": false }
+        ],
+        "hint": "「新しい人」と「今いる人」、両方へのお金の使い方に関係します。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "CE最大化のためのマネジメントを実践する上で、組織としてどのように取り組むべきとされているか。",
+        "answerOptions": [
+          { "text": "マーケティング部門のみで完結させるべきである。", "rationale": "部門の壁を越える必要があります。", "isCorrect": false },
+          { "text": "財務部門にすべてを委ねるべきである。", "rationale": "財務指標ですが、実行は全社で行います。", "isCorrect": false },
+          { "text": "組織全体を挙げて行う必要がある。", "rationale": "一部門ではなく、全社横断的（組織全体）に取り組むべきだと指摘されています。", "isCorrect": true },
+          { "text": "外部のコンサルタントに丸投げすべきである。", "rationale": "自社のマネジメントになりません。", "isCorrect": false }
+        ],
+        "hint": "誰か一人の責任ではなく、全員で取り組む課題です。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "顧客獲得、顧客維持、顧客育成へのマーケティング支出が最適な水準にあるかを計測するために、何を観察すべきとされているか。",
+        "answerOptions": [
+          { "text": "日々の自社株価の変動", "rationale": "マーケティング支出の直接の評価指標ではありません。", "isCorrect": false },
+          { "text": "競合他社の広告出稿量", "rationale": "自社の投資効果の計測にはなりません。", "isCorrect": false },
+          { "text": "ターゲットとしている顧客セグメントのLTVの変化", "rationale": "各セグメントに対する投資がLTVの向上にどう繋がっているかを観察・計測することが重要です。", "isCorrect": true },
+          { "text": "従業員の残業時間の増減", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「投資したお金が、顧客の価値をどれくらい高めたか」を示す指標です。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "CE最大化のためのマネジメントを実践する上で、組織体制として推奨されていることは何か。（※第6章への布石として言及されている内容）",
+        "answerOptions": [
+          { "text": "全社で一人の責任者がすべての顧客を管理すること", "rationale": "現実的ではありません。", "isCorrect": false },
+          { "text": "商品ごとに独立した事業部を作ること", "rationale": "これは製品中心のアプローチです。", "isCorrect": false },
+          { "text": "顧客セグメント単位で収益管理の責任を持つ管理者を置くこと", "rationale": "「チャネル」や「商品」ではなく、「顧客セグメント」ごとに責任者（管理者）を置くことが推奨されています。", "isCorrect": true },
+          { "text": "管理者を置かずに現場の自主性に任せること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「A商品担当」ではなく、「Aグループのお客様担当」を作る考え方です。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "多くのD2C企業において、新規顧客獲得のための広告支出（初回取引）の収益性は一般的にどのような状態か。",
+        "answerOptions": [
+          { "text": "初回受注だけで莫大な黒字を生み出す。", "rationale": "通常、初回は赤字になります。", "isCorrect": false },
+          { "text": "初回受注から得られる利益では回収できず、短期的には赤字である。", "rationale": "D2Cの新規獲得は初回赤字が前提であり、その後の継続（LTV）で回収するモデルです。", "isCorrect": true },
+          { "text": "広告費は一切かからないため常に黒字である。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "初回取引の収益性は全く計算できない。", "rationale": "計算可能です。", "isCorrect": false }
+        ],
+        "hint": "広告費が高騰している現代において、1回買ってもらっただけでは元が取れません。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "カタログやDM送付対象の「既存顧客層」に関する記述として、テキストで指摘されている現実はどれか。",
+        "answerOptions": [
+          { "text": "既存顧客は全員が必ず高い利益をもたらす。", "rationale": "そうとは限りません。", "isCorrect": false },
+          { "text": "既存顧客へのアプローチにはコストが一切かからない。", "rationale": "カタログやDMの送付コストがかかります。", "isCorrect": false },
+          { "text": "既存顧客層の中にも、しばしば一定の赤字セグメントが含まれている。", "rationale": "既存顧客であっても、送付コストに見合う購入をしていない赤字層が存在します。", "isCorrect": true },
+          { "text": "赤字の既存顧客はシステム上存在し得ない。", "rationale": "存在します。", "isCorrect": false }
+        ],
+        "hint": "「一度買ってくれた人」の中にも、利益が出ていない層が混ざっています。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "不振に陥ったD2C企業の経営者が、目先の利益を出すために「最初に手を付けがちな（しかし危険な）施策」は何か。",
+        "answerOptions": [
+          { "text": "商品の品質を劇的に向上させること", "rationale": "コストがかかるため最初にはやりません。", "isCorrect": false },
+          { "text": "全従業員の給与を倍増させること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "新規顧客獲得や既存顧客への広告・カタログ支出を過剰に切り捨てること", "rationale": "広告やカタログの支出を削れば手っ取り早く利益が出るため、ここに手を付けがちです（劇薬）。", "isCorrect": true },
+          { "text": "新しいシステムの導入に巨額の投資をすること", "rationale": "不振時には巨額投資は避けます。", "isCorrect": false }
+        ],
+        "hint": "「これをやめれば、すぐにお金が浮く」と安易に考えてしまうコストカットです。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "必要なマーケティング投資を過剰に切り捨て、一時的に「減収増益」になった後、次の成長を支える顧客がいなくなり「減収減益」となって事業が縮小していく現象を、米国では何と呼んでいるか。",
+        "answerOptions": [
+          { "text": "ブルー・オーシャン", "rationale": "競争のない未開拓市場のことです。", "isCorrect": false },
+          { "text": "デス・スパイラル（死の連鎖）", "rationale": "投資を絞ることで顧客が先細りし、事業が縮小していく悪循環を「デス・スパイラル」と呼びます。", "isCorrect": true },
+          { "text": "キャズム越え", "rationale": "新技術が市場に普及する際の溝を越えることです。", "isCorrect": false },
+          { "text": "イノベーションのジレンマ", "rationale": "大企業が新技術に乗り遅れる現象です。", "isCorrect": false }
+        ],
+        "hint": "「死の渦」を意味する恐ろしい言葉です。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "D2Cにおいて、顧客のCE（カスタマー・エクイティ）を最大化するためには、どのような投資スタンスが必要か。",
+        "answerOptions": [
+          { "text": "獲得時のみに全予算を集中投下すること", "rationale": "その後の育成ができず離脱してしまいます。", "isCorrect": false },
+          { "text": "一切の投資を行わず自然増加を待つこと", "rationale": "自然増加には限界があります。", "isCorrect": false },
+          { "text": "新規顧客の獲得→継続顧客化→優良顧客化の各ステップで一定の規模の投資をし続けること", "rationale": "各ステップでのバランスの取れた継続的な投資が、CE最大化の鍵です。", "isCorrect": true },
+          { "text": "数年に1度だけ大規模な投資を行うこと", "rationale": "継続的な関係構築になりません。", "isCorrect": false }
+        ],
+        "hint": "顧客の「一生」に寄り添って、段階的にお金（労力）をかけていく姿勢です。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "テキストの「年間マーケティング支出の最適投資ゾーン」のグラフにおいて、縦軸に設定されている指標は何か。",
+        "answerOptions": [
+          { "text": "単年度の売上", "rationale": "短期的な売上ではありません。", "isCorrect": false },
+          { "text": "四半期の営業利益", "rationale": "短期的な利益ではありません。", "isCorrect": false },
+          { "text": "カスタマー・エクイティ（顧客資産価値）", "rationale": "グラフの縦軸は、長期的な顧客基盤の価値である「カスタマー・エクイティ」となっています。", "isCorrect": true },
+          { "text": "新規顧客獲得数", "rationale": "単なる人数ではありません。", "isCorrect": false }
+        ],
+        "hint": "投資の結果として増減する、顧客全体の「生涯の利益の合計」です。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "「マーケティングROI」という言葉の意味として正しいものはどれか。",
+        "answerOptions": [
+          { "text": "マーケティング担当者の給与水準", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "広告媒体の閲覧数（リーチ）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "マーケティングを投資として見た場合の投資対効果", "rationale": "ROI（Return On Investment）は投資対効果を意味します。", "isCorrect": true },
+          { "text": "商品の原価率", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「使ったお金に対して、どれくらい見返りがあったか」という指標です。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "D2C「以外」の業界（一般のメーカーなど）において、広告支出のROIを測る際に比較対象とされる一般的な指標はどれか。",
+        "answerOptions": [
+          { "text": "獲得した顧客の生涯価値", "rationale": "メーカーは直接顧客を追えないためLTVは測れません。", "isCorrect": false },
+          { "text": "自社サイトのページビュー数", "rationale": "効果の一部ですが、最終的なROIの指標ではありません。", "isCorrect": false },
+          { "text": "当該広告経由の売上（あるいは利益）", "rationale": "一般的には「この広告でいくら売れたか」という短期的な売上・利益で評価します。", "isCorrect": true },
+          { "text": "従業員の満足度", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「その広告を打った直後にどれくらい儲かったか」という短期的な数字です。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "継続ビジネスが前提のD2Cにおいて、新規顧客獲得の広告支出を評価する際に、初回売上よりも重視される「同じ広告支出でどれだけの受注件数があったか（一人獲得するのにいくらかかったか）」を示す指標は何か。",
+        "answerOptions": [
+          { "text": "ROASやROI", "rationale": "これらは費用対売上/利益の指標です。", "isCorrect": false },
+          { "text": "CPOやCPA", "rationale": "CPO（Cost Per Order）やCPA（Cost Per Acquisition）は、顧客獲得単価を示す重要な指標です。", "isCorrect": true },
+          { "text": "LTVやCE", "rationale": "これらは長期的な価値の指標です。", "isCorrect": false },
+          { "text": "CTRやCVR", "rationale": "これらはクリック率やコンバージョン率です。", "isCorrect": false }
+        ],
+        "hint": "「Cost Per 〜」から始まる言葉です。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "CPO（顧客獲得単価）が安く、獲得効率が良い広告媒体であっても、D2C企業が無条件にその媒体への投資を増やしてはいけない理由は何か。",
+        "answerOptions": [
+          { "text": "広告代理店に支払う手数料が高くなるため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「獲得しやすいが維持しにくい（LTVが低い）」顧客層である可能性があるため", "rationale": "安く獲得できても、リピートせずにすぐ離脱する顧客層であれば、結果的にLTVが低く赤字になるためです。", "isCorrect": true },
+          { "text": "システムがダウンする恐れがあるため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "他の媒体の担当者が不満を持つため", "rationale": "社内事情であり本質的ではありません。", "isCorrect": false }
+        ],
+        "hint": "「安かろう悪かろう」なお客様ばかり集まってしまうリスクです。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "衝動買いのように購入するが、2回目購入に繋がらず、その後の購買活動も活発ではない顧客層について、正しい評価はどれか。",
+        "answerOptions": [
+          { "text": "CPOの効率が悪く、LTVも低い。", "rationale": "衝動買いしやすいためCPOは良い（安い）傾向にあります。", "isCorrect": false },
+          { "text": "CPOの効率が良く、LTVも非常に高い。", "rationale": "リピートしないのでLTVは低いです。", "isCorrect": false },
+          { "text": "CPOの効率が良くても、LTVは低い。", "rationale": "獲得は容易（CPO良）ですが、継続しないため生涯価値（LTV）は低くなります。", "isCorrect": true },
+          { "text": "CPOは全く計算できない。", "rationale": "計算可能です。", "isCorrect": false }
+        ],
+        "hint": "「入り口」は優秀ですが、「中身（長期）」は伴わない状態です。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "D2CのマーケティングROIを正しく評価するために、獲得コスト（CPO）と人数のバランスに加えて「考慮すべき要素」は何か。",
+        "answerOptions": [
+          { "text": "広告クリエイティブの芸術性", "rationale": "評価の主眼ではありません。", "isCorrect": false },
+          { "text": "獲得顧客のx年後のLTV（継続率や購入金額の伸び等）", "rationale": "獲得後の継続性や収益性（LTV）を加味して初めて、正しい投資対効果が判定できます。", "isCorrect": true },
+          { "text": "広告を出稿した時間帯", "rationale": "一部の要因に過ぎません。", "isCorrect": false },
+          { "text": "タレントの知名度", "rationale": "一部の要因に過ぎません。", "isCorrect": false }
+        ],
+        "hint": "そのお客様が「将来どれだけ買ってくれるか」という視点です。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "マーケティング予算「全体」のROIを考える際に、特定の予算支出の投資対効果という視点と「同時」に重要となる視点は何か。",
+        "answerOptions": [
+          { "text": "予算総額の無条件な削減", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "予算配分の最適化", "rationale": "獲得、維持、育成の各施策に「どのように予算を割り振るか」の最適化が重要になります。", "isCorrect": true },
+          { "text": "すべての部署への均等な予算配分", "rationale": "効果に応じて配分を変えるべきです。", "isCorrect": false },
+          { "text": "前年踏襲の予算編成", "rationale": "環境変化に対応できません。", "isCorrect": false }
+        ],
+        "hint": "限られたお小遣いを、何にどれくらい使うかという「ポートフォリオ」の発想です。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "「マーケティング予算配分の最適化」の図において、CEを最大化するための予算配分は、何を最大化するための予算配分と「異なる」ことが示されているか。",
+        "answerOptions": [
+          { "text": "従業員の給与を最大化するための予算配分", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品の原価を最小化するための予算配分", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "新規顧客数のみを最大化するための予算配分", "rationale": "「顧客資産価値（CE）」の最大化と、「新規顧客数」の最大化では、最適な予算の使い道（配分）が異なることが示されています。", "isCorrect": true },
+          { "text": "広告代理店の利益を最大化するための予算配分", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「長期的な利益」を狙うのと、「目先の人数」を狙うのとでは、お金の使い道が変わるということです。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "各種マーケティング支出の配分の「最適化」の問題を解く役割として、昨今話題となっている職種や技術は何か。",
+        "answerOptions": [
+          { "text": "グラフィックデザイナー", "rationale": "制作を担います。", "isCorrect": false },
+          { "text": "フルフィルメントオペレーター", "rationale": "実務を担います。", "isCorrect": false },
+          { "text": "データ・サイエンティストやAI", "rationale": "膨大なデータから最適な予算配分やパターンを導き出すのは、データサイエンティストやAIの役割です。", "isCorrect": true },
+          { "text": "コールセンタースタッフ", "rationale": "顧客対応を担います。", "isCorrect": false }
+        ],
+        "hint": "大量の数字（データ）を分析し、最適な答えを導き出す専門家です。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "D2CにおけるLTV、CEによるマネジメントの「到達点」の一つとして挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "すべての顧客の名前を社長が暗記している状態", "rationale": "現実的ではありません。", "isCorrect": false },
+          { "text": "個々の顧客単位でLTVが計測できている状態", "rationale": "到達点の1つ目として「個々の顧客単位でLTV計算ができている」ことが挙げられています。", "isCorrect": true },
+          { "text": "商品の原価率が常に一定である状態", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "広告費を完全にゼロにした状態", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "一人ひとりのお客様が「いくらの価値があるか」を数字で把握できている状態です。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "LTV、CEによるマネジメントの「到達点」におけるセグメンテーションの管理方法として正しい記述はどれか。",
+        "answerOptions": [
+          { "text": "セグメンテーションの収益性が、単月の売上のみで管理されている。", "rationale": "LTVでの管理が必要です。", "isCorrect": false },
+          { "text": "セグメントごとの収益管理は行わず、全社一括で管理している。", "rationale": "セグメント単位での管理が推奨されています。", "isCorrect": false },
+          { "text": "セグメンテーションの収益性が、当該セグメントに属する顧客のLTVの増減で管理されている。", "rationale": "各グループ（セグメント）の価値が、LTVベースでどれくらい上がったか・下がったかで評価される状態が到達点です。", "isCorrect": true },
+          { "text": "セグメントの基準を毎日変更している。", "rationale": "評価が定まらず不適切です。", "isCorrect": false }
+        ],
+        "hint": "「Aグループのお客様は、生涯価値が上がっているか？」という視点で管理することです。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "CE（顧客資産価値）が、組織内で最終的にどのように活用されている状態が「到達点」とされるか。",
+        "answerOptions": [
+          { "text": "株主総会でのみ発表される数字となっている状態", "rationale": "実務で活用されていません。", "isCorrect": false },
+          { "text": "マーケティングやフルフィルメント等に関する各種投資の効果測定指標として活用されている状態。", "rationale": "あらゆる活動・投資が「結果としてCEを上げたかどうか」で評価・測定される状態が最終形です。", "isCorrect": true },
+          { "text": "経営層だけが知る機密情報となっている状態", "rationale": "全社で共有・活用すべきです。", "isCorrect": false },
+          { "text": "新入社員の給与査定の基準となっている状態", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「そのキャンペーンやシステム導入は、本当に会社の価値（CE）を上げたのか？」を測るモノサシになります。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "One to Oneマーケティングの提唱者ドン・ペパーズは、「セグメンテーション」という言葉の代わりに、資産運用の用語である何という言葉を用いているか。",
+        "answerOptions": [
+          { "text": "キャピタルゲイン", "rationale": "売却益のことです。", "isCorrect": false },
+          { "text": "ポートフォリオ", "rationale": "顧客を資産の組み合わせと捉え、「顧客ポートフォリオ」という言葉を用いています。", "isCorrect": true },
+          { "text": "デリバティブ", "rationale": "金融派生商品のことです。", "isCorrect": false },
+          { "text": "インフレーション", "rationale": "物価上昇のことです。", "isCorrect": false }
+        ],
+        "hint": "金融資産の「組み合わせ（一覧）」を意味する言葉です。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "顧客を「資産」と捉え、ポートフォリオとして管理する具体的な方法の第一歩（Step1）として、ペパーズは何を行うとしているか。",
+        "answerOptions": [
+          { "text": "すべての顧客を年齢順に並べる", "rationale": "デモグラフィック属性は後回しです。", "isCorrect": false },
+          { "text": "自社が保有する顧客をLTVでランク付けする。", "rationale": "まず収益性（LTV）で顧客をランク付けし、優良顧客を抽出することから始めます。", "isCorrect": true },
+          { "text": "購入した商品ジャンルごとに分ける", "rationale": "商品の視点ではなく顧客の価値（LTV）の視点から入ります。", "isCorrect": false },
+          { "text": "クレームの数でランク付けする", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「どの人が一番、会社に利益をもたらしてくれているか」を順番に並べる作業です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "テキストに示された「顧客ポートフォリオ作成プロセス」のStep1において、LTV値を用いて抽出する「優良顧客」の目安の割合はどれくらいか。",
+        "answerOptions": [
+          { "text": "上位1%程度", "rationale": "少なすぎます。", "isCorrect": false },
+          { "text": "上位20%程度", "rationale": "パレートの法則（2:8の法則）にもあるように、上位20%程度を抽出するのが妥当とされています。", "isCorrect": true },
+          { "text": "上位50%程度", "rationale": "多すぎます。", "isCorrect": false },
+          { "text": "下位80%程度", "rationale": "これは非優良顧客の割合です。", "isCorrect": false }
+        ],
+        "hint": "一般的に、売上の8割を作っていると言われる上位の層の割合です。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "Step1でLTVを用いた抽出を行う際、計算を簡素化するためにLTVの代わりとして許容される「代替指標」は何か。",
+        "answerOptions": [
+          { "text": "直近1回の購入金額", "rationale": "生涯価値を表しません。", "isCorrect": false },
+          { "text": "累計購入金額から商品原価を差し引いた程度の金額（粗利累計）", "rationale": "厳密なLTV計算が難しければ、粗利の累計金額などを用いる程度でも良いとされています。", "isCorrect": true },
+          { "text": "顧客の年齢に100を掛けた数字", "rationale": "意味不明な指標です。", "isCorrect": false },
+          { "text": "サイトの訪問回数", "rationale": "収益性を表しません。", "isCorrect": false }
+        ],
+        "hint": "「今までいくら分の利益を出してくれたか」というシンプルな計算です。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "顧客ポートフォリオ作成プロセスのStep2において、抽出した優良顧客をどう処理するか。",
+        "answerOptions": [
+          { "text": "全員を全く同じ1つのグループとして扱う", "rationale": "特性ごとに分ける必要があります。", "isCorrect": false },
+          { "text": "初回購入時属性や現時点までの属性要素を用いて、いくつかのグループに分割する。", "rationale": "優良顧客の中で、優良化のパターンや嗜好性に合わせてさらにグループ分けを行います。", "isCorrect": true },
+          { "text": "さらに上位1%だけを抽出する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "他社の顧客データと統合する", "rationale": "自社のポートフォリオ作成の工程ではありません。", "isCorrect": false }
+        ],
+        "hint": "優良顧客の中にも「カタログ派」や「ネット派」など様々なタイプがいるため、細分化します。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "Step2における優良顧客の「分割の軸（属性要素）」の例として、テキストで挙げられている「不適切な」ものはどれか。",
+        "answerOptions": [
+          { "text": "初回利用チャネル", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "直近RFM", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "一定の累計購買金額に到達するまでのスピード", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "担当者の個人的な勘", "rationale": "データに基づかない勘は分割の軸として不適切です。", "isCorrect": true }
+        ],
+        "hint": "客観的なデータではないものです。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "Step2で優良顧客をグループ分けする際、実際の運用を考慮して注意すべき点は何か。",
+        "answerOptions": [
+          { "text": "可能な限り細かく100以上のグループに分けること", "rationale": "実務で対応しきれません。", "isCorrect": false },
+          { "text": "実際のマーケティング施策と連動させるため、オペレーションし分けられる数にしておくこと。", "rationale": "分けすぎても施策を打ち分けられないため、現場が運用可能な数に留めるべきです。", "isCorrect": true },
+          { "text": "毎年グループの数を倍に増やしていくこと", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社と全く同じグループ名にすること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "現場のスタッフが「この4パターンの対応ならできる」と思える範囲に収めることです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "顧客ポートフォリオ作成プロセスのStep3において、データ分析上の優良顧客像を「再確認・補強」するために行う手法はどれか。",
+        "answerOptions": [
+          { "text": "マス広告の大量出稿", "rationale": "顧客像の確認にはなりません。", "isCorrect": false },
+          { "text": "商品の無償配布", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "アンケート、グループインタビュー、デプスインタビュー", "rationale": "データから導き出された仮説が正しいか、実際の顧客の「生の声」を聞いて補強します。", "isCorrect": true },
+          { "text": "システムの全面刷新", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様に直接「どうして買ってくれているのか」をヒアリングする定性調査です。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "Step3のインタビューなどのステップを、マーケティング部門だけでなく「顧客対応部門」や「商品開発部門」と合同で行うメリットは何か。",
+        "answerOptions": [
+          { "text": "会議の時間が長くなり、結論が出なくなる。", "rationale": "デメリットです。", "isCorrect": false },
+          { "text": "顧客像論議に関わる「共通言語」化の作業が容易になり、社内教育の材料となる。", "rationale": "他部門も参加することで、全社で同じ顧客像（ペルソナ）を共有でき、組織の意識統一に繋がります。", "isCorrect": true },
+          { "text": "責任の所在が曖昧になる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "コストが大幅に削減できる。", "rationale": "コスト削減が主目的ではありません。", "isCorrect": false }
+        ],
+        "hint": "企画の人だけでなく、現場の人も同じ「お客様の顔」を思い浮かべられるようになります。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "顧客ポートフォリオ作成プロセスのStep4において、上位20%以外の「残りの下位顧客（80%）」に対してどのような処理を行うか。",
+        "answerOptions": [
+          { "text": "下位顧客はすべてDMの送付対象から外す", "rationale": "育成を放棄することになります。", "isCorrect": false },
+          { "text": "下位顧客専用の全く新しいグループを1つ作る", "rationale": "優良化への道筋が描けません。", "isCorrect": false },
+          { "text": "Step2で作成したグループ分けの視点（優良化パターン）で、各グループに紐付ける。", "rationale": "下位顧客も「いずれはどのパターンの優良顧客になりそうか」という視点で分類し、育成の道筋をつけます。", "isCorrect": true },
+          { "text": "ランダムにグループに振り分ける", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「この人は、将来Aグループに育ちそうだな」「この人はBグループだな」と予備軍として分類します。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "優良顧客をグループ化し、その特性で下位顧客を紐付けていく一連のデータ処理に主に用いられる「データマイニング手法」は何か。",
+        "answerOptions": [
+          { "text": "A/Bテスト", "rationale": "これはWebページなどの比較テスト手法です。", "isCorrect": false },
+          { "text": "モンテカルロ・シミュレーション", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "クラスタリング", "rationale": "似た特徴を持つデータ同士をグループにまとめる手法である「クラスタリング」が用いられます。", "isCorrect": true },
+          { "text": "ブロックチェーン", "rationale": "暗号技術であり関係ありません。", "isCorrect": false }
+        ],
+        "hint": "似たもの同士を「房（クラスター）」のように集める統計手法です。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "テキストにおいて、社内で高度なデータ処理（クラスタリング等）の「ノウハウが不足」している場合の現実的な対応として提案されていることは何か。",
+        "answerOptions": [
+          { "text": "ノウハウが蓄積されるまで何年も待つ", "rationale": "スピードが遅れます。", "isCorrect": false },
+          { "text": "外注してしまうのも一考である。", "rationale": "自社でできない部分は専門の外部パートナーに任せる（外注する）のも現実的な手段とされています。", "isCorrect": true },
+          { "text": "分析自体を諦める", "rationale": "顧客中心のマネジメントができません。", "isCorrect": false },
+          { "text": "全社員にプログラミングの資格を取らせる", "rationale": "非現実的です。", "isCorrect": false }
+        ],
+        "hint": "自社で無理なら、プロにお願いするという選択肢です。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "セグメントの分類が完了した後、その「セグメントごとに」どのような対応を行うべきとされているか。",
+        "answerOptions": [
+          { "text": "すべてのセグメントに全く同じ割引クーポンを配る", "rationale": "セグメント分けの意味がありません。", "isCorrect": false },
+          { "text": "売上が一番低いセグメントにのみ投資を集中させる", "rationale": "非効率です。", "isCorrect": false },
+          { "text": "顧客のライフサイクルに合った、CE向上のための要素を見極め、個別のマーケティング施策やフルフィルメント対応強化の投資を行う。", "rationale": "グループの特性に合わせた最適なアプローチ（投資）を行うことが最終目的です。", "isCorrect": true },
+          { "text": "投資は一切行わず利益を回収する", "rationale": "デス・スパイラルに陥ります。", "isCorrect": false }
+        ],
+        "hint": "「カタログ派には立派なカタログを」「ネット派には特別なメールを」と打ち手を変えます。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "顧客ポートフォリオにおける各グループの「構成比」は、現在の顧客リスト内の構成を反映したものだが、「将来に向けて」どうすべきとされているか。",
+        "answerOptions": [
+          { "text": "現在の構成比を永遠に維持し続けるべきである", "rationale": "市場変化に対応できません。", "isCorrect": false },
+          { "text": "顧客戦略に基づき、将来的な成長のため意図してその構成比を変えていく（変化させる）。", "rationale": "「この層をもっと増やそう」という戦略的な意図を持って、構成比を理想の形へ変化させることが求められます。", "isCorrect": true },
+          { "text": "構成比は顧客の自然な動きに完全に任せるべきである", "rationale": "受動的であり戦略がありません。", "isCorrect": false },
+          { "text": "毎月ランダムに構成比を変えるべきである", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「5年後には、スマホ注文の若い層（セグメントD）を今の3倍に増やそう」といった目標設定のことです。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "「ポートフォリオ」という言葉がセグメンテーションの代わりに使われる背景にある、強い「意図」とは何か。",
+        "answerOptions": [
+          { "text": "リスクを一切取らないという意図", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "将来的な成長のために、自社が意図して望ましい顧客構成（資産の組み合わせ）に変化させていくという意図。", "rationale": "金融資産の運用と同じく、望ましいリターンを得るために能動的に構成を変えていくという意味合いが込められています。", "isCorrect": true },
+          { "text": "競合他社を排除するという意図", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品をできるだけ多く作るという意図", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "ただ現状を分類するだけでなく、「こうなりたい」という未来の設計図を描くことです。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "テキストの「顧客戦略に基づくポートフォリオ変化の例」の図表において、「現在の構成」から「5年後の構成」に向けて、企業が意図的に増やそうとしているセグメントはどれか。",
+        "answerOptions": [
+          { "text": "現在最も大きく、これ以上増やす必要のないセグメント", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "完全に切り捨てようとしているセグメント", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "現在の構成比では最も低いが、積極的に獲得・育成して主力の次に大きくしようとしているセグメント（例：セグメントD）。", "rationale": "図の例では、8%だったセグメントDを5年後に23%まで拡大させる戦略が示されています。", "isCorrect": true },
+          { "text": "構成比を全く変えないセグメント", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "例えば「今は少ないけれど、スマホを使いこなすZ世代を今後の柱にしよう」という戦略です。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "顧客のLTVやCEを把握する大きな意義の一つとして、戦略的ポートフォリオ変更を行った際に「可能になること」は何か。",
+        "answerOptions": [
+          { "text": "すべての顧客の正確な住所が把握できる点", "rationale": "LTVとは関係ありません。", "isCorrect": false },
+          { "text": "商品の製造原価がゼロになる点", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "その変更による「財務的インパクト」がシミュレーション可能になる点。", "rationale": "LTVが分かっていれば、構成比を変えたときに会社全体の利益（CE）がいくら増えるかを数字でシミュレーションできます。", "isCorrect": true },
+          { "text": "従業員のモチベーションが自動的に上がる点", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「A層を減らしてB層を増やすと、会社の利益は1億円増えるぞ」と計算できるようになります。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "D2Cの事業規模が一般の大手メーカーに比べて数十億から数百億に留まる傾向にあるのはなぜか。",
+        "answerOptions": [
+          { "text": "扱う商品の単価が低すぎるから", "rationale": "単価だけの問題ではありません。", "isCorrect": false },
+          { "text": "中間流通業者を通さず、消費者を直接の顧客として販売を行うため、規模の拡大に限界があるため。", "rationale": "B2B2Cのように卸売網を使って一気に市場へばらまくモデルではないため、どうしても規模の上限はメーカーより小さくなります。", "isCorrect": true },
+          { "text": "法律で売上上限が決められているから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "経営者に成長意欲がないから", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "自分たちの手の届く範囲（直接つながれる範囲）のお客様しか相手にしないからです。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "「デス・スパイラル」に陥る典型的なパターンとして、目先の利益を出すために経営者が「絞る（削る）」対象となるものは何か。",
+        "answerOptions": [
+          { "text": "商品の製造原価", "rationale": "これも削りがちですが、デス・スパイラルの直接の引き金（売上機会の損失）として挙げられているのはプロモーション費です。", "isCorrect": false },
+          { "text": "新規顧客獲得のための広告支出や、既存顧客向けのカタログ・DM支出。", "rationale": "顧客との接点（投資）を切ることで、顧客の流入と定着が止まり、ジリ貧になるのがデス・スパイラルの原因です。", "isCorrect": true },
+          { "text": "従業員の給与", "rationale": "士気は下がりますが、文脈の主要因とは異なります。", "isCorrect": false },
+          { "text": "オフィスの家賃", "rationale": "固定費削減であり、直接的な売上減少要因ではありません。", "isCorrect": false }
+        ],
+        "hint": "「次のお客様を呼ぶためのエサ」や「今いるお客様をもてなすサービス」のことです。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "CE（カスタマー・エクイティ）を最大化するための活動を「組織間調整」の観点から見た場合、阻害要因となる「マネジメント不足」は何か。",
+        "answerOptions": [
+          { "text": "商品開発部門の権限が強すぎること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "社長のリーダーシップが強すぎること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客中心主義の下に最適化された組織間調整の不足（部門間の縦割りによる連携不足）。", "rationale": "第3章や第4章でも言及されている通り、組織間の連携（横串し）が取れていないことがCE最大化の障壁となります。", "isCorrect": true },
+          { "text": "外部コンサルタントへの依存", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「自分の部署の利益さえ出れば、他の部署はどうでもいい」という縦割りの状態です。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "新規顧客獲得における「CPO」と「LTV」の関係において、会社にとって最も理想的（優良）とされる状態はどれか。",
+        "answerOptions": [
+          { "text": "CPOは非常に高いが、LTVは低い状態", "rationale": "最悪の状態です。", "isCorrect": false },
+          { "text": "CPOは安いが、1回きりで全くリピートしない状態", "rationale": "安物買いの銭失い的な獲得であり、長期的には赤字です。", "isCorrect": false },
+          { "text": "CPOが許容範囲内で安く、かつその後のLTV（継続率や購入金額）が高い状態。", "rationale": "適正なコストで獲得でき、かつその顧客が長く利益をもたらしてくれるのが理想です。", "isCorrect": true },
+          { "text": "CPOとLTVの金額が完全に一致する状態", "rationale": "利益が出ない状態（トントン）です。", "isCorrect": false }
+        ],
+        "hint": "「安く連れてこられて、しかも長くたくさん買ってくれる」状態です。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "第5章全体のテーマは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "顧客管理", "rationale": "これは第3章です。", "isCorrect": false },
+          { "text": "オペレーション管理", "rationale": "これは第4章です。", "isCorrect": false },
+          { "text": "財務管理", "rationale": "第5章は、LTVやCEといった「財務管理（お金）」の視点からD2Cを解説しています。", "isCorrect": true },
+          { "text": "組織管理", "rationale": "これは第6章です。", "isCorrect": false }
+        ],
+        "hint": "売上、コスト、利益、投資対効果などを管理する視点です。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第5章：財務管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第5章「財務管理」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  LTV、カスタマー・エクイティ(CE)、顧客ポートフォリオの作成手順など超重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

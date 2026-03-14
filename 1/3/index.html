@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第3章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第3章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "マーケティングのフレームワーク「4P」に含まれないものはどれか。",
+        "answerOptions": [
+          { "text": "Product（製品）", "rationale": "4Pの要素です。", "isCorrect": false },
+          { "text": "Price（価格）", "rationale": "4Pの要素です。", "isCorrect": false },
+          { "text": "Place（流通）", "rationale": "4Pの要素です。", "isCorrect": false },
+          { "text": "Profit（利益）", "rationale": "4PはProduct, Price, Place, Promotionの4つであり、Profitは含まれません。", "isCorrect": true }
+        ],
+        "hint": "「何を」「いくらで」「どこで」「どう知ってもらうか」の4要素です。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "マーケティングのフレームワーク「4C」において、発想の起点はどこにあるとされるか。",
+        "answerOptions": [
+          { "text": "売り手側", "rationale": "売り手側を起点とするのは4Pです。", "isCorrect": false },
+          { "text": "顧客（買い手側）", "rationale": "4Cは、発想の起点を売り手側から「顧客（Customer）」起点に変えたフレームワークです。", "isCorrect": true },
+          { "text": "競合他社", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "流通業者", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "Cから始まる言葉です。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "4Pの「Product（製品）」に対応する、4Cの要素はどれか。",
+        "answerOptions": [
+          { "text": "Customer Cost（顧客にとっての費用）", "rationale": "これはPrice（価格）に対応します。", "isCorrect": false },
+          { "text": "Convenience（利便性）", "rationale": "これはPlace（流通）に対応します。", "isCorrect": false },
+          { "text": "Customer Value（顧客にとっての価値）", "rationale": "製品（Product）は、顧客視点で見ると「顧客にとっての価値（Customer Value）」となります。", "isCorrect": true },
+          { "text": "Communication（コミュニケーション）", "rationale": "これはPromotion（販促）に対応します。", "isCorrect": false }
+        ],
+        "hint": "製品が顧客にもたらす「良さ」のことです。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "4Pの「Promotion（販促）」に対応する、4Cの要素はどれか。",
+        "answerOptions": [
+          { "text": "Customer Value（顧客にとっての価値）", "rationale": "これはProduct（製品）に対応します。", "isCorrect": false },
+          { "text": "Customer Cost（顧客にとっての費用）", "rationale": "これはPrice（価格）に対応します。", "isCorrect": false },
+          { "text": "Convenience（利便性）", "rationale": "これはPlace（流通）に対応します。", "isCorrect": false },
+          { "text": "Communication（コミュニケーション）", "rationale": "販促（Promotion）は、顧客視点では企業との情報のやり取りである「Communication」となります。", "isCorrect": true }
+        ],
+        "hint": "一方的な宣伝ではなく、顧客との相互のやり取りを指します。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "マーケティングの大家フィリップ・コトラーは、商品企画の際、4Pと4Cをどのような順序で検討することを推奨しているか。",
+        "answerOptions": [
+          { "text": "4Pを検討した後、それを4Cとして形にする", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "4Cをよく検討した後、それを4Pとして形にする", "rationale": "顧客視点（4C）を起点として検討し、それを企業側の実行施策（4P）に落とし込むことを推奨しています。", "isCorrect": true },
+          { "text": "4Pと4Cは完全に独立して別々に検討する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "4Pのみを検討し、4Cは無視する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「商材ありき」になるのを防ぐための順番です。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "純顧客価値を算出する式「純顧客価値 ＝ 総顧客価値 － ( )」において、カッコに入るものはどれか。",
+        "answerOptions": [
+          { "text": "総顧客コスト", "rationale": "顧客が得る総顧客価値から、それを入手するための総顧客コストを差し引いたものが純顧客価値となります。", "isCorrect": true },
+          { "text": "製品原価", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "販売管理費", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客生涯価値", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客がその価値を手に入れるために払う「犠牲（費用や手間）」の合計です。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "「総顧客価値」を構成する要素として、テキストの図に挙げられていないものはどれか。",
+        "answerOptions": [
+          { "text": "製品価値", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "サービス価値", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "従業員価値", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "時間的コスト", "rationale": "時間的コストは「総顧客コスト」を構成する要素です。", "isCorrect": true }
+        ],
+        "hint": "「価値（プラス）」ではなく「コスト（マイナス）」となるものです。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "「総顧客コスト」を構成する要素として、適切なものはどれか。",
+        "answerOptions": [
+          { "text": "イメージ価値", "rationale": "これは総顧客価値の要素です。", "isCorrect": false },
+          { "text": "心理的コスト", "rationale": "総顧客コストは、金銭的コスト、時間的コスト、エネルギー・コスト、心理的コストから成ります。", "isCorrect": true },
+          { "text": "サービス価値", "rationale": "これは総顧客価値の要素です。", "isCorrect": false },
+          { "text": "製品価値", "rationale": "これは総顧客価値の要素です。", "isCorrect": false }
+        ],
+        "hint": "金銭以外に、顧客が負担に感じる精神的なストレスなどのことです。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "初期D2Cの特徴である「デジタルネイティブ（オンラインでのダイレクト販売やSNS活用）」は、価値構成要素の観点から見ると主に何をもたらすか。",
+        "answerOptions": [
+          { "text": "総顧客コストの増大", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "製品の物理的価値の低下", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "総顧客コスト（時間的、労力的、心理的コスト）の低減", "rationale": "いつでも手軽に購入・コンタクトできるため、総顧客コストを低減させます。", "isCorrect": true },
+          { "text": "従業員価値の消失", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "買いに行く手間や調べる時間を減らしてくれます。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "カール・アルブレヒトが提唱した「顧客価値の4段階」において、最も上位に位置し、顧客に「感動」を与える価値はどれか。",
+        "answerOptions": [
+          { "text": "基本価値", "rationale": "最も下位の価値です。", "isCorrect": false },
+          { "text": "期待価値", "rationale": "下から2番目の価値です。", "isCorrect": false },
+          { "text": "願望価値", "rationale": "上から2番目の価値です。", "isCorrect": false },
+          { "text": "予想外価値", "rationale": "期待や願望を超えた「予想外価値」が、顧客に感動を与え取引継続の可能性を高めます。", "isCorrect": true }
+        ],
+        "hint": "顧客が想像もしていなかった驚きを提供する価値です。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "顧客価値の4段階における「願望価値」について、適切な説明はどれか。",
+        "answerOptions": [
+          { "text": "顧客が当然と思う価値要素であり、満たされないと不満になる。", "rationale": "これは「期待価値」の説明です。", "isCorrect": false },
+          { "text": "絶対不可欠な価値要素であり、満たされないとクレームになる。", "rationale": "これは「基本価値」の説明です。", "isCorrect": false },
+          { "text": "もし実現されたら高く評価するが、満たされなくても不満は出ない。", "rationale": "願望価値は「こうだったらいいな」という要素であり、実現すれば満足しますが、なくても不満にはなりません。", "isCorrect": true },
+          { "text": "期待を超えた要素であり、感動を与える。", "rationale": "これは「予想外価値」の説明です。", "isCorrect": false }
+        ],
+        "hint": "「あったら嬉しいけど、なくても仕方ない」というレベルの価値です。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "顧客価値の4段階において、満たされなかった時に「クレーム」に直結する絶対不可欠な価値要素はどれか。",
+        "answerOptions": [
+          { "text": "予想外価値", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "願望価値", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "期待価値", "rationale": "満たされないと不満や離脱に繋がりますが、クレームに直結する最低限のレベルではありません。", "isCorrect": false },
+          { "text": "基本価値", "rationale": "商品として成り立たないレベル（例：穴の空いた服）の「基本価値」が欠けるとクレームになります。", "isCorrect": true }
+        ],
+        "hint": "商品やサービスとして「当たり前すぎる」最低条件の価値です。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "D2Cビジネスにおいて、顧客への価値提供は商品そのものだけでなく、受注からお届け、アフターフォローまでを含む「何」が大きく関係しているか。",
+        "answerOptions": [
+          { "text": "フルフィルメント", "rationale": "D2Cにおいてフルフィルメント（受注・配送・フォロー）は顧客体験・価値提供の重要な一部です。", "isCorrect": true },
+          { "text": "マス広告", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "エリアマーケティング", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "店舗開発", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "バックヤード業務全般を指す言葉ですが、顧客接点として非常に重要です。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "カタログ通販時代から変わらない、ダイレクトマーケティング（D2C）の最大の強みは何か。",
+        "answerOptions": [
+          { "text": "大量生産によるコスト削減", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "中間流通を介さない「顧客との関係構築プロセスの一貫性」", "rationale": "企画からお届け、アフターサービスまで自社で一貫してコントロールできることが最大の強みです。", "isCorrect": true },
+          { "text": "匿名性を保ったまま販売できること", "rationale": "顧客を個々に識別することが前提です。", "isCorrect": false },
+          { "text": "広告代理店にすべてのマーケティングを丸投げできること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "最初から最後まで、すべて自分たちの手で管理できることです。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "ブランドの世界観を構築する際、商品の「配送箱」や「レター類」などのツール類にまで一貫したメッセージを込める理由は何か。",
+        "answerOptions": [
+          { "text": "配送業者の作業効率を上げるため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社に真似されないため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "それらもブランド体験の一部であり、顧客に心地よい価値として受け止められるため", "rationale": "荷物が届いて箱を開ける瞬間も、一貫したメッセージを伝える重要な顧客体験（ジャーニー）の一部です。", "isCorrect": true },
+          { "text": "梱包材のコストを極限まで下げるため", "rationale": "むしろコストがかかる場合もあります。", "isCorrect": false }
+        ],
+        "hint": "顧客にとっては、商品だけでなく「届いた箱」もブランドの顔です。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "顧客がブランドを知ってから購入し、継続して利用するまでの行動や感情の変化の連続性を「旅」に例えた言葉を何というか。",
+        "answerOptions": [
+          { "text": "カスタマー・エクイティ", "rationale": "顧客資産価値のことです。", "isCorrect": false },
+          { "text": "カスタマー・ジャーニー", "rationale": "顧客の体験の連続性を旅に例えてカスタマー・ジャーニーと呼びます。", "isCorrect": true },
+          { "text": "カスタマー・サクセス", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "カスタマー・サポート", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "英語で「旅」を意味する言葉が含まれます。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "「顧客中心主義（Customer Centricity）」は、もともと何という考え方との対比で生み出されたものか。",
+        "answerOptions": [
+          { "text": "株主中心主義", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "従業員中心主義", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "製品中心主義", "rationale": "製品（プロダクト）を起点とする「製品中心主義」との対比で生み出されました。", "isCorrect": true },
+          { "text": "地域中心主義", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「何を売るか」を最優先にする考え方との対比です。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "顧客中心主義における「ビジネスの志向性」はどれか。",
+        "answerOptions": [
+          { "text": "取引志向（とにかく1回売る）", "rationale": "これは製品中心のアプローチです。", "isCorrect": false },
+          { "text": "関係構築志向（長く付き合う）", "rationale": "顧客中心主義は、中長期的な「関係構築」を志向します。", "isCorrect": true },
+          { "text": "規模拡大志向", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "コスト削減志向", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "売って終わりではなく、その後の繋がりを重視します。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "「製品中心のアプローチ」における販売アプローチの考え方として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "我々はこの顧客にどれだけたくさんの製品を販売できるだろうか。", "rationale": "これは「顧客中心」の販売アプローチです。", "isCorrect": false },
+          { "text": "我々はこの製品をどれだけたくさんの顧客に販売できるだろうか。", "rationale": "製品中心主義では、特定の製品をいかに広く売るか（マス的発想）を考えます。", "isCorrect": true },
+          { "text": "我々は顧客とどうやって価値を共創できるだろうか。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "我々はどうすれば一切の広告費をかけずに販売できるだろうか。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "主語が「製品」になっています。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "「顧客中心のアプローチ」における業績評価の尺度として、テキストで挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "新製品の数、製品あたりの収益性", "rationale": "これは「製品中心」の評価尺度です。", "isCorrect": false },
+          { "text": "個別ブランド毎のマーケットシェア", "rationale": "これも「製品中心」の評価尺度です。", "isCorrect": false },
+          { "text": "顧客満足、顧客生涯価値、カスタマー・エクイティ", "rationale": "顧客中心主義では、LTVや顧客資産価値など、顧客ベースの指標で業績を評価します。", "isCorrect": true },
+          { "text": "店舗の坪効率", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「製品」ではなく「顧客」の価値を測る指標です。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "顧客中心主義への移行を阻む「7つのマネジメント不足」のうち、MAやCRMなどの情報システムに関するマネジメント不足の内容はどれか。",
+        "answerOptions": [
+          { "text": "システムを導入する予算が確保できないこと。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "システムを単なる業務効率化ツールとしてしか活用できず、価値や体験の改善ツールとして活用していないこと。", "rationale": "システムを入れて満足し、顧客体験の向上に活かしきれていないことが指摘されています。", "isCorrect": true },
+          { "text": "システムが複雑すぎて誰も操作できないこと。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "システム部門の人数が足りないこと。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "ITツールを「作業を楽にするため」だけに使ってしまっている状態です。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "カタログ通販時代の従来の顧客データ収集範囲として「含まれない」ものはどれか。",
+        "answerOptions": [
+          { "text": "顧客の属性データ（氏名・住所・年齢など）", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "顧客との取引データ", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "オンラインショップでの顧客の回遊データ", "rationale": "これはデジタル化以降の「ビッグデータ時代」における収集範囲の拡張例です。", "isCorrect": true },
+          { "text": "問い合わせやクレームの履歴", "rationale": "含まれます。", "isCorrect": false }
+        ],
+        "hint": "インターネットが普及する前には取得が難しかったデータです。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "ビッグデータ時代到来以降に収集可能となった顧客データの例として、不適切なものはどれか。",
+        "answerOptions": [
+          { "text": "自社サイトへの検索ワードや流入経路", "rationale": "デジタルデータの一例です。", "isCorrect": false },
+          { "text": "SNS上に自社商品が登場する頻度や文脈", "rationale": "デジタルデータの一例です。", "isCorrect": false },
+          { "text": "コールセンターで録音されている全音声通話記録", "rationale": "非定型なビッグデータの一例です。", "isCorrect": false },
+          { "text": "他社の顧客データベースのパスワード", "rationale": "これは違法な情報取得であり、収集範囲の拡張とは関係ありません。", "isCorrect": true }
+        ],
+        "hint": "企業が適法に収集・分析できるデータに関する問いです。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "RFM分析の「R」が表すものは何か。",
+        "answerOptions": [
+          { "text": "Rate（利益率）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Reach（到達率）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Recency（直近購買日付）", "rationale": "RはRecencyの略で、最後にいつ買ったか（直近購買日付）を表します。", "isCorrect": true },
+          { "text": "Return（返品率）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "最近（最近の）という意味の英単語です。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "RFM分析の「F」が表すものは何か。",
+        "answerOptions": [
+          { "text": "Frequency（累計購買回数）", "rationale": "FはFrequencyの略で、これまでに何回買ったか（累計購買回数）を表します。", "isCorrect": true },
+          { "text": "Family（家族構成）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Fee（手数料）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Future（将来予測）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "頻度（回数）という意味の英単語です。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "RFM分析の「M」が表すものは何か。",
+        "answerOptions": [
+          { "text": "Margin（利益幅）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Market（市場規模）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Monetary（累計購買金額）", "rationale": "MはMonetaryの略で、これまでにいくら買ったか（累計購買金額）を表します。", "isCorrect": true },
+          { "text": "Motivation（購買意欲）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "金額（お金）に関係する英単語です。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "RFM分析は、もともとどのような目的のために生み出された手法か。",
+        "answerOptions": [
+          { "text": "LTVを正確に計算するため", "rationale": "LTVの計算はできません。", "isCorrect": false },
+          { "text": "次回購入確率の高い顧客にDMを送付するため", "rationale": "通販において、DMの反応率を上げ（不採算DMを減らし）収益を改善するために生み出されました。", "isCorrect": true },
+          { "text": "全顧客に均等にカタログを送るため", "rationale": "絞り込むための手法なので逆です。", "isCorrect": false },
+          { "text": "商品の原価率を下げるため", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "郵送コスト（DM費）を無駄にしないための工夫から生まれました。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "RFMの3つの指標のうち、DM反応率の判断において「最も重要視される（影響が大きい）」指標はどれか。",
+        "answerOptions": [
+          { "text": "R（直近購買日付）", "rationale": "Rが浅い（最近買ったばかり）ほど顧客の活性度が高く、DM反応率との正の相関が最も強いとされます。", "isCorrect": true },
+          { "text": "F（累計購買回数）", "rationale": "2番目に重要です。", "isCorrect": false },
+          { "text": "M（累計購買金額）", "rationale": "反応率との関連は限定的とされています。", "isCorrect": false },
+          { "text": "すべて等しく重要", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「最近買った人」と「昔たくさん買った人」、どちらが反応しやすいかという経験則に基づきます。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "RFM分析において、「M（累計購買金額）」の大きさがDM反応率に与える影響についての一般的な評価はどれか。",
+        "answerOptions": [
+          { "text": "Mが大きければ大きいほど、必ずDM反応率が高くなる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Mの大きさは、Rと同等にDM反応率に強い影響を与える。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Mの大きさがDM反応率に与える影響は限定的（一定ではない）である。", "rationale": "購買力の高さは推定できますが、DMへの反応率とはあまり関係がない（影響は限定的）とされています。", "isCorrect": true },
+          { "text": "Mが大きい顧客は、絶対にDMに反応しない。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「お金持ち」だからといって、毎回必ず買ってくれるとは限りません。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "F（累計購買回数）の指標による顧客分析において、D2C企業における「最重要課題の一つ」とされているものはどれか。",
+        "answerOptions": [
+          { "text": "F10（10回購入）の顧客をF11に引き上げること", "rationale": "重要ですが最重要課題の筆頭ではありません。", "isCorrect": false },
+          { "text": "F1（初回購入）の顧客が、F2（2回目購入）にどの程度移行するか", "rationale": "F1顧客は早期に反応しないと定着しない可能性が高いため、F2への引き上げ（リピート化）が最重要課題とされます。", "isCorrect": true },
+          { "text": "F値がゼロの顧客に高額商品を売ること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "すべての顧客のF値を平均化すること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「お試し」で終わるか、「リピーター」になってくれるかの分かれ道です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "RFM分析の限界（欠点）として、テキストで指摘されていないものはどれか。",
+        "answerOptions": [
+          { "text": "顧客ごとの購買サイクルを無視してしまう。", "rationale": "RFMの欠点として指摘されています。", "isCorrect": false },
+          { "text": "直近の取引が過大評価されがちである。", "rationale": "RFMの欠点として指摘されています。", "isCorrect": false },
+          { "text": "顧客の経済価値を利益ではなく売上で評価する。", "rationale": "RFMの欠点として指摘されています。", "isCorrect": false },
+          { "text": "分析結果が出るまでに数ヶ月の時間を要する。", "rationale": "RFMはシンプルな集計であるため、時間はかかりません。これが指摘されていない項目です。", "isCorrect": true }
+        ],
+        "hint": "RFMはシステム的に「素早く」「簡単に」出せるのがメリットです。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "RFM分析では対応しきれない「顧客基盤（リスト）全体の財務的価値の把握」のために用いられる指標は何か。",
+        "answerOptions": [
+          { "text": "CPO", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ROAS", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "LTV（顧客生涯価値）", "rationale": "RFMの限界を補い、利益ベースで顧客の価値を把握するためにLTVが用いられます。", "isCorrect": true },
+          { "text": "UU（ユニークユーザー数）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客一人ひとりがもたらす利益の総額を表す指標です。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "テキストにおけるLTVの構造説明で、LTVを算出するための3つの基本要素は「売上」「コスト」ともう一つは何か。",
+        "answerOptions": [
+          { "text": "利益", "rationale": "LTVは「売上」から「コスト」を引いた「利益」をベースに計算されます。", "isCorrect": true },
+          { "text": "広告費", "rationale": "コストの一部です。", "isCorrect": false },
+          { "text": "客単価", "rationale": "売上の一部です。", "isCorrect": false },
+          { "text": "割引率", "rationale": "計算には使いますが、三大基本要素の枠組み（売上・コスト・利益）の回答としては利益が適切です。", "isCorrect": false }
+        ],
+        "hint": "商売の基本、「入ってくるお金」ー「出ていくお金」＝「？」です。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "LTVの計算に組み込まれる「時間軸」の概念によって可能になるマネジメント上の説明はどれか。",
+        "answerOptions": [
+          { "text": "昨日の売上がいくらだったか即座にわかる。", "rationale": "これは日次決算の話です。", "isCorrect": false },
+          { "text": "競合他社がいつ新商品を出すか予測できる。", "rationale": "LTVでは予測できません。", "isCorrect": false },
+          { "text": "顧客獲得に投資した金額を、どれくらいの期間（月数など）で回収できるかがわかる。", "rationale": "LTVには時間軸があるため、「獲得コストが〇〇円で、その金額にLTVが達するのは△△ヶ月後」といった回収期間の計算が可能です。", "isCorrect": true },
+          { "text": "従業員の残業時間が計算できる。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「投資したお金のモトがとれるのはいつか？」というビジネス上の重要な問いです。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "LTVを算出する際の「正味現在価値（NPV）」の考え方で、将来入ってくるお金の価値を一定程度割り引いて（差し引いて）計算する理由として考慮されているものは何か。",
+        "answerOptions": [
+          { "text": "金利や将来のリスク要因", "rationale": "将来のお金は現在の価値とは異なるため、金利やリスクを考慮して割り引くのがNPVの考え方です。", "isCorrect": true },
+          { "text": "税金の上昇分", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社の値下げ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "過去の赤字補填", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「今日の1万円」と「10年後の1万円」は同じ価値ではない、という経済学の基本です。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "顧客紹介を加味したLTV評価において、CRVとは何の略称（意味）か。",
+        "answerOptions": [
+          { "text": "Customer Return Value（顧客返品価値）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Customer Referral Value（顧客紹介価値）", "rationale": "CRVはCustomer Referral Value（顧客紹介価値）であり、紹介によってもたらされる価値を指します。", "isCorrect": true },
+          { "text": "Cost Reduction Value（コスト削減価値）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Company Reputation Value（企業評判価値）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "既存顧客が新しい顧客を「連れてきてくれる」ことの価値です。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "テキストで紹介されている米国通信会社のデータ（LTVとCRVの分析）から読み取れる興味深い事実として、適切なものはどれか。",
+        "answerOptions": [
+          { "text": "LTVが最も高い最上位層の顧客が、必ず紹介数も最も多い。", "rationale": "データではそうではないことが示されています。", "isCorrect": false },
+          { "text": "LTVが中位クラスの顧客であっても、CRV（紹介価値）が高く、合算すると上位クラスに匹敵する層が存在する。", "rationale": "自身はそこまで高額購入しなくても、他者を多く紹介することで大きな価値（LTV+CRV）をもたらす中位層の存在が指摘されています。", "isCorrect": true },
+          { "text": "顧客の紹介行動は、企業の収益には一切貢献しない。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "紹介された新規顧客は、紹介した顧客よりも必ずLTVが低くなる。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「自分ではあまり買わないけれど、周りの人にすごく勧めてくれる」という熱心なファン層の存在です。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "「顧客資産価値（CE：カスタマー・エクイティ）」は、自社の何を表す指標として使われるか。",
+        "answerOptions": [
+          { "text": "全保有顧客のLTVの総合計であり、顧客基盤の財務的価値", "rationale": "CEは、自社が保有するすべての顧客のLTVを足し合わせたものであり、顧客リスト全体が将来もたらす利益（資産価値）を表します。", "isCorrect": true },
+          { "text": "1年間に獲得した新規顧客の総数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "1回のプロモーションでかかった総費用", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "在庫商品の総評価額", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "会社の「顧客名簿」全体に、将来どれくらいの利益を生むパワーがあるかを示します。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "コロナ前によく見られた、各チャネル（店舗とECなど）のマネジャーが、自チャネルの売上評価を守るために、顧客を自チャネル内に囲い込んでしまう弊害を解決するためには、どの指標での管理が有効とされているか。",
+        "answerOptions": [
+          { "text": "店舗ごとの単月売上", "rationale": "囲い込みを助長します。", "isCorrect": false },
+          { "text": "各商品の粗利率", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客資産価値（CE）による全社的な管理", "rationale": "CEで管理し、チャネルをまたいだ顧客の価値向上を全社目標とすることで、囲い込みの弊害を防ぎます。", "isCorrect": true },
+          { "text": "クレーム件数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「自分のお店の売上」ではなく、「会社全体でのそのお客様の価値」を見る指標です。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "CEを高める3つの要素のうち、「製品、サービス提供レベル（品質）」や「ベストプライス（価格）」、「利便性」などを指す要素はどれか。",
+        "answerOptions": [
+          { "text": "主観的価値要素", "rationale": "ブランドイメージなどです。", "isCorrect": false },
+          { "text": "客観的価値要素", "rationale": "品質、価格、利便性など、具体的な機能や条件を満たす要素を「客観的価値要素」と呼びます。", "isCorrect": true },
+          { "text": "関係性に関する価値要素", "rationale": "ロイヤリティプログラムなどです。", "isCorrect": false },
+          { "text": "絶対的価値要素", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "誰が見ても比較・評価しやすい「スペック」や「条件」に関する価値です。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "CEを高める3つの要素のうち、「顧客のブランド認知」や「ブランドに対する態度」、「企業倫理」などを指す要素はどれか。",
+        "answerOptions": [
+          { "text": "客観的価値要素", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "関係性に関する価値要素", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "主観的価値要素", "rationale": "顧客がブランドに対して抱くイメージや信頼感などは「主観的価値要素」に分類されます。", "isCorrect": true },
+          { "text": "相対的価値要素", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客の「心の中」にあるイメージや好感度のことです。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "CEを高める3つの要素のうち、「ロイヤリティプログラム」や「コミュニティ形成」、「特別待遇」などを指す要素はどれか。",
+        "answerOptions": [
+          { "text": "客観的価値要素", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "主観的価値要素", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "関係性に関する価値要素", "rationale": "継続して付き合っていこうとする動機を強めるプログラムなどは「関係性に関する価値要素」に分類されます。", "isCorrect": true },
+          { "text": "機能的価値要素", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "企業と顧客が「絆」を深めるための取り組みに関する価値です。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "テキストにおいて、顧客をコアなファンレベル（他者推奨を積極的に行うレベル）に引き上げるのに大いに貢献するとされている要素はどれか。",
+        "answerOptions": [
+          { "text": "客観的価値要素", "rationale": "前提として重要ですが、コアファン化の最大の要因ではありません。", "isCorrect": false },
+          { "text": "主観的価値要素", "rationale": "前提として重要ですが、コアファン化の最大の要因ではありません。", "isCorrect": false },
+          { "text": "関係性に関する価値要素", "rationale": "これが強固に築かれると、競合が出現しても容易に離脱しない「絆」として機能します。", "isCorrect": true },
+          { "text": "金銭的価値要素", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "商品が良い、イメージが良いという段階から「もう一歩踏み込んだ付き合い」になる要素です。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "One to Oneマーケティングで有名なドン・ペパーズらが提唱した、企業と顧客の間の積極的なニーズや情報開示の関係性を表す言葉はどれか。",
+        "answerOptions": [
+          { "text": "顧客との価格交渉", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客との学習関係の構築", "rationale": "顧客が意見を言い、企業がそれを反映させるという相互理解のプロセスを「学習関係の構築」と表現しています。", "isCorrect": true },
+          { "text": "顧客の完全自動化", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客の囲い込み（ロックイン）", "rationale": "ニュアンスが異なります。", "isCorrect": false }
+        ],
+        "hint": "お互いを知り、より良い商品・サービスへと成長していく関係性のことです。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "顧客からの「ここを改善してほしい」という指摘を企業が実際に商品改良に反映させ、それに対して顧客が「私の言う通りにしてくれてありがとう！」と反応するような関係構築は、顧客の何を防ぐ効果があるか。",
+        "answerOptions": [
+          { "text": "紹介行動", "rationale": "紹介は促進されます。", "isCorrect": false },
+          { "text": "離脱（他社への乗り換え）", "rationale": "自分の意見が反映されたという体験は強い絆を生み、競合他社への離脱を強力に防ぎます。", "isCorrect": true },
+          { "text": "購買頻度の増加", "rationale": "頻度は増加する傾向にあります。", "isCorrect": false },
+          { "text": "クレームの発生", "rationale": "クレーム自体は発生するかもしれませんが、建設的な意見に昇華されます。", "isCorrect": false }
+        ],
+        "hint": "「自分事」としてブランドに参加している顧客は、簡単には他に行きません。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "価値の創造について、昨今よく聞かれるようになった、企業だけでなく顧客も参加する形で共に価値を生み出すことを表す言葉は何か。",
+        "answerOptions": [
+          { "text": "価値共創", "rationale": "企業と顧客が一緒になって価値を生み出すプロセスを「価値共創」と呼びます。", "isCorrect": true },
+          { "text": "価値破壊", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "価値移転", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "価値独占", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "共に（共に）創る（創造する）という言葉です。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "D2Cビジネスにおいて、コールセンターなどで「顧客の声」を記録し、経営層や企画担当に伝えることは、どのような活動の一部と言えるか。",
+        "answerOptions": [
+          { "text": "単なる事務作業", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "マーケティング活動", "rationale": "フルフィルメント部門（コールセンターなど）における顧客対応と情報収集も、価値を進化させる重要なマーケティング活動の一部です。", "isCorrect": true },
+          { "text": "コンプライアンス違反", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "サプライチェーン管理", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "これも立派な「価値を創造するための活動」です。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "D2Cのマーケティングファネル（図「フルフィルメントもマーケティング活動の一部」）において、顧客のループは「認知/興味」→「比較調査」→「選択」の後に何が続くか。",
+        "answerOptions": [
+          { "text": "破棄", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "購入", "rationale": "選択した後に「購入」アクションが発生し、その後、新規顧客のループから既存顧客のループへと繋がっていきます。", "isCorrect": true },
+          { "text": "返品", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "紹介", "rationale": "紹介はループのずっと後の段階です。", "isCorrect": false }
+        ],
+        "hint": "商品を選んだ次に起きる具体的なアクションです。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "既存顧客のループにおいて、「商品受取」→「使用開始」→「使用継続」の末に、最もロイヤリティが高まった状態として設定されている行動は何か。",
+        "answerOptions": [
+          { "text": "休眠", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "離脱", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "他者への推奨（収益客化）", "rationale": "既存顧客のループの到達点として、他者への推奨（紹介など）を行う収益客化が描かれています。", "isCorrect": true },
+          { "text": "クレーム", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "自分が良いと思ったものを、友人や家族に教える行動です。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "第3章全体のテーマとして、D2Cにおける価値の創造/伝達/提供は、何のマネジメントの視点から語られているか。",
+        "answerOptions": [
+          { "text": "商品管理の視点", "rationale": "製品中心ではなく顧客中心の視点です。", "isCorrect": false },
+          { "text": "財務管理の視点", "rationale": "これは第5章のテーマです。", "isCorrect": false },
+          { "text": "顧客管理の視点", "rationale": "第3章は「顧客管理の視点で見た価値の創造/伝達/提供」というタイトルであり、すべての起点に顧客を置いています。", "isCorrect": true },
+          { "text": "リスク管理の視点", "rationale": "これは第7章のテーマです。", "isCorrect": false }
+        ],
+        "hint": "「製品」ではなく「誰に売るか」を中心に据えた管理手法です。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第3章：顧客管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第3章「顧客管理」の知識を極限まで網羅した、全50問の特大ボリュームクイズです。
+                  4P/4C、RFM、LTV、顧客資産価値（CE）など重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

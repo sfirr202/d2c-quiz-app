@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第7章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第7章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "第7章のテーマは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "組織管理", "rationale": "これは第6章です。", "isCorrect": false },
+          { "text": "財務管理", "rationale": "これは第5章です。", "isCorrect": false },
+          { "text": "リスク管理", "rationale": "第7章は「リスク管理」の視点からD2Cを解説しています。", "isCorrect": true },
+          { "text": "オペレーション管理", "rationale": "これは第4章です。", "isCorrect": false }
+        ],
+        "hint": "法規制やコンプライアンス、非常時の対応などに関するテーマです。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "D2Cにおける法規制の特徴として、テキストで挙げられている2つのポイントは何か。",
+        "answerOptions": [
+          { "text": "ジャンルの広さと、改訂の頻繁さ", "rationale": "D2C特有の法規制は、対象となる法律の種類が多岐にわたり、かつ頻繁に改訂されるという特徴があります。", "isCorrect": true },
+          { "text": "罰則の軽さと、適用範囲の狭さ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "国内限定であることと、自己申告制であること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "インターネット通販にのみ適用されること", "rationale": "カタログ等の紙媒体や店舗にも適用されます。", "isCorrect": false }
+        ],
+        "hint": "関係する法律が「多くて」、しかもルールが「コロコロ変わる」ということです。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "法律に関して「そのような規制になっているのを知りませんでした」では済まされないことを表す格言はどれか。",
+        "answerOptions": [
+          { "text": "郷に入っては郷に従え", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "法の不知はこれを許さず", "rationale": "「知らなかった」という言い訳は法律違反において通用しない、という原則を表す言葉です。", "isCorrect": true },
+          { "text": "李下に関を正さず", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "急がば回れ", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "法律を知らないことは、罪を免れる理由にはならないという意味です。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "「商品選定」の業務場面において、商品の「スペック確認」に関連する代表的な法律はどれか。",
+        "answerOptions": [
+          { "text": "景品表示法", "rationale": "商品の仕様（スペック）や機能が、消費者を誤認させないか（優良誤認など）を確認するために景表法が関連します。", "isCorrect": true },
+          { "text": "下請法", "rationale": "これは外注時の法律です。", "isCorrect": false },
+          { "text": "個人情報保護法", "rationale": "顧客データの取り扱いに関する法です。", "isCorrect": false },
+          { "text": "特定電子メール法", "rationale": "メール送信に関する法です。", "isCorrect": false }
+        ],
+        "hint": "ウソの機能や、大げさな性能を謳っていないかを取り締まる法律です。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "「商品選定」の業務場面において、「取引先選定・取引条件確認」の際に確認事項となる関連法律の組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "薬機法・健康増進法", "rationale": "これは健康食品・化粧品表示に関わる法律です。", "isCorrect": false },
+          { "text": "独占禁止法・商法・暴対法", "rationale": "仕入れ先などの取引先を選定する際は、これらの法律に抵触しないか（反社チェックなど）を確認する必要があります。", "isCorrect": true },
+          { "text": "著作権法・意匠法", "rationale": "これは模倣品確認などに関連します。", "isCorrect": false },
+          { "text": "消費者契約法・特定商取引法", "rationale": "これは販売時の顧客対応に関連します。", "isCorrect": false }
+        ],
+        "hint": "反社会的勢力ではないか、優越的地位の濫用になっていないかを確認するための法律です。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "「商品選定」の業務場面において、選定した商品が「類似模倣品（他社のパクリ）」でないかを確認する際に関連する法律はどれか。",
+        "answerOptions": [
+          { "text": "不正競争防止法", "rationale": "他社の有名な商品形態を模倣する行為などを取り締まるのが不正競争防止法です。", "isCorrect": true },
+          { "text": "食品衛生法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "特定商取引法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "下請法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "他人のブランド力をタダ乗りして商売することを防ぐ法律です。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "「広告企画」の業務場面において、カタログやECサイトに必要な「広告表示義務（会社名や返品特約の記載など）」を定めている法律はどれか。",
+        "answerOptions": [
+          { "text": "景品表示法", "rationale": "不当表示に関するものです。", "isCorrect": false },
+          { "text": "特定商取引法", "rationale": "通信販売を行う際、販売価格、送料、支払時期、返品特約などを表示する義務（特商法表記）を定めています。", "isCorrect": true },
+          { "text": "個人情報保護法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "JAS法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "通販サイトのフッターにある「〇〇に基づく表記」の法律です。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "「広告企画」の業務において、「不当表示・誇大広告・原産国表示」の確認に関連する主な法律の組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "特定商取引法・景品表示法", "rationale": "誇大広告の禁止（特商法）と不当表示の禁止（景表法）が該当します。", "isCorrect": true },
+          { "text": "下請法・独占禁止法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "PL法・消費生活用製品安全法", "rationale": "これらは製品事故に関わる法律です。", "isCorrect": false },
+          { "text": "電子消費者契約法・特定電子メール法", "rationale": "これらはネット通販のクリックやメールに関する法です。", "isCorrect": false }
+        ],
+        "hint": "お客様を騙すような表現（二重価格やウソの産地）を取り締まる2つの法律です。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "「広告企画」の業務において、「健康食品表示・化粧品表示」を行う際に最も注意すべき法律はどれか。",
+        "answerOptions": [
+          { "text": "薬機法（医薬品医療機器等法）", "rationale": "健康食品や化粧品の広告において、医薬品的な効能効果を謳っていないかを規制するのが薬機法です。", "isCorrect": true },
+          { "text": "下請法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "暴対法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "電子消費者契約法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「治る」「痩せる」などの表現を厳しく制限している法律です。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "「広告物制作」の業務場面において、カタログ等の「印刷」や「デザイン」を外部のパートナー企業に依頼（外注）する際に関連する法律はどれか。",
+        "answerOptions": [
+          { "text": "特定商取引法", "rationale": "これは消費者向けの法律です。", "isCorrect": false },
+          { "text": "下請法", "rationale": "外部の業者（資本金の小さな制作会社など）に委託する際、不当な減額や支払遅延を防ぐための法律です。", "isCorrect": true },
+          { "text": "景品表示法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "個人情報保護法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "立場の弱い協力会社を守るための法律です。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "「広告物送付」の業務において、「電子メール広告（メルマガ等）」を送る際に、事前の承諾（オプトイン）や記録の保存を定めている法律はどれか。",
+        "answerOptions": [
+          { "text": "特定電子メール法（および特定商取引法）", "rationale": "迷惑メールを防止するため、広告宣伝メールの送信に事前の同意（オプトイン）を義務付けています。", "isCorrect": true },
+          { "text": "下請法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "食品衛生法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "PL法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "勝手に広告メールを送ってはいけない、というルールを定めた法律です。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "「広告物送付」の業務において、顧客の住所や氏名を利用して「ダイレクトメール（紙のDM）」を送付する際に関連する法律はどれか。",
+        "answerOptions": [
+          { "text": "個人情報保護法", "rationale": "顧客の個人情報を利用目的の範囲内で適正に取り扱うことを定めています。", "isCorrect": true },
+          { "text": "薬機法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "景品表示法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "不正競争防止法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様の大切なデータを安全に扱うための法律です。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "「インターネット通販」の業務場面において、顧客の「クリックミス（意図しない購入）」を救済したり、取引手法を規制したりする法律はどれか。",
+        "answerOptions": [
+          { "text": "電子消費者契約法", "rationale": "ネット通販において、消費者の操作ミスによる契約を無効にするなどの保護を定めています。", "isCorrect": true },
+          { "text": "下請法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "独占禁止法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "最終確認画面を出さずにボタン1つで注文させてはいけない、などのルールです。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "「返品対応」の業務場面において、返品特約（申し込みの撤回や契約解除の条件）の表示方法などを定めている法律はどれか。",
+        "answerOptions": [
+          { "text": "特定商取引法", "rationale": "通信販売における返品の可否や条件（特約）を明記することを定めています。", "isCorrect": true },
+          { "text": "個人情報保護法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "薬機法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "PL法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「未開封に限り8日以内なら返品可能」といったルールを規定する大元の法律です。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "「製品事故対応」の業務場面において、製品の欠陥によって消費者が被害を受けた場合の「製造物責任主体」に関する枠組みを定めている法律はどれか。",
+        "answerOptions": [
+          { "text": "PL法（製造物責任法）", "rationale": "製品の欠陥による損害に対する賠償責任（Product Liability）を定めています。", "isCorrect": true },
+          { "text": "特定電子メール法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "下請法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "景品表示法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "アルファベット2文字で呼ばれることが多い法律です。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "行政による「指示・業務停止命令・措置命令」などの厳しい行政処分が下される可能性がある、D2Cビジネスにおける代表的な2つの法律はどれか。",
+        "answerOptions": [
+          { "text": "特定商取引法、景品表示法", "rationale": "誇大広告や不当表示、悪質な販売手法に対して、行政から直接的な処分（業務停止や措置命令）が下される主要な法律です。", "isCorrect": true },
+          { "text": "下請法、特許法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商法、暴対法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "電子消費者契約法、個人情報保護法", "rationale": "処分はありますが、特商法・景表法が最も代表的です。", "isCorrect": false }
+        ],
+        "hint": "悪質な通信販売会社がニュースで摘発される際によく登場する法律です。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "商品のネーミングやロゴマークなど、「商標、商号をめぐるトラブル」に関連して企業が保護すべき（または侵害しないよう注意すべき）権利は何か。",
+        "answerOptions": [
+          { "text": "知的財産権（商標権など）", "rationale": "商標権や特許権などの知的財産権が該当します。", "isCorrect": true },
+          { "text": "肖像権", "rationale": "人物の顔などに関する権利です。", "isCorrect": false },
+          { "text": "所有権", "rationale": "有体物に関する権利です。", "isCorrect": false },
+          { "text": "プライバシー権", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "人間の知的活動によって生み出されたアイデアやマークなどを守る権利です。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "自社の販売手法や契約条項が不適切であるとして、適格消費者団体から「差止請求」などの訴訟を起こされるリスクに関連する法律はどれか。",
+        "answerOptions": [
+          { "text": "消費者契約法（および特商法・景表法）", "rationale": "不当な契約条項や勧誘行為に対して、消費者団体が訴訟（差止請求）を起こす仕組みがあります。", "isCorrect": true },
+          { "text": "下請法", "rationale": "事業者間の法律です。", "isCorrect": false },
+          { "text": "独占禁止法", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "食品衛生法", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "消費者の利益を守るための契約に関する基本ルールです。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "テキストにおいて、規制の新設・強化を「注視すべき関連法規」として挙げられていないものはどれか。",
+        "answerOptions": [
+          { "text": "薬機法", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "食品表示法", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "機能性表示食品制度", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "労働基準法", "rationale": "マネジメント上重要ですが、D2C特有の「広告・表示」の注視すべき法規制のリストには含まれていません。", "isCorrect": true }
+        ],
+        "hint": "「消費者への販売や表示」に直接関わる法律ではないものです。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "「コンプライアンス」の訳語として一般的に使われるが、それだけでは「不十分（適切ではない）」とテキストで指摘されている言葉は何か。",
+        "answerOptions": [
+          { "text": "顧客第一", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "法令遵守", "rationale": "法律を守るだけ（法令遵守）では不十分であり、社会の期待に応えることが本来の意味であると指摘されています。", "isCorrect": true },
+          { "text": "社会貢献", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "利益至上", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「法律違反さえしていなければ何をしてもいい」という態度は批判されます。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "コンプライアンスの「本来の理念」として、テキストの図で示されている考え方はどれか。",
+        "answerOptions": [
+          { "text": "株主の利益を最大化すること", "rationale": "一部の利害関係者に過ぎません。", "isCorrect": false },
+          { "text": "社会の一員として利害関係者の期待・信頼に応えること", "rationale": "法令だけでなく、様々なステークホルダーからの期待に応え、社会と共に発展していく姿勢が本来のコンプライアンスです。", "isCorrect": true },
+          { "text": "いかなるリスクも取らずに行動しないこと", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "従業員の給与を業界最高水準にすること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "法律という最低ラインだけでなく、モラルや道徳も含めて社会からどう見られるかということです。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "企業のコンプライアンスが対象とする「利害関係者（ステークホルダー）」の図に含まれていないものはどれか。",
+        "answerOptions": [
+          { "text": "顧客", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "取引先", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "地域社会", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "競合他社", "rationale": "図の利害関係者には「顧客、取引先、地域社会、従業員、政府・行政、株主」が含まれ、競合他社は明記されていません。", "isCorrect": true }
+        ],
+        "hint": "自社の事業の維持・成長において、直接的な責任を負う相手ではない存在です。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "コンプライアンスの観点から、企業が社会に対して積極的に表明・発信していくべき「スタンス（覚悟・決意）」の具体例として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "情報開示やプライバシー保護への取り組み", "rationale": "法令の範囲内にとどまらず、自社がどう社会と向き合うか（情報開示など）を発信することが評価される時代です。", "isCorrect": true },
+          { "text": "商品原価の完全公開", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "従業員の個人情報の公開", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "政治献金先のリスト化", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "消費者が不安に思う「ブラックボックス」をなくし、安心してもらうための行動です。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "法令（法律）は、社会規範やモラルとの関係において、「( )の道徳」とよく表現される。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "最高限", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "最低限", "rationale": "法令は「最低限の道徳」であり、成文化されていないモラルも時代とともに変化します。", "isCorrect": true },
+          { "text": "絶対的", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "普遍的", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「これ以下は犯罪になる」というギリギリのラインのことです。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "厚生労働省の「職場のハラスメントに関する実態調査」において、一般的なパワハラ・セクハラとは別に独立して集計されているハラスメントはどれか。",
+        "answerOptions": [
+          { "text": "アルコール・ハラスメント", "rationale": "言及されていません。", "isCorrect": false },
+          { "text": "スメル・ハラスメント", "rationale": "言及されていません。", "isCorrect": false },
+          { "text": "妊娠・出産・育児休業・介護休業等に関するハラスメント", "rationale": "これら（マタハラ、ケアハラなど）が独立した項目として調査されていることが指摘されています。", "isCorrect": true },
+          { "text": "テクノロジー・ハラスメント", "rationale": "言及されていません。", "isCorrect": false }
+        ],
+        "hint": "女性が多い傾向にあるD2C企業で特に注意すべき、ライフイベントに関するハラスメントです。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "D2C企業は女性が多い傾向にあるが、テキストでは「女性にとって働きやすい環境」は、誰にとっても働きやすい環境であると指摘しているか。",
+        "answerOptions": [
+          { "text": "男性にとっても", "rationale": "「女性にとって働きやすい環境は男性にとっても働きやすいはずである」と記述されています。", "isCorrect": true },
+          { "text": "経営者にとってのみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "株主にとってのみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "派遣社員にとってのみ", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "性別を問わず、誰もが働きやすい職場環境を目指すべきだという文脈です。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "コールセンターなどの顧客対応部門が常にさらされるストレスの原因であり、従業員を守るためのガイドラインが必要とされている「ハラスメント」は何か。",
+        "answerOptions": [
+          { "text": "マタニティ・ハラスメント", "rationale": "従業員間の問題です。", "isCorrect": false },
+          { "text": "顧客等からの著しい迷惑行為（カスタマー・ハラスメント）", "rationale": "顧客からの理不尽な要求や暴言から従業員を守るための対策（カスハラ対策）が必要な時代になっています。", "isCorrect": true },
+          { "text": "パワー・ハラスメント", "rationale": "社内の上司からの問題です。", "isCorrect": false },
+          { "text": "セクシュアル・ハラスメント", "rationale": "主に社内の問題として認識されます。", "isCorrect": false }
+        ],
+        "hint": "「お客様は神様」を盾にした、悪質なクレーマーの行為です。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "面接官が「自分がハラスメントをしている」という認識がない（無自覚な）場合が多く、社内研修が必要だとテキストで指摘されている対象は誰に対するハラスメントか。",
+        "answerOptions": [
+          { "text": "退職予定者", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "就活生等", "rationale": "就活生に対するセクハラなどは、面接官が無自覚に行っているケースがあり、研修を通じた啓発が必要です。", "isCorrect": true },
+          { "text": "競合他社の社員", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "配送業者", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "これから会社に入ろうとして面接を受けに来ている学生のことです。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "現代のSNS社会において、社内でハラスメントが放置され「ひどい職場環境」である場合、企業にどのようなリスクが生じるか。",
+        "answerOptions": [
+          { "text": "行政から補助金が出る", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "社内だけで解決し、外部には一切漏れない", "rationale": "SNS社会では不可能に近いです。", "isCorrect": false },
+          { "text": "簡単に外部に漏れ、悪評判となって流布され、ブランドが毀損する", "rationale": "従業員や就活生によってSNSで告発され、社会的な信用を失うリスクがあります。", "isCorrect": true },
+          { "text": "逆に「厳しい会社」として評価が上がる", "rationale": "現代では許容されません。", "isCorrect": false }
+        ],
+        "hint": "スマホ一つで、誰でも全世界に向けて会社の裏側を発信できる時代です。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "マネジャー世代が昨今のハラスメント問題を「部下に必要な指導をしているだけ」と誤解（反発）しやすい心理的背景として、テキストで指摘されているものは何か。",
+        "answerOptions": [
+          { "text": "自分が新人時代に受けた、上司や先輩からの「厳しい指導」が現在の自分を作ったという想い", "rationale": "過去の成功体験や受けた教育の常識が、現代の価値観とズレていることが原因として指摘されています。", "isCorrect": true },
+          { "text": "法律を一切勉強したことがないため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "部下が優秀すぎて嫉妬しているため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "会社からハラスメントをするよう指示されているため", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「昔はこれくらい当たり前だった」「自分はこれで成長できた」という過去の常識です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "テキストで、マネジメントの方法論も「時代とともに進化していくものだ」という認識を持つべきだと説くために用いられている、スポーツの世界の例えは何か。",
+        "answerOptions": [
+          { "text": "「試合に負けたら丸坊主」", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「運動中に水を飲んではいけない」", "rationale": "かつての常識が現在では明確に否定されている例として挙げられています。", "isCorrect": true },
+          { "text": "「うさぎ跳び」", "rationale": "似た例ですが、テキストでは水飲みが使われています。", "isCorrect": false },
+          { "text": "「気合いと根性」", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "昔の部活では当たり前でしたが、今は熱中症になるとして絶対に禁止されているルールです。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "コンプライアンス違反の企業が負わされる責任のうち、明確な「法令違反」に伴って課せられる直接的な責任の組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "民事、刑事、行政上の責任", "rationale": "損害賠償（民事）、懲役・罰金（刑事）、営業停止（行政）などの責任を負います。", "isCorrect": true },
+          { "text": "道義的、倫理的、宗教上の責任", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "株価下落、倒産、解散", "rationale": "結果として起こり得ますが、法的な責任の分類ではありません。", "isCorrect": false },
+          { "text": "減給、降格、解雇", "rationale": "社内の処分です。", "isCorrect": false }
+        ],
+        "hint": "裁判になったり、警察に捕まったり、役所から処分を受けたりすることです。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "「社内ルール違反（法令違反ではないが、社内の規定を破る行為）」がまん延した場合、企業にもたらされる影響（リスク）として図で示されているものはどれか。",
+        "answerOptions": [
+          { "text": "行政からの営業停止命令", "rationale": "これは法令違反によるものです。", "isCorrect": false },
+          { "text": "知的資本の毀損（独創的なノウハウとそれを支える人材の流出など）", "rationale": "社内風土が悪化し、優秀な人材が辞めてしまうことで、会社の知的資本が失われます。", "isCorrect": true },
+          { "text": "警察の捜査", "rationale": "これは法令違反によるものです。", "isCorrect": false },
+          { "text": "不買運動の直撃", "rationale": "これは企業倫理違反によるものです。", "isCorrect": false }
+        ],
+        "hint": "会社のルールを守らない人が多い職場からは、真面目な人が愛想を尽かして去っていきます。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "「企業倫理違反（法律は破っていないが、社会の道徳に反する行為）」が発覚した場合、企業が受ける社会的制裁の例として図で示されているものはどれか。",
+        "answerOptions": [
+          { "text": "役員の逮捕", "rationale": "これは法令違反です。", "isCorrect": false },
+          { "text": "不買運動などによる企業ブランドの毀損", "rationale": "消費者の反感を買い、不買運動（ボイコット）などの社会的制裁を受けます。", "isCorrect": true },
+          { "text": "罰金の支払い", "rationale": "これは法令違反です。", "isCorrect": false },
+          { "text": "社内マニュアルの廃棄", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「あんな非道徳な会社の製品は二度と買わない！」という消費者の行動です。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "リスクマネジメントの考え方は、大きく分けて2つの種類に分類される。その2つとは何か。",
+        "answerOptions": [
+          { "text": "早期発見と事後処理", "rationale": "少し異なります。", "isCorrect": false },
+          { "text": "未然防止と再発防止", "rationale": "事故が起きる前に防ぐ「未然防止」と、起きた後に繰り返さない「再発防止」の2つです。", "isCorrect": true },
+          { "text": "隠蔽工作と謝罪会見", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "内部告発と外部通報", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「起きる前」にやることと、「起きた後」にやることです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "顧客情報の漏洩事故が起きた後、「どのような経路で起きたかを洗い出し、業務の見直しや改善を行う」というアプローチは、どちらのリスクマネジメントか。",
+        "answerOptions": [
+          { "text": "未然防止", "rationale": "起きた後なので未然ではありません。", "isCorrect": false },
+          { "text": "再発防止", "rationale": "起きてしまった顕在的リスクに対して、二度と同じ事故を起こさないための水平展開を行うのが再発防止です。", "isCorrect": true },
+          { "text": "責任転嫁", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "事後承諾", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「二度と起こさないため」のアプローチです。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "「システム設計の上流工程からセキュリティの発想を取り込み、社員のセキュリティ教育を徹底する」というアプローチは、どちらのリスクマネジメントか。",
+        "answerOptions": [
+          { "text": "再発防止", "rationale": "事故が起きる前の対策です。", "isCorrect": false },
+          { "text": "未然防止", "rationale": "潜在的なリスクを発見し、そもそも事故が起きないように設計・教育するのが未然防止です。", "isCorrect": true },
+          { "text": "事後処理", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "損害保険", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「起きる前（未然）に防ぐ」ためのアプローチです。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "ハインリッヒの法則でも知られる、「大きな事故1件の背後には、数十件の小さな事故があり、数百件の( )がある」の( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "クレーム", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ヒヤリ・ハット（兆候）", "rationale": "「ヒヤッとした」「ハッとした」という小さな兆候を見逃さないことが未然防止に繋がります。", "isCorrect": true },
+          { "text": "システムエラー", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "怠慢", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「あわや大惨事になるところだった（ヒヤッとした、ハッとした）」という経験のことです。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "事務系の仕事において、工場等の現場に比べて意識されることが少なく、情報漏洩事件などにおいて欠けがちだと指摘されている視点はどれか。",
+        "answerOptions": [
+          { "text": "未然防止の視点", "rationale": "事務系職場では「ヒヤリ・ハット」などの未然防止の意識が薄く、起きてからの再発防止に偏りがちだと指摘されています。", "isCorrect": true },
+          { "text": "再発防止の視点", "rationale": "事故後は再発防止策は練られます。", "isCorrect": false },
+          { "text": "コスト削減の視点", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "責任追及の視点", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「普段から机の上に書類を出しっぱなしにしない」といった、事故前の心掛けのことです。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "情報漏洩などのリスクの「未然防止」の観点から、システムによる制限だけでなく、マネジャーが日常的に現場で行うべきことは何か。",
+        "answerOptions": [
+          { "text": "部下全員のPCパスワードを没収する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "セキュリティ研修と同時に、離席時のモニターオフなど日常的な安全行動の指導・声がけを行う", "rationale": "システムの制限には限界があるため、日々の声がけ（教育、日常の安全活動）による意識の維持が不可欠です。", "isCorrect": true },
+          { "text": "書類をすべてシュレッダーにかける", "rationale": "業務が成り立ちません。", "isCorrect": false },
+          { "text": "全社員をテレワークにする", "rationale": "別のリスクが発生します。", "isCorrect": false }
+        ],
+        "hint": "「ほら、机の上に書類が出しっぱなしだよ」と、普段から注意を促すことです。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "D2Cビジネスにおいて、店頭の販売員によるセールストークができない分、何を用いて商品の魅力を「語る」必要があるか。",
+        "answerOptions": [
+          { "text": "商品パッケージの表示や広告表現のコピー", "rationale": "対面接客がないため、パッケージやWEBのコピー（コンマ数秒の勝負）で魅力を伝える必要があります。", "isCorrect": true },
+          { "text": "社長の長文のブログ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社への誹謗中傷", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "インフルエンサーのステマ（ステルスマーケティング）", "rationale": "法律違反です。", "isCorrect": false }
+        ],
+        "hint": "文字や写真、デザインを使って、商品の良さを表現するものです。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "表示や広告表現において、法規制を恐れて「過剰に表現を控える（おとなしくしすぎる）」と、現場ではどのような悪影響が出るとされているか。",
+        "answerOptions": [
+          { "text": "商品が全く売れなくなり、売上に悪影響を及ぼす", "rationale": "魅力を伝えきれず、売上が落ちるというジレンマに直面します。", "isCorrect": true },
+          { "text": "当局から表彰される", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品原価が下がる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客からのクレームがゼロになる", "rationale": "売れないためクレームもないかもしれませんが、本末転倒です。", "isCorrect": false }
+        ],
+        "hint": "商品の魅力が伝わらなければ、お客様は買ってくれません。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "逆に、表示や広告表現において、売上を求めるあまり「踏み込みすぎる（過激にしすぎる）」と、どのようなリスクが発生するか。",
+        "answerOptions": [
+          { "text": "当局による摘発や行政処分（業務停止など）を受ける", "rationale": "景表法や薬機法違反として、厳しい行政処分を受けるリスクがあります。", "isCorrect": true },
+          { "text": "競合他社がすべて倒産する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品の品質が自動的に上がる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "永久に売上が右肩上がりになる", "rationale": "いずれ摘発されて事業が止まります。", "isCorrect": false }
+        ],
+        "hint": "国や役所から「法律違反だ！」と怒られてしまいます。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "法的リスクの回避と魅力的な広告表現の開発を両立させるために、マネジャーが積極的に行うべき推奨行動はどれか。",
+        "answerOptions": [
+          { "text": "法律の専門書を丸暗記して一人で考える", "rationale": "非効率です。", "isCorrect": false },
+          { "text": "各種協会、学会からの情報提供や事例ベースの勉強会などに積極的に参加する", "rationale": "最新の法解釈やセーフな表現の事例を外部から学び、規制内でのギリギリの表現開発に取り組むことが推奨されます。", "isCorrect": true },
+          { "text": "すべて広告代理店に丸投げし、確認しない", "rationale": "責任は自社にあります。", "isCorrect": false },
+          { "text": "一度作った広告コピーを10年間一切変えない", "rationale": "売上が落ちます。", "isCorrect": false }
+        ],
+        "hint": "「他社はどうやってクリアしているのか」という生きた情報を集めることです。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "事件や事故、災害などの「非常事態」に備え、もし起きた時の対応策をあらかじめまとめた計画を何というか。",
+        "answerOptions": [
+          { "text": "事業承継計画", "rationale": "後継者に会社を譲る計画です。", "isCorrect": false },
+          { "text": "コンティンジェンシープラン", "rationale": "不測の事態（コンティンジェンシー）に対する緊急時対応計画のことです。", "isCorrect": true },
+          { "text": "マーケティングプラン", "rationale": "販売計画です。", "isCorrect": false },
+          { "text": "カスタマー・サステナブルマップ", "rationale": "顧客の継続マップです。", "isCorrect": false }
+        ],
+        "hint": "英語で「偶然性・不測の事態」を意味する言葉が含まれます。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "コンティンジェンシープランを策定する際、日本的な考え方からすると忌避されがち（嫌がられがち）な姿勢は何か。",
+        "answerOptions": [
+          { "text": "「縁起でもないこと（最悪の事態）」をわざわざ想定して話し合うこと", "rationale": "「工場が燃えたら」「システムが止まったら」などの縁起でもない最悪の事態を直視することが、プラン策定には不可欠です。", "isCorrect": true },
+          { "text": "全員で仲良く合意形成すること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "過去の成功体験を語り合うこと", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "売上目標を高く設定すること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「そんな悪いこと、起きるわけないだろう！」と目を背けたくなるような議論です。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "コンティンジェンシープランの策定は、組織内のどの層が積極的に関与すべき事案とされているか。",
+        "answerOptions": [
+          { "text": "新入社員のみ", "rationale": "全体像がわかりません。", "isCorrect": false },
+          { "text": "外部の警備会社", "rationale": "自社の事業継続計画なので自社で作成します。", "isCorrect": false },
+          { "text": "事業の全体像と現場を理解しているミドル・マネジメント層", "rationale": "事業計画策定と同様、各部門の連携や代替案を考えられるミドル・マネジメントが積極的に関与すべきです。", "isCorrect": true },
+          { "text": "退職したOB社員", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "現場の動きも、経営の数字も両方分かっている「中間管理職」のことです。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "コンティンジェンシープランの基本的内容に含まれないものはどれか。",
+        "answerOptions": [
+          { "text": "事業遂行を困難にするリスクの列挙", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "緊急時の各メンバーの行動計画、マスコミ対応など", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "代替設備・業者、在庫の確保など事前対応策", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "競合他社が災害に遭った際の、顧客の奪い取り計画", "rationale": "自社の事業継続のための計画であり、他社の不幸を利用する攻撃計画ではありません。", "isCorrect": true }
+        ],
+        "hint": "自社を守り、お客様への責任を果たすための計画です。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "コンティンジェンシープランにおいて、「事業遂行を困難にするリスクを列挙」した後に、そのそれぞれに対して行うべきことは何か。",
+        "answerOptions": [
+          { "text": "リスクが発生する確率と、損害の大きさ（影響度）を見積もる", "rationale": "列挙したリスクに対し、どれくらい起きやすいか（確率）と、起きたらどれくらいヤバいか（損害規模）を評価して優先順位をつけます。", "isCorrect": true },
+          { "text": "リスクを列挙した紙を神棚に祀る", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "列挙したリスクの責任者をクビにする", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "リスクの存在を顧客にすべて公開する", "rationale": "社内計画です。", "isCorrect": false }
+        ],
+        "hint": "「滅多に起きないけど起きたら倒産する」のか「よく起きるけど被害は小さい」のかを仕分けする作業です。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "コンティンジェンシープランの策定作業に実際に着手してみることで、組織にとって「副次的に」得られる気づき（浮き彫りになること）は何か。",
+        "answerOptions": [
+          { "text": "社員の隠れた特技が見つかること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "普段の業務プロセス設計上の「不備」や、組織図上には表れにくい「意思決定の曖昧さ」", "rationale": "非常時を想定することで、「いざという時、誰が決めるのか？」「この手順は誰にも引き継がれていない」といった平時の組織の弱点が明確になります。", "isCorrect": true },
+          { "text": "競合他社の極秘情報", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "オフィスビルの耐震偽装", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「あれ？このシステムが止まった時、どうやって手動に切り替えるか誰も知らないぞ？」という平時の落とし穴に気づけます。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第7章：リスク管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第7章「リスク管理」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  各種法規制（特商法・景表法など）、ハラスメント、コンティンジェンシープランなど重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

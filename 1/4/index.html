@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第4章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第4章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "一般流通小売（店舗販売）のオペレーションズ・マネジメントにおいて、商品を調達して店頭に並べるまでのプロセスを管理することを何と呼ぶか。",
+        "answerOptions": [
+          { "text": "エリアマーケティング", "rationale": "これは商圏分析などを指します。", "isCorrect": false },
+          { "text": "サプライチェーン・マネジメント", "rationale": "原材料の調達から店頭に商品が並ぶまでの生産・流通プロセスの管理を指します。", "isCorrect": true },
+          { "text": "カスタマー・リレーションシップ・マネジメント", "rationale": "顧客との関係管理のことです。", "isCorrect": false },
+          { "text": "アクションチェーン・マネジメント", "rationale": "これはD2C特有の考え方です。", "isCorrect": false }
+        ],
+        "hint": "供給（サプライ）の連鎖（チェーン）を管理するという意味です。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "一般流通小売（店舗販売）における「エリアマーケティング」とはどのような活動を指すか。",
+        "answerOptions": [
+          { "text": "店舗の開発・経営のための商圏分析や来店顧客の動向を想定・分析すること", "rationale": "出店地域の特性や商圏を分析する活動です。", "isCorrect": true },
+          { "text": "商品の企画から入庫までの時間を短縮すること", "rationale": "これはサプライチェーンの課題です。", "isCorrect": false },
+          { "text": "オンラインショップでのアクセスログを解析すること", "rationale": "これはデジタルマーケティングの領域です。", "isCorrect": false },
+          { "text": "顧客の返品対応を迅速に行うこと", "rationale": "これはフルフィルメントの一部です。", "isCorrect": false }
+        ],
+        "hint": "「どこに出店するか」「その地域にはどんな人がいるか」を考えることです。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "D2Cにおいて、一般流通小売における「店舗」に該当するものは何か。",
+        "answerOptions": [
+          { "text": "コールセンター", "rationale": "顧客接点ですが「店舗＝売り場」のメイン機能ではありません。", "isCorrect": false },
+          { "text": "物流倉庫", "rationale": "商品を保管・発送する場所です。", "isCorrect": false },
+          { "text": "媒体（ECサイトやカタログなど）", "rationale": "D2Cにおいて、顧客が商品を見て選ぶ「売り場」となるのは媒体です。", "isCorrect": true },
+          { "text": "広告代理店", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "多くのD2C企業でこれを「売場」と表現しています。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "D2Cにおいて、「エリアマーケティング」の考え方が活用される場面として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "全国一律の送料無料キャンペーンの実施", "rationale": "エリアを区別していないため異なります。", "isCorrect": false },
+          { "text": "DMや新聞折り込みチラシのエリア選定", "rationale": "投資に対する効率性の観点から、特定の地域を狙って広告を打つ際にエリアマーケティングの発想が使われます。", "isCorrect": true },
+          { "text": "商品の生産工場の場所を決めること", "rationale": "これは生産管理・サプライチェーンの領域です。", "isCorrect": false },
+          { "text": "コールセンターのオペレーターの採用", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "全国に売れるとはいえ、広告の「費用対効果」を上げるために地域を絞るアプローチです。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "通販・D2Cビジネスにおいて、店舗販売には存在しない「受注から配送、代金回収などの一連の業務」を総称して何と呼ぶか。",
+        "answerOptions": [
+          { "text": "マーチャンダイジング", "rationale": "商品の企画・品揃えのことです。", "isCorrect": false },
+          { "text": "フルフィルメント", "rationale": "注文を受けてからお客様に届き、代金を回収するまでのバックヤード業務全般をフルフィルメントと呼びます。", "isCorrect": true },
+          { "text": "プロモーション", "rationale": "販売促進活動のことです。", "isCorrect": false },
+          { "text": "オムニチャネル", "rationale": "複数チャネルの統合のことです。", "isCorrect": false }
+        ],
+        "hint": "英語で「業務の遂行・完了」を意味する言葉です。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "D2Cは商品を届けるために顧客情報の取得が前提となっているため、どのようなデータがデータベースに蓄積されるか。",
+        "answerOptions": [
+          { "text": "競合他社の販売データ", "rationale": "自社のDBには蓄積されません。", "isCorrect": false },
+          { "text": "媒体送付歴や商品購入、各種問合せなどの顧客とのコンタクト歴", "rationale": "直接取引を行うため、これらの顧客行動履歴がすべて自社データとして蓄積されます。", "isCorrect": true },
+          { "text": "マスメディアの視聴率データ", "rationale": "外部の調査データです。", "isCorrect": false },
+          { "text": "全社員の健康診断結果", "rationale": "人事データであり、マーケティングの文脈とは異なります。", "isCorrect": false }
+        ],
+        "hint": "「誰に、いつ、何を送り、何を買ってくれたか」という記録です。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "D2Cのオペレーションズ・マネジメントにおいて、媒体やフルフィルメントと組み合わせて考えるべき重要な視点は「何」か。",
+        "answerOptions": [
+          { "text": "空間", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "時間", "rationale": "商品の企画から入庫、媒体企画から発行、お届け、関係継続の「時間」という視点が重要です。", "isCorrect": true },
+          { "text": "気温", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「いつまでに準備するか」「どれくらい続くか」という概念です。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "テキストで挙げられているD2Cにおける「時間」の視点に含まれないものはどれか。",
+        "answerOptions": [
+          { "text": "商品の企画から入庫までの時間", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "媒体・広告の企画から発行・掲載までの時間", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "競合他社が類似品を開発するまでの時間", "rationale": "自社オペレーションの「時間軸」の例には含まれていません。", "isCorrect": true },
+          { "text": "一人の顧客と取引関係が継続する時間", "rationale": "含まれます。", "isCorrect": false }
+        ],
+        "hint": "自社の事業プロセスや顧客との関係性の中での時間の流れを指しています。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "D2Cというビジネスモデルの強みである「オペレーションの一貫性」を象徴するキーワードは何か。",
+        "answerOptions": [
+          { "text": "部門間の「つながり」", "rationale": "計画部門と実行部門が鎖のようにつながっていることがD2Cの強みを引き出します。", "isCorrect": true },
+          { "text": "部門ごとの「独立採算」", "rationale": "つながりを阻害する要因になり得ます。", "isCorrect": false },
+          { "text": "業務の「完全自動化」", "rationale": "自動化も重要ですが、一貫性を象徴するキーワードとしては「つながり」が強調されています。", "isCorrect": false },
+          { "text": "外部への「丸投げ」", "rationale": "一貫性が失われます。", "isCorrect": false }
+        ],
+        "hint": "計画部門と実行部門がバラバラに動くのではなく、連携することです。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "D2Cの業務プロセスにおいて、すべてのはじまり（起点）となるものは何か。",
+        "answerOptions": [
+          { "text": "顧客からのクレーム", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品の製造完了", "rationale": "製造の前に計画があります。", "isCorrect": false },
+          { "text": "アクションの計画", "rationale": "D2Cは、何を・いつ・どのように売るかという「アクションの計画」からすべてが始まります。", "isCorrect": true },
+          { "text": "システムのアップデート", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「ECサイトにアップしただけでは売れない。どう集客するか」という事前の取り決めのことです。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "部門間のつながりにおいて、「計画」を担当する部門として適切な組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "フルフィルメント部門、システム部門", "rationale": "これらは「実行」部門です。", "isCorrect": false },
+          { "text": "マーケティング部門、マーチャンダイジング部門", "rationale": "施策を立案し、商品を調達・企画する「計画」の部門です。", "isCorrect": true },
+          { "text": "物流部門、顧客対応部門", "rationale": "これらは「実行」部門です。", "isCorrect": false },
+          { "text": "経理部門、人事部門", "rationale": "管理部門です。", "isCorrect": false }
+        ],
+        "hint": "「何を売るか」「どうやって売るか」を考える部署です。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "部門間のつながりにおいて、「実行」を担当する部門として適切な組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "フルフィルメント部門、システム部門", "rationale": "計画を受けて、実際の受注、入出庫、決済、システム運用を行う「実行」の部門です。", "isCorrect": true },
+          { "text": "マーケティング部門、財務部門", "rationale": "マーケティングは「計画」です。", "isCorrect": false },
+          { "text": "マーチャンダイジング部門、制作部門", "rationale": "これらは「計画」です。", "isCorrect": false },
+          { "text": "経営企画部門、広報部門", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "計画されたものを、実際にお客様に「届ける」ための実務を行う部署です。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "「サプライチェーン・マネジメント」の考え方がD2Cに馴染まない理由として、テキストで指摘されていることは何か。",
+        "answerOptions": [
+          { "text": "コストがかかりすぎるから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "店頭商品の動向を起点とした発想なので動きが遅すぎるから", "rationale": "D2Cは広告や販促などの「計画」で受注が急変するため、店頭の動きを見てからでは準備が間に合いません。", "isCorrect": true },
+          { "text": "D2Cには物流が存在しないから", "rationale": "物流は存在します。", "isCorrect": false },
+          { "text": "ITシステムとの相性が悪いから", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「棚から商品が減ったから補充しよう」という後追いの発想では間に合わないということです。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "サプライチェーン・マネジメントの発想では、D2Cにおいて何の準備ができないと指摘されているか。",
+        "answerOptions": [
+          { "text": "顧客の体験価値を創造する準備", "rationale": "広告開始日や訴求内容が決まらないと、受注や出荷の準備（＝体験価値の提供）ができないためです。", "isCorrect": true },
+          { "text": "新入社員の採用準備", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社の買収準備", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "テレビCMの制作準備", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様に「買ってよかった」と思ってもらうための事前の根回しです。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "「アクションを起点にした一連のモノの流れとお金の流れを関係部署間で情報共有・連携し、全体最適を実現する取り組み」を何と呼ぶか。",
+        "answerOptions": [
+          { "text": "サプライチェーン・マネジメント", "rationale": "これは調達から販売までの生産・流通の管理です。", "isCorrect": false },
+          { "text": "エリアマーケティング", "rationale": "これは商圏の分析です。", "isCorrect": false },
+          { "text": "アクションチェーン・マネジメント", "rationale": "D2Cの業務プロセスはアクション（計画）を起点に鎖のようにつながっているという考え方です。", "isCorrect": true },
+          { "text": "カスタマー・ジャーニー", "rationale": "顧客の体験のプロセスです。", "isCorrect": false }
+        ],
+        "hint": "「行動（アクション）」の「連鎖（チェーン）」を管理するという意味の造語です。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "アクションチェーン・マネジメントにおいて、顧客の「購入体験の設計～提供～評価～改善のサイクル」を効果的に実現するために不可欠なものは何か。",
+        "answerOptions": [
+          { "text": "最新のAIの導入", "rationale": "AIだけでは解決しません。", "isCorrect": false },
+          { "text": "各部門のつながり", "rationale": "計画と実行の各部門が情報共有し、連携する「つながり」があってこそ効果的に実現します。", "isCorrect": true },
+          { "text": "全業務の外部委託", "rationale": "外部委託しても、連携の仕組みがなければ実現しません。", "isCorrect": false },
+          { "text": "大幅な人員削減", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "部署間の壁を取り払い、バトンを落とさずに繋ぐことです。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "フルフィルメント業務の運営主体（自社で運営しているか、外部にアウトソーシングしているか）の違いは、顧客から見てどのように受け止められるか。",
+        "answerOptions": [
+          { "text": "自社運営の方が必ず高く評価される。", "rationale": "そうとは限りません。", "isCorrect": false },
+          { "text": "外注している企業からは絶対に買わない。", "rationale": "顧客は運営主体を気にしていません。", "isCorrect": false },
+          { "text": "顧客から見ればあずかり知らぬこと（一切関係ない）。", "rationale": "顧客にとって重要なのは、商品や体験に価値を感じるか否かだけであり、誰が作業しているかは関係ありません。", "isCorrect": true },
+          { "text": "外注の方が配送が早いと無条件に信頼される。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様にとっては、届いたサービスが良ければ「誰が梱包したか」は問題ではありません。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "販促企画と媒体制作「だけ」がマーケティングだという考え方は、4Pの要素のうちの何に過ぎないと指摘されているか。",
+        "answerOptions": [
+          { "text": "Product（製品）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Price（価格）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Place（流通）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Promotion（プロモーション）", "rationale": "販促や広告制作は、マーケティング全体（4P/4C）の中でPromotionという一部の機能に過ぎません。", "isCorrect": true }
+        ],
+        "hint": "「どう知ってもらうか」という宣伝活動の部分です。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "4Cの考え方において、フルフィルメント部門の活動はどのように位置づけられるか。",
+        "answerOptions": [
+          { "text": "マーケティングとは無関係の単なる作業", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "他社と差別化し優位性を確保するマーケティングの一部", "rationale": "顧客に価値や体験を届けるフルフィルメントも立派なマーケティング（ConvenienceやCommunication）の一部です。", "isCorrect": true },
+          { "text": "コスト削減のためだけに存在する部門", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品開発を妨害する部門", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "届けるスピードや丁寧な対応も、顧客にとっては「価値」になります。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "D2C企業において「マーケティング＝販促のみ」という誤解と、部門間の「縦割り意識」が相まって引き起こされがちな問題は何か。",
+        "answerOptions": [
+          { "text": "業績の急激な向上", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "要らぬ軋轢やストレス", "rationale": "「現場を知らない企画」「企画に非協力的な現場」といった相互不信や軋轢を生む原因になります。", "isCorrect": true },
+          { "text": "意思決定の迅速化", "rationale": "逆です。", "isCorrect": false },
+          { "text": "顧客満足度の自動的な上昇", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お互いの仕事へのリスペクトが欠けることで起こる人間関係のトラブルです。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "マーケ部門とフルフィル部門が相互理解を深めるために、業務フローと同時に理解してもらう必要があるものは何か。",
+        "answerOptions": [
+          { "text": "役員の個人的な趣味", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "情報のフロー", "rationale": "「どんな情報を」「いつまでに」「なぜ必要なのか」という情報のフローを理解し合うことが業務の出発点となります。", "isCorrect": true },
+          { "text": "競合他社の給与体系", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "株価の変動理由", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「誰が、誰に、何を、いつ伝えるか」という流れです。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "マーケティング部門が理解すべき「フルフィルメントの視点（情報）」としてテキストで挙げられていないものはどれか。",
+        "answerOptions": [
+          { "text": "要員を手配するタイミング", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "新施策が及ぼす影響範囲と解決策", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "新施策の派生業務（キャンセル、欠品対応など）", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "新規獲得用Web広告の入札単価", "rationale": "これはマーケティング部門自身の業務・指標であり、フルフィル側の視点ではありません。", "isCorrect": true }
+        ],
+        "hint": "「現場が受け入れるために必要な準備」に関する情報ではないものです。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "マーケティング担当者が「フルフィルメントの視点」を併せ持つことで得られる効果として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "自社顧客への想像力を高め、体験価値を創造する基盤が整う。", "rationale": "現場の苦労や実際の顧客の反応を知ることで、想像力が高まりより良い企画が生まれます。", "isCorrect": true },
+          { "text": "広告費を一切かけずに新規顧客を獲得できるようになる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品の原価を劇的に下げることができる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "フルフィルメント部門の業務を完全にAIで代替できる。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「机上の空論」ではなく、現場と顧客のリアルを意識した企画が立てられるようになります。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "顧客との接点であるフルフィルメント部門に日々集積している「顧客を動かす隠れた心理」を表す言葉はどれか。",
+        "answerOptions": [
+          { "text": "アウトサイト", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "インサイト", "rationale": "顧客対応実績には、顧客自身も気づいていないような「インサイト（顧客を動かす隠れた心理）」の宝庫です。", "isCorrect": true },
+          { "text": "フォアサイト", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "バックサイト", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "英語で「洞察」や「直観」を意味する言葉です。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "あるD2C企業の経営層が、定期的にコールセンターで自ら電話をとる習慣を継続している理由として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "人手不足による人件費削減のため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "オペレーターの監視と評価のため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「ほんの小さな顧客の変化も見逃したくない」という考えのため。", "rationale": "単なるパフォーマンスではなく、生の顧客の声から微細な変化を捉えるために行っています。", "isCorrect": true },
+          { "text": "電話を取ることが社長の趣味だから。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "一番現場に近い場所で、お客様の「生の声」の温度感を感じ取るためです。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "マーケティング担当者を一定期間コールセンターや配送センターに駐在させる企業がある。その目的の一つとして「実績データ」に関してどのような理由があるか。",
+        "answerOptions": [
+          { "text": "データをすべて手入力で書き写させるため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "データがどのように登録されているのか、集計・分析に値するのかを精査するため。", "rationale": "現場でデータが入力される過程を見ることで、データの正確性やクセを理解し、分析の精度を上げる目的があります。", "isCorrect": true },
+          { "text": "過去のデータをすべて消去させるため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "データを外部に販売する準備をするため。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「数字の裏側」にある、現場の入力作業の実態を知るためです。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "フルフィルメント担当者が理解すべき「マーケティング部門の情報（視点）」としてテキストで挙げられていないものはどれか。",
+        "answerOptions": [
+          { "text": "次の施策を提案する際に必要な情報やデータ", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "媒体開始後の実績管理と評価指標", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "媒体の手配や販促ツールの制作に要する期間", "rationale": "挙げられています。", "isCorrect": false },
+          { "text": "梱包資材の仕入れ価格の推移", "rationale": "これはフルフィルメント部門自身の情報であり、マーケ側の情報ではありません。", "isCorrect": true }
+        ],
+        "hint": "「企画を立てて実行するまで」に関する情報ではないものです。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "フルフィルメント担当者がマーケティングの視点を持つことで得られる効果として、テキストで指摘されているものはどれか。",
+        "answerOptions": [
+          { "text": "自社顧客の理解度が深まり、顧客の購入体験価値を創造する活動に貢献できるようになる。", "rationale": "マーケティングの意図（なぜこの施策を打つのか）を理解することで、業務が円滑になるだけでなく、体験価値の向上に自らアイデアを出せるようになります。", "isCorrect": true },
+          { "text": "マーケティング部門の仕事を奪い、部門を統合できる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "コールセンターの対応時間を強制的に半分にできる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "すべてのクレームをゼロにすることができる。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「言われた作業をこなす」受け身の姿勢から、「一緒に価値を創る」姿勢への変化です。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "マーケティングにおいて、顧客が商品を知ってから購入するまでの行動や感情の変化を可視化したものを「カスタマージャーニーマップ」と呼ぶが、D2Cにおいては「購入」をどのように捉えるべきか。",
+        "answerOptions": [
+          { "text": "マーケティングの最終ゴール", "rationale": "売り切りのモデルの考え方です。", "isCorrect": false },
+          { "text": "優良顧客化への新たなスタート", "rationale": "D2Cでは購入は終わりではなく、関係構築（LTV向上）の始まりと捉えます。", "isCorrect": true },
+          { "text": "最もコストを削減すべきポイント", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "関係性を断ち切るタイミング", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "結婚式がゴールではなく、結婚生活のスタートであるのと同じ考え方です。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "カスタマージャーニーマップに、顧客ランク別の「継続率」や「購買金額」を付加し、顧客が継続化する道のりをさらに明確化したものを何と呼ぶか。",
+        "answerOptions": [
+          { "text": "プロダクト・ロードマップ", "rationale": "製品開発の計画表です。", "isCorrect": false },
+          { "text": "カスタマー・サステナブルマップ", "rationale": "継続性（サステナブル）を重視し、顧客ランクの推移を可視化したマップです。", "isCorrect": true },
+          { "text": "セールス・ファネル", "rationale": "一般的な購買プロセスの漏斗図です。", "isCorrect": false },
+          { "text": "バランス・スコアカード", "rationale": "経営評価のフレームワークです。", "isCorrect": false }
+        ],
+        "hint": "「持続可能な（サステナブル）」という言葉が含まれます。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "一般的に、優良顧客の「返品率」の傾向として知られているものはどれか。",
+        "answerOptions": [
+          { "text": "その他顧客と比べ、返品率は完全にゼロである。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "その他顧客と比べ、相対的に返品率が高い。", "rationale": "優良顧客は購入頻度や金額が高いため、サイズ違いなどで返品を利用する機会も相対的に多くなる傾向があります。", "isCorrect": true },
+          { "text": "返品はするが、交換は絶対にしない。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "新規顧客よりも返品率が圧倒的に低い。", "rationale": "逆の傾向が知られています。", "isCorrect": false }
+        ],
+        "hint": "よく買う人ほど、サービス（返品制度など）もよく利用する傾向にあります。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "物流倉庫において、梱包している商品を購入した「顧客のランク」を把握して作業することは、何に大きな変化をもたらすか。",
+        "answerOptions": [
+          { "text": "商品の原価", "rationale": "原価は変わりません。", "isCorrect": false },
+          { "text": "体験価値の提供", "rationale": "「初めてのお客様」と「長年の優良顧客」で同梱物を変えたり、梱包の心遣いを変えたりすることで、体験価値が大きく変わります。", "isCorrect": true },
+          { "text": "配送業者の配送料", "rationale": "配送料は変わりません。", "isCorrect": false },
+          { "text": "梱包資材の重量", "rationale": "直接的な変化ではありません。", "isCorrect": false }
+        ],
+        "hint": "「誰に送るか」を知ることで、作業が単なる「作業」から「おもてなし」に変わります。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "「カスタマー・サステナブルマップ」の作成において、望ましい進め方はどれか。",
+        "answerOptions": [
+          { "text": "マーケティング部門のみで極秘に作成し、現場に指示を下す。", "rationale": "現場の視点が欠け、実行力が伴いません。", "isCorrect": false },
+          { "text": "フルフィルメント部門とマーケ部門が共同作成する。", "rationale": "双方の業務理解と顧客理解を深めるため、共同作成が推奨されています。", "isCorrect": true },
+          { "text": "外部のコンサルタントに完全委託し、社内では考えない。", "rationale": "自社のノウハウになりません。", "isCorrect": false },
+          { "text": "システム部門がデータのみから自動生成する。", "rationale": "定性的な体験やインサイトが反映されません。", "isCorrect": false }
+        ],
+        "hint": "計画する人と実行する人が一緒に考えることが大切です。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "テキストの「カスタマー・サステナブルマップの例」において、「たまたま巡り合った商品に関心。初回購入企業への期待と不安」という購入前背景を持つ顧客ランクはどれか。",
+        "answerOptions": [
+          { "text": "新規客", "rationale": "初めて購入する「新規客」の心理状態です。", "isCorrect": true },
+          { "text": "第2新客", "rationale": "これは初回購入時にある程度識別が終わっている状態です。", "isCorrect": false },
+          { "text": "収益客", "rationale": "これはすでに定着している顧客です。", "isCorrect": false },
+          { "text": "離脱客", "rationale": "これは一度離れた顧客です。", "isCorrect": false }
+        ],
+        "hint": "まだブランドのことをよく知らない、最初のお客様です。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "テキストの「カスタマー・サステナブルマップの例」において、「関心はあるが、マンネリ化の気配やサービスが期待に反すれば離反に転じる」という購入前背景を持つ顧客ランクはどれか。",
+        "answerOptions": [
+          { "text": "新規客", "rationale": "まだマンネリ化する段階ではありません。", "isCorrect": false },
+          { "text": "収益客", "rationale": "よく買ってくれる「収益客」であっても、マンネリや期待外れの対応で離反するリスクがあることが示されています。", "isCorrect": true },
+          { "text": "休眠客", "rationale": "すでに関心が薄れている状態です。", "isCorrect": false },
+          { "text": "離脱客", "rationale": "すでに離れた状態です。", "isCorrect": false }
+        ],
+        "hint": "一番売上に貢献してくれている層ですが、飽きさせない工夫が必要です。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "テキストの「カスタマー・サステナブルマップの例」において、「マイナスあるいはゼロ印象からの再出発。新しい気付きがあれば再購入もありか。」という購入前背景を持つ顧客ランクはどれか。",
+        "answerOptions": [
+          { "text": "新規客", "rationale": "ゼロ印象はあり得ますが、マイナス印象からの再出発ではありません。", "isCorrect": false },
+          { "text": "第2新客", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "維持客", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "離脱客", "rationale": "一度離れてしまった「離脱客」に対するアプローチの前提です。", "isCorrect": true }
+        ],
+        "hint": "一度関係が切れてしまったお客様です。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "テキストの「カスタマー・サステナブルマップの例」において、「新規客」に対する検討課題として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "趣向に合った提案、新たな発見を促す訴求をどう進めていくか。", "rationale": "これは収益客・維持客の課題です。", "isCorrect": false },
+          { "text": "ほぼ新客同様の関心度。次回購入への動機づけができるか。", "rationale": "これは離脱客の課題です。", "isCorrect": false },
+          { "text": "初回購入時に、次回購入への動機づけができるか、好印象が残せるか。", "rationale": "新規客を次に繋げるための最重要課題です。", "isCorrect": true },
+          { "text": "商品と共に、当社への関心度・好感度をどれだけ残せるか。", "rationale": "これは第2新客などの課題です。", "isCorrect": false }
+        ],
+        "hint": "「次も買おう！」と思ってもらうためのファーストコンタクトの課題です。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "テキストの「カスタマー・サステナブルマップの例」において、「収益客」に対する改善対策の例として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "Welcome キャンペーン", "rationale": "これは新規客向けの対策です。", "isCorrect": false },
+          { "text": "VIPプログラム、趣向商品の紹介、今後の展開予告", "rationale": "マンネリを防ぎ特別感を提供するための、収益客（優良顧客）向けの対策です。", "isCorrect": true },
+          { "text": "会社としての取り組み紹介のみ", "rationale": "新規客や第2新客向けのアプローチです。", "isCorrect": false },
+          { "text": "大幅な値引きクーポンの乱発", "rationale": "マップの例には記載されていません。", "isCorrect": false }
+        ],
+        "hint": "特別扱いをして、ブランドに飽きさせないための施策です。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "アクションチェーン・マネジメントの導入イメージ図において、「計画決定」が行われた後、マーケティング部門と制作部門が並行して行う「準備」のステップはどれか。",
+        "answerOptions": [
+          { "text": "販売動向確認 と 在庫確認", "rationale": "これは施策開始「後」の動きです。", "isCorrect": false },
+          { "text": "施策手配・施策開始準備 と 制作計画・ツール制作", "rationale": "計画が決まった後、実際に施策を動かすための準備（手配や制作）に入ります。", "isCorrect": true },
+          { "text": "結果総括", "rationale": "これはプロセスの最後です。", "isCorrect": false },
+          { "text": "半期計画策定", "rationale": "これは一番最初です。", "isCorrect": false }
+        ],
+        "hint": "GOサインが出た後、実際に広告枠を押さえたりクリエイティブを作ったりする段階です。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "アクションチェーン・マネジメントの導入イメージ図において、システム部門が「計画説明」を受けた後に行う準備作業はどれか。",
+        "answerOptions": [
+          { "text": "調達計画、調達手配", "rationale": "これは商品部門の役割です。", "isCorrect": false },
+          { "text": "改修計画、設計・開発・テスト", "rationale": "新しい施策に合わせてシステムが対応できるよう、開発やテストを行います。", "isCorrect": true },
+          { "text": "倉庫計画、運用準備", "rationale": "これは物流部門の役割です。", "isCorrect": false },
+          { "text": "回収計画、運用準備", "rationale": "これは債権管理部門の役割です。", "isCorrect": false }
+        ],
+        "hint": "ITシステムを新しいキャンペーンなどに適応させるための作業です。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "アクションチェーン・マネジメントの考え方に基づく時、「システムの対応が間に合わない場合」に発生してしまう問題は何か。",
+        "answerOptions": [
+          { "text": "売上の急増", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「属人的な運用」の発生", "rationale": "システムで自動化できないため、人が手作業でカバーする「属人的な運用（ミスや遅延の温床）」が発生します。", "isCorrect": true },
+          { "text": "完全な自動化の実現", "rationale": "逆です。", "isCorrect": false },
+          { "text": "顧客の絶賛", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "機械ができないことを、現場のスタッフが「気合いと根性（手作業）」でカバーする状態です。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "「顧客獲得はゴールではなくスタート」の図において、新規顧客のループ（認知→調査→選択→購入）と既存顧客のループ（受取→使用→継続→推奨）が交わる「起点」となるアクションは何か。",
+        "answerOptions": [
+          { "text": "認知/興味", "rationale": "これは新規獲得の入り口です。", "isCorrect": false },
+          { "text": "商品受取（初回）", "rationale": "「購入」の後、実際に商品を受け取ることで既存顧客としての体験（ループ）が始まります。", "isCorrect": true },
+          { "text": "休眠", "rationale": "ループから外れるアクションです。", "isCorrect": false },
+          { "text": "他者への推奨", "rationale": "これは既存顧客ループの最終段階です。", "isCorrect": false }
+        ],
+        "hint": "注文した品物が、初めてお客様の手元に届く瞬間です。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "フルフィルメント部門が「決定された企画の実行面のみを担当する」という状態から脱却し、マーケ部門と「つながり」を持つことで生まれるポジティブな変化は何か。",
+        "answerOptions": [
+          { "text": "それぞれが顧客のために何ができるか知恵を出し合う風土の醸成", "rationale": "双方が理解を深めることで、単なる作業者から価値の創造者（共創）へと変化し、良い風土が醸成されます。", "isCorrect": true },
+          { "text": "責任のなすりつけ合いの増加", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "企画の立案から実行までのスピードの極端な遅延", "rationale": "情報共有によりむしろスムーズになります。", "isCorrect": false },
+          { "text": "マニュアルの完全撤廃", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お互いの視点を持つことで「やらされる仕事」から「一緒に創る仕事」に変わります。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "第4章のタイトルは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "顧客管理", "rationale": "これは第3章です。", "isCorrect": false },
+          { "text": "財務管理", "rationale": "これは第5章です。", "isCorrect": false },
+          { "text": "オペレーション管理", "rationale": "第4章は「オペレーション管理」の視点から解説されています。", "isCorrect": true },
+          { "text": "組織管理", "rationale": "これは第6章です。", "isCorrect": false }
+        ],
+        "hint": "事業を「どう回していくか（実務の運用）」という視点です。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "カスタマー・サステナブルマップにおいて、「顧客ランク」ごとに設定されている定量的な指標の例（図に記載されているもの）は何か。",
+        "answerOptions": [
+          { "text": "年齢と性別", "rationale": "デモグラフィック情報です。", "isCorrect": false },
+          { "text": "6ヶ月継続率 と 6ヶ月客単価", "rationale": "マップの例では、ランクごとに人数、継続率、客単価などの数値が記載され、明確な目標として機能します。", "isCorrect": true },
+          { "text": "居住地と職業", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "クリック率と直帰率", "rationale": "Webサイトの単一の指標です。", "isCorrect": false }
+        ],
+        "hint": "「どれくらい続けてくれているか」と「どれくらい買ってくれているか」の数字です。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "D2Cと一般流通小売の「商品調達〜販売」までのリードタイム（時間）の感覚の違いとして、正しいものはどれか。",
+        "answerOptions": [
+          { "text": "一般流通の方が、広告を打ってから売れるまでの反応が圧倒的に早い。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "D2Cの方が、企画から販売開始までのリードタイムを長く取る必要がある。", "rationale": "D2Cの方が機動的に動ける傾向があります。", "isCorrect": false },
+          { "text": "D2Cは広告・販促の訴求次第で受注が急変動するため、店頭（一般流通）の動向を待つサプライチェーン発想では遅すぎる。", "rationale": "D2Cはアクション（計画）で需要を創り出すため、素早い連携（アクションチェーン）が必要です。", "isCorrect": true },
+          { "text": "両者に時間の感覚の違いは全く無い。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お店に人が来るのを待つ商売と、自分から仕掛けて注文を取る商売の違いです。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "部門間の「縦割り意識」が強い組織において、コールセンター（フルフィルメント側）からマーケティング（企画側）に対してよく持たれる不満の例はどれか。",
+        "answerOptions": [
+          { "text": "「企画部門はいつも同じアイデアしか出さない」", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「受注システムをよく知らない企画が原因で、ミス入力が増えた」", "rationale": "現場のオペレーションやシステムの都合を知らずに企画が走ることへの不満の典型例です。", "isCorrect": true },
+          { "text": "「企画部門の電話応対スキルが低すぎる」", "rationale": "企画部門は通常電話応対をしません。", "isCorrect": false },
+          { "text": "「商品の梱包が雑だ」", "rationale": "これは企画に対する不満ではありません。", "isCorrect": false }
+        ],
+        "hint": "「現場の苦労も知らないで、無茶なキャンペーンを打たないでくれ」という声です。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "部門間の「縦割り意識」が強い組織において、マーケティング（企画側）からコールセンターや物流（フルフィルメント側）に対してよく持たれる不満の例はどれか。",
+        "answerOptions": [
+          { "text": "「細かい作業のことにしか関心がなく、新しい企画に非協力的だ」", "rationale": "現場が「今の作業を回すこと」で手一杯になり、新しい挑戦を拒むように見えることへの不満の典型例です。", "isCorrect": true },
+          { "text": "「広告のデザインセンスが古すぎる」", "rationale": "デザインはマーケ側の担当です。", "isCorrect": false },
+          { "text": "「商品の原価計算が間違っている」", "rationale": "フルフィル側の責任ではありません。", "isCorrect": false },
+          { "text": "「次々と新しいアイデアを出してきて対応しきれない」", "rationale": "これは現場から企画への不満です。", "isCorrect": false }
+        ],
+        "hint": "「せっかく面白いキャンペーンを考えたのに、現場が『無理だ』と突っぱねる」という声です。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "アクションチェーン・マネジメントにおいて、各実務の「鎖」をしっかり連携させ、事業の一貫性を構築した結果、顧客に対して何を提供できるとされているか。",
+        "answerOptions": [
+          { "text": "業界最安値の商品", "rationale": "安さが目的ではありません。", "isCorrect": false },
+          { "text": "圧倒的な体験価値", "rationale": "部門が連携してシームレスに動くことで、顧客の期待を超える圧倒的な体験価値を提供できます。", "isCorrect": true },
+          { "text": "一切の遅延のない配送", "rationale": "体験価値の一部ですが、それだけではありません。", "isCorrect": false },
+          { "text": "永遠に壊れない商品", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「買ってよかった！また買いたい！」と思わせる感動のことです。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "顧客が休眠や離脱に至るタイミングは、カスタマー・ジャーニー（サステナブルマップ）においていつ発生する可能性があるか。",
+        "answerOptions": [
+          { "text": "商品を購入する前だけ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "購入後、商品を受け取った直後だけ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "認知から購入、使用開始、使用継続に至るすべてのステップ（接点）", "rationale": "図に示されているように、すべてのステップで「休眠・離脱」に分岐する矢印が描かれています。", "isCorrect": true },
+          { "text": "定期購入を解約した後だけ", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様が「もういいや」と思う瞬間は、旅の途中のどこにでも潜んでいます。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第4章：オペレーション管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第4章「オペレーション管理」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  アクションチェーンや部門間連携の重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

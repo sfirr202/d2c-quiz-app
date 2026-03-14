@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第2章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\n戦略とは「企業や事業の将来のあるべき姿とそこに至るまでの( )のシナリオを描いた設計図」である。",
+        "answerOptions": [
+          { "text": "組織", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "変革", "rationale": "戦略とは、将来のあるべき姿とそこに至るまでの「変革のシナリオ」を描いた設計図です。", "isCorrect": true },
+          { "text": "販売", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "マーケティング", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "現状から理想の姿へと変わるための道筋を意味する言葉です。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "「事業戦略」におけるフォーカスとして、テキストで説明されている適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "単一の業界内における競争優位にフォーカスする。", "rationale": "事業戦略では、単一の業界内における競争優位や、自社のポジショニングなどにフォーカスします。", "isCorrect": true },
+          { "text": "自社が行っている各種事業の全社的な位置づけにフォーカスする。", "rationale": "これは「企業戦略（全社戦略）」のフォーカスです。", "isCorrect": false },
+          { "text": "経営資源の全社的な配分のみにフォーカスする。", "rationale": "これも「企業戦略」の議論の対象です。", "isCorrect": false },
+          { "text": "従業員の福利厚生の向上のみにフォーカスする。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "D2C事業など、特定の事業領域内での勝ち方を考える戦略です。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "「企業戦略（全社戦略）」における議論の構成要素として、不適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "自社が提供する各事業", "rationale": "企業戦略の構成要素です。", "isCorrect": false },
+          { "text": "自社の持つ経営資源", "rationale": "企業戦略の構成要素です。", "isCorrect": false },
+          { "text": "自社の組織構造、システム、意思決定プロセス", "rationale": "企業戦略の構成要素です。", "isCorrect": false },
+          { "text": "競争相手のポジショニングと比較した、自社事業のポジショニング", "rationale": "これは「事業戦略」における議論の対象です。", "isCorrect": true }
+        ],
+        "hint": "業界内での立ち位置を考えるのは「事業戦略」の役割です。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "D2Cにおける「事業戦略」と「顧客戦略」の関係性について、適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "事業戦略と顧客戦略は完全に独立して策定されるべきである。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "D2Cの場合、事業戦略と顧客戦略は親子のように連動する。", "rationale": "D2Cの場合は、事業戦略と顧客戦略が親子のように連動する点が他の業種との違いです。", "isCorrect": true },
+          { "text": "顧客戦略は事業戦略の上位に位置する概念である。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "D2Cにおいて顧客戦略は不要であり、事業戦略のみで完結する。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "D2Cでは、誰に売るか（顧客）とどう事業を伸ばすか（事業）が密接に結びついています。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "戦略を考える際に3CやSWOTなどの「フレームワーク」を活用する意義として、一般的に指摘されるものに該当しないものを一つ選べ。",
+        "answerOptions": [
+          { "text": "議論の方向性を特定する。", "rationale": "フレームワーク活用の意義です。", "isCorrect": false },
+          { "text": "議論における「ヌケ・モレ」を無くす。", "rationale": "フレームワーク活用の意義です。", "isCorrect": false },
+          { "text": "課題の優先順位を共有する。", "rationale": "フレームワーク活用の意義です。", "isCorrect": false },
+          { "text": "会議の参加者数を減らす。", "rationale": "参加者数を減らすことは、フレームワークの直接的な意義としては挙げられていません。", "isCorrect": true }
+        ],
+        "hint": "議論を効率的かつ網羅的に行うための道具です。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "「3C分析」の3つの要素（C）に含まれないものはどれか。",
+        "answerOptions": [
+          { "text": "Customer（市場/顧客）", "rationale": "3Cの要素です。", "isCorrect": false },
+          { "text": "Competitor（競合）", "rationale": "3Cの要素です。", "isCorrect": false },
+          { "text": "Company（自社）", "rationale": "3Cの要素です。", "isCorrect": false },
+          { "text": "Cost（費用）", "rationale": "Costは3C分析の要素には含まれません（4Cなどの要素です）。", "isCorrect": true }
+        ],
+        "hint": "市場、ライバル、そして自分たちの3つを指します。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "3C分析における「競合」の論点として適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "市場が変化した結果、かつての成功パターンが機能しなくなっているのではないか。", "rationale": "これは「市場」に関する論点です。", "isCorrect": false },
+          { "text": "競合他社の対応で参考にすべきものは何か。", "rationale": "これは「自社」に関する論点（自社がどう対応するか）です。", "isCorrect": false },
+          { "text": "競合は市場の変化にどう対応しているか。", "rationale": "これは競合に関する正しい論点です。", "isCorrect": true },
+          { "text": "今後その市場で成功するための要因は何か。", "rationale": "これは「市場」に関する論点です。", "isCorrect": false }
+        ],
+        "hint": "ライバル企業がどのような動きをしているかを問う項目です。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "SWOT分析において、「内部環境」に分類される2つの要素はどれか。",
+        "answerOptions": [
+          { "text": "Strengths（強み）、Opportunities（機会）", "rationale": "Opportunitiesは外部環境です。", "isCorrect": false },
+          { "text": "Strengths（強み）、Weaknesses（弱み）", "rationale": "自社の内部環境は、強み（Strengths）と弱み（Weaknesses）に分類されます。", "isCorrect": true },
+          { "text": "Opportunities（機会）、Threats（脅威）", "rationale": "これらは外部環境です。", "isCorrect": false },
+          { "text": "Weaknesses（弱み）、Threats（脅威）", "rationale": "Threatsは外部環境です。", "isCorrect": false }
+        ],
+        "hint": "自社がコントロールできる、内側の要因です。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "SWOT分析において、「外部環境」に分類される2つの要素はどれか。",
+        "answerOptions": [
+          { "text": "Strengths（強み）、Weaknesses（弱み）", "rationale": "これらは内部環境です。", "isCorrect": false },
+          { "text": "Opportunities（機会）、Threats（脅威）", "rationale": "外部環境は、機会（Opportunities）と脅威（Threats）に分類されます。", "isCorrect": true },
+          { "text": "Strengths（強み）、Threats（脅威）", "rationale": "内部と外部が混ざっています。", "isCorrect": false },
+          { "text": "Weaknesses（弱み）、Opportunities（機会）", "rationale": "内部と外部が混ざっています。", "isCorrect": false }
+        ],
+        "hint": "市場や社会情勢など、自社で直接コントロールできない外側の要因です。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "現状分析における「自社の強み」に関する記述で、テキストの文脈に照らして不適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "過去に成功体験を持つ企業ほど、ひたすら自社の強みを磨く議論になりがちである。", "rationale": "適切な指摘です。", "isCorrect": false },
+          { "text": "市場の変化や競合の進歩を無視して強みを磨き続けることは、変革を阻害する要因になり得る。", "rationale": "適切な指摘です。", "isCorrect": false },
+          { "text": "市場の前提が変われば、かつての強みが強みでなくなる可能性がある。", "rationale": "適切な指摘です。", "isCorrect": false },
+          { "text": "自社の強みをひたすら磨くことは、いかなる市場環境の変化においても無条件に正しい。", "rationale": "市場環境や競合の変化を無視して強みだけを磨くことは危険であるとテキストで指摘されています。", "isCorrect": true }
+        ],
+        "hint": "環境が変われば、武器も武器ではなくなる可能性があります。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\n3CやSWOTは、戦略が( )で組み立てられていないかチェックするという自己批判的な観点から使用すれば、非常に有用なツールである。",
+        "answerOptions": [
+          { "text": "売上目標のみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "自社の都合の良い願望", "rationale": "客観的な分析枠組みを使うことで、自社の都合の良い願望で戦略が作られるのを防ぐ効果があります。", "isCorrect": true },
+          { "text": "短期的な視点", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一部の関係者のみ", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「こうあってほしい」という思い込みを排除するために使います。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\n顧客戦略には、「自社顧客の特性理解」とそれに基づく「( )の方針」の2つの要素がある。",
+        "answerOptions": [
+          { "text": "マーケティング", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品開発", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "セグメンテーション", "rationale": "顧客戦略は「自社顧客の特性理解」と「セグメンテーションの方針」の2つから成り立ちます。", "isCorrect": true },
+          { "text": "チャネル", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客を分類して、どの層をターゲットにするかを決めることです。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "顧客の特性理解のアプローチのうち、「年齢、性別、家族構成、学歴、所得」などを指す変数はどれか。",
+        "answerOptions": [
+          { "text": "地理的（ジオグラフィック）変数", "rationale": "都市か地方かなどの地域特性を指します。", "isCorrect": false },
+          { "text": "人口統計的（デモグラフィック）変数", "rationale": "年齢や性別などの客観的な属性情報を指します。", "isCorrect": true },
+          { "text": "心理的（サイコグラフィック）変数", "rationale": "ライフスタイルや価値観を指します。", "isCorrect": false },
+          { "text": "行動変数", "rationale": "購買履歴や利用頻度を指します。", "isCorrect": false }
+        ],
+        "hint": "国勢調査などで収集されるような、客観的な人口データに基づく分類です。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "顧客の特性理解のアプローチのうち、「ライフスタイル、パーソナリティ、価値観」などを指す変数はどれか。",
+        "answerOptions": [
+          { "text": "地理的（ジオグラフィック）変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "人口統計的（デモグラフィック）変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "心理的（サイコグラフィック）変数", "rationale": "個人の内面やライフスタイルに関する属性です。", "isCorrect": true },
+          { "text": "行動変数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "心の動きや生活様式に関するデータです。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "顧客の特性理解のアプローチのうち、「過去の購買歴、利用頻度、購買パターン」などを指す変数はどれか。",
+        "answerOptions": [
+          { "text": "地理的（ジオグラフィック）変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "人口統計的（デモグラフィック）変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "心理的（サイコグラフィック）変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "行動変数", "rationale": "顧客が実際にどのように購買したかという実績データです。", "isCorrect": true }
+        ],
+        "hint": "ダイレクトマーケティングで最も重要視される、実際の「動き」のデータです。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "一般的なマスマーケティングのペルソナ設定において、偏りがちだと指摘されているデータの組み合わせはどれか。",
+        "answerOptions": [
+          { "text": "心理的変数と行動変数", "rationale": "マスマーケティングではこれらを取得するのが困難です。", "isCorrect": false },
+          { "text": "地理的変数と人口統計的変数", "rationale": "マスマーケティングでは、特定しやすいためこの2つ（ジオグラフィックとデモグラフィック）に情報が偏りがちだと指摘されています。", "isCorrect": true },
+          { "text": "人口統計的変数と行動変数", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "地理的変数と心理的変数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「装飾したデモグラフィック＆ジオグラフィック」と揶揄される理由です。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\n「顧客資産価値（CE：カスタマー・エクイティ）」とは、自社が保有する全顧客の( )を総合計したものである。",
+        "answerOptions": [
+          { "text": "年間購入金額", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "RFMスコア", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "LTV（生涯価値）", "rationale": "顧客資産価値は、全顧客のLTVの合計として定義されます。", "isCorrect": true },
+          { "text": "顧客獲得コスト", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客一人ひとりが一生涯にもたらす利益のことです。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "顧客ポートフォリオの考え方について、不適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "各顧客セグメントがどのくらいの構成比になるか方針を立てるものである。", "rationale": "適切な記述です。", "isCorrect": false },
+          { "text": "金融資産のポートフォリオ運用と考え方は似ている。", "rationale": "適切な記述です。", "isCorrect": false },
+          { "text": "特性の違う各セグメントに対して、すべて均一の価値や体験を提供する。", "rationale": "セグメントごとに特性が違うため、それぞれ好む価値や体験の方針を立て、別々にPDCAを回す必要があります。", "isCorrect": true },
+          { "text": "自社にとってもっとも大切にしたい顧客とはどのような顧客かを明確にする作業でもある。", "rationale": "適切な記述です。", "isCorrect": false }
+        ],
+        "hint": "顧客の特性が違えば、最適なアプローチも異なります。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "戦略のPDCAの「PLAN」に含まれる取り組み項目として、不適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "経営ビジョン提示", "rationale": "PLANの項目です。", "isCorrect": false },
+          { "text": "KGI・KPIの設定", "rationale": "PLANの項目です。", "isCorrect": false },
+          { "text": "顧客セグメンテーション方針の決定", "rationale": "PLANの項目です。", "isCorrect": false },
+          { "text": "KPIモニタリング", "rationale": "KPIモニタリングは、設定した指標を確認する「CHECK」の項目です。", "isCorrect": true }
+        ],
+        "hint": "「計画」の段階ではなく「確認」の段階で行うものです。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "戦略のPDCAの「DO」に含まれる取り組み項目として、適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "キャンペーン/プロモーションの実施", "rationale": "「実施」はDOの項目です。", "isCorrect": true },
+          { "text": "収支計画の策定", "rationale": "これはPLANの項目です。", "isCorrect": false },
+          { "text": "顧客の声の収集分析", "rationale": "これはCHECKの項目です。", "isCorrect": false },
+          { "text": "情報システム再投資の決断", "rationale": "これはACTの項目です。", "isCorrect": false }
+        ],
+        "hint": "実際に「実行」するフェーズに該当する項目です。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "戦略のPDCAの「CHECK」に含まれる取り組み項目として、適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "コミュニケーション設計", "rationale": "これはPLANの項目です。", "isCorrect": false },
+          { "text": "従業員満足度の評価", "rationale": "従業員満足度の評価や顧客アンケートの集計などは、結果を確認するCHECKの項目です。", "isCorrect": true },
+          { "text": "媒体管理・媒体連動", "rationale": "これはDOの項目です。", "isCorrect": false },
+          { "text": "組織再編", "rationale": "これはACTの項目です。", "isCorrect": false }
+        ],
+        "hint": "結果を「評価・分析」するフェーズです。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "戦略のPDCAの「ACT」に含まれる取り組み項目として、適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "教育計画の策定", "rationale": "これはPLANの項目です。", "isCorrect": false },
+          { "text": "チャネル統合の実施", "rationale": "これはDOの項目です。", "isCorrect": false },
+          { "text": "市場や競合の変化に対する対応策の検討と実施", "rationale": "評価結果を受けて次の打ち手を検討・実施するACTの項目です。", "isCorrect": true },
+          { "text": "顧客アンケートの集計", "rationale": "これはCHECKの項目です。", "isCorrect": false }
+        ],
+        "hint": "評価を踏まえて「改善・見直し」を行うフェーズです。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "D2Cにおける「教育計画」の立案に関する記述として、最も適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "人事などの担当部署に完全に任せきりにすべきである。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "教育はコストであるため、可能な限り削減すべきである。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "各部門のマネジャーが人的リソースの課題認識をオープンにし、積極的に関与することが望ましい。", "rationale": "PDCAを回す強みを組織的に活用するため、マネジャーが教育計画に積極的に関与することが推奨されています。", "isCorrect": true },
+          { "text": "中途採用のみで人員を確保するため、社内教育は不要である。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "現場の課題を最も知っているのは誰でしょうか。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "「KPIピラミッド」の最上位（頂点）に位置する要素はどれか。",
+        "answerOptions": [
+          { "text": "戦略", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "目標（KGI）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ビジョン", "rationale": "KPIピラミッドの頂点にあるのは、我々は将来どうなっていたいかを示す「ビジョン」です。", "isCorrect": true },
+          { "text": "行動計画", "rationale": "最下層に位置します。", "isCorrect": false }
+        ],
+        "hint": "「我々は将来どうなっていたいか」を示すものです。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "KPIピラミッドにおいて、戦略の下に位置し「我々は前進するために何を完遂すべきか？」を示す「KGI」の正式名称（日本語訳）はどれか。",
+        "answerOptions": [
+          { "text": "重要業績指標", "rationale": "これはKPIのことです。", "isCorrect": false },
+          { "text": "重要目標達成指標", "rationale": "KGIはKey Goal Indicatorの略で、重要目標達成指標と呼ばれます。", "isCorrect": true },
+          { "text": "主要成功要因", "rationale": "これはCSF（またはKSF）のことです。", "isCorrect": false },
+          { "text": "行動計画", "rationale": "これはアクションプランです。", "isCorrect": false }
+        ],
+        "hint": "Goal（ゴール）を達成したかを示す指標です。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "KPI設定に関する記述として、不適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "KPIとは売り上げや利益を生み出すための単なるノルマを示す指標である。", "rationale": "KPIは単なるノルマではなく、事業計画を達成するための「プロセス管理」の指標です。", "isCorrect": true },
+          { "text": "KPIはマネジャーにとって、事業計画と部下の担当業務との関係を明確にする意義を持つ。", "rationale": "適切な記述です。", "isCorrect": false },
+          { "text": "マネジャーの本来的な役割は、事業計画を確実に達成するためのプロセス管理である。", "rationale": "適切な記述です。", "isCorrect": false },
+          { "text": "KPIは組織のPDCAサイクルを継続的に回し続けるための重要な役割を担う。", "rationale": "適切な記述です。", "isCorrect": false }
+        ],
+        "hint": "KPIは結果を押し付けるものではなく、過程（プロセス）を管理するものです。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "「KPIツリー」を作成する効用として、テキストで言及されている適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "個人の目標が組織全体の目標とどう関連しているかを各メンバーが理解しやすくなる。", "rationale": "KPIツリーにより、上位目標と下位目標の関連性が明確になり、プロセス管理が機能しやすくなります。", "isCorrect": true },
+          { "text": "財務諸表の作成が自動化される。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社のKPIを正確に推測できるようになる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "従業員の給与計算に直結する。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "それぞれの目標がどのように繋がっているかを「見える化」する効果です。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "KPIツリーの活用方法の一つとして、上位のKPIが悪化した際に下位のKPIのどれが原因かを探る手法を何と呼ぶか。",
+        "answerOptions": [
+          { "text": "SWOT分析", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "要因分析", "rationale": "どこで水漏れが起きているのかを探るため、下位KPIをたどって原因を特定することを要因分析と呼びます。", "isCorrect": true },
+          { "text": "3C分析", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "LTV分析", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "悪化した「原因（理由）」を分解して探る分析です。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "顧客満足と従業員満足の関係について、昨今のブランディングやCRMの組織論で指摘されている内容として適切なものを一つ選べ。",
+        "answerOptions": [
+          { "text": "顧客満足を高めれば、自動的に従業員満足も高まる。", "rationale": "不適切です。因果関係が逆とされています。", "isCorrect": false },
+          { "text": "従業員満足は顧客満足に一切影響を与えない。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客満足を高めるためには、まず前提として従業員満足を高める必要がある。", "rationale": "顧客満足の前提として、まず従業員満足を高める必要があるとテキスト（CHECKの項目）で指摘されています。", "isCorrect": true },
+          { "text": "顧客満足と従業員満足はトレードオフの関係にある。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "働く人が満足していないと、良いサービスは提供できないという考え方です。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\nD2Cの事業計画で掲げた戦略目標を達成するためには、( )の観点からも計画を立案し、目標化することが重要である。",
+        "answerOptions": [
+          { "text": "競合排除", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客収益", "rationale": "事業戦略の目標（売上等）を達成するために、どのセグメントの顧客からどれだけの収益を上げるかという「顧客収益の観点」からの計画が求められます。", "isCorrect": true },
+          { "text": "人員削減", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "在庫圧縮", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "D2Cの顧客戦略における重要な指標です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "事業戦略において、将来のあるべき姿を実現するための「変革シナリオ」を組織内メンバーと共有するために作成されるものは何か。",
+        "answerOptions": [
+          { "text": "コンティンジェンシープラン", "rationale": "これは緊急時の対応計画です。", "isCorrect": false },
+          { "text": "事業計画（設計図）", "rationale": "ミドル・マネジメント層は変革シナリオを策定し、それを「事業計画という設計図」にして組織内で共有します。", "isCorrect": true },
+          { "text": "カスタマージャーニーマップ", "rationale": "これは顧客体験を可視化するツールです。", "isCorrect": false },
+          { "text": "クレーム対応マニュアル", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "シナリオを具体的なアクションに落とし込んだ「設計図」です。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "「企業戦略」において議論される項目として、テキストで言及されているものはどれか。",
+        "answerOptions": [
+          { "text": "競合相手のポジショニングと比較した自社のポジショニング", "rationale": "これは事業戦略の議論項目です。", "isCorrect": false },
+          { "text": "自社の全ての活動や投資の内部調整", "rationale": "これは事業戦略の議論項目です。", "isCorrect": false },
+          { "text": "単一の業界内における競争優位", "rationale": "これは事業戦略の議論項目です。", "isCorrect": false },
+          { "text": "自社の組織構造、システム、意思決定プロセス", "rationale": "企業戦略（全社戦略）における議論の対象は、各事業の全社的な位置づけや経営資源の配分、そして「自社の組織構造、システム、意思決定プロセス」などです。", "isCorrect": true }
+        ],
+        "hint": "個別の事業単位ではなく、会社全体をどう動かすかという議論です。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "テキストで紹介されている、とあるカメラメーカーのSWOT分析において、「Threats（脅威）」として挙げられていたものは何か。",
+        "answerOptions": [
+          { "text": "海外の安価なデジタルカメラの流入", "rationale": "テキストの事例とは異なります。", "isCorrect": false },
+          { "text": "高性能カメラ付き携帯電話（スマホ）とSNSの統合による写真共有の容易化", "rationale": "テキストで、この脅威が現実化し、デジタルカメラ市場が大きく縮小した事例が紹介されています。", "isCorrect": true },
+          { "text": "フィルムの原材料価格の高騰", "rationale": "テキストの事例とは異なります。", "isCorrect": false },
+          { "text": "自社の技術開発力の低下", "rationale": "これは「弱み（Weaknesses）」に分類されます。", "isCorrect": false }
+        ],
+        "hint": "カメラという単一デバイスの存在意義を揺るがした、2つのテクノロジーの組み合わせです。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "一般的なマスマーケティングのペルソナ設定が、情報の偏りから揶揄される際に使われる表現は「装飾した( )＆ジオグラフィック」である。( )に入る語句はどれか。",
+        "answerOptions": [
+          { "text": "サイコグラフィック", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "デモグラフィック", "rationale": "マスマーケティングのペルソナは、行動データなどが不足しがちなため「装飾したデモグラフィック＆ジオグラフィック」と揶揄されることがあります。", "isCorrect": true },
+          { "text": "テクノグラフィック", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ビヘイビアル（行動）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "年齢や性別などの「人口統計的」な情報を指す言葉です。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "D2C企業が中間流通を介さずに顧客と直接取引しているからこそ、マスマーケティングに比べて分析に取り入れやすい変数はどれか。",
+        "answerOptions": [
+          { "text": "地理的変数", "rationale": "マスマーケティングでも比較的取得しやすい情報です。", "isCorrect": false },
+          { "text": "人口統計的変数", "rationale": "マスマーケティングでも比較的取得しやすい情報です。", "isCorrect": false },
+          { "text": "行動変数", "rationale": "直接取引しているため、顧客の「過去の購買歴、利用頻度、購買パターン」などの行動変数を容易に取得・分析できます。", "isCorrect": true },
+          { "text": "マクロ経済変数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「実際に何を買ったか、どう使ったか」という履歴データです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "各顧客のLTV（生涯価値）を自動計算し、「LTV経営」と呼ばれる手法が可能になった背景としてテキストで言及されているインフラの進化は何か。",
+        "answerOptions": [
+          { "text": "自動配送ロボットとドローンの普及", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "基幹系システムと連動したCRMシステムやBIシステムの進化", "rationale": "これらの情報インフラの進化により、マーケティングコストや原価を差し引いたLTVの自動計算が可能になりました。", "isCorrect": true },
+          { "text": "ブロックチェーンによる決済システムの導入", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "5G通信による動画配信の高速化", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "顧客データやビジネスの数値を管理・分析するITシステムのことです。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "LTV経営におけるマネジメントの「最終目標」として位置づけられているものはどれか。",
+        "answerOptions": [
+          { "text": "顧客資産価値（CE）の最大化", "rationale": "LTV経営におけるマネジメントの最終目標は、全保有顧客のLTV総合計である「顧客資産価値」の最大化です。", "isCorrect": true },
+          { "text": "新規顧客獲得単価（CPA）の最小化", "rationale": "CPAの最小化は重要ですが、最終目標ではありません。", "isCorrect": false },
+          { "text": "短期的な売上の最大化", "rationale": "LTV経営は長期的な利益を重視します。", "isCorrect": false },
+          { "text": "全商品の原価率の均一化", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "自社の顧客リスト全体の「価値」を最も大きくすることです。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "金融資産の「ポートフォリオマネジメント」の考え方を、顧客管理に応用する目的は何か。",
+        "answerOptions": [
+          { "text": "全顧客に全く同じ画一的なサービスを提供するため。", "rationale": "ポートフォリオの考え方とは対極にあります。", "isCorrect": false },
+          { "text": "リスクを避けながらリターン（顧客資産価値）を最大化する最適な組み合わせを追求するため。", "rationale": "多様な特性を持つ顧客セグメントを適切に組み合わせることで、事業全体のリスクを分散し、収益を最大化する狙いがあります。", "isCorrect": true },
+          { "text": "利益の低い顧客を一方的に切り捨てるため。", "rationale": "育成の観点が欠けているため不適切です。", "isCorrect": false },
+          { "text": "顧客の個人情報を他社に販売するため。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「卵は一つのカゴに盛るな」という投資の格言と同じ発想です。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "テキスト（P.35）の顧客ポートフォリオのセグメント例において、「セグメントA」の特徴として記述されているものはどれか。",
+        "answerOptions": [
+          { "text": "コールセンター経由のコミュニケーションを好み、購買単価が高い。", "rationale": "これはセグメントBの特徴として例示されています。", "isCorrect": false },
+          { "text": "スマホで全てのコミュニケーションを完結させる。", "rationale": "これはセグメントDの特徴として例示されています。", "isCorrect": false },
+          { "text": "数年前に立ち上げた直営店舗チャネルのみを利用し、購買単価が低い。", "rationale": "これはセグメントCの特徴として例示されています。", "isCorrect": false },
+          { "text": "複数のチャネルを利用し、購入商品ジャンルも幅広く、LTV予測が最も高い。", "rationale": "セグメントAは最大人数のセグメントで、この特徴を持つと例示されています。", "isCorrect": true }
+        ],
+        "hint": "最もLTVが高く、会社にとって大黒柱となるような理想的な顧客層です。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "テキスト（P.35）の顧客ポートフォリオのセグメント例において、LTV予測が「最も低い」とされた「セグメントC」の特徴はどれか。",
+        "answerOptions": [
+          { "text": "複数のチャネルを併用する。", "rationale": "複数チャネル利用は一般にLTVが高くなる傾向（セグメントAなど）があります。", "isCorrect": false },
+          { "text": "コールセンター経由で高額商品を購入する。", "rationale": "これはセグメントBの特徴です。", "isCorrect": false },
+          { "text": "直営店舗チャネルのみを利用し、購買単価が低い。", "rationale": "セグメントCは店舗のみの利用で単価が低く、LTV予測が最低と例示されています。", "isCorrect": true },
+          { "text": "スマホで完結し、近年急激に人数が増えている。", "rationale": "これはセグメントDの特徴です。", "isCorrect": false }
+        ],
+        "hint": "特定の単一チャネル（オフライン）のみを利用する顧客層の例です。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "戦略のPDCAの「PLAN」におけるチャネル設計について、各チャネルを顧客に提供する際の重要な考え方はどれか。",
+        "answerOptions": [
+          { "text": "すべてのチャネルで全く同じコンテンツを配信する。", "rationale": "各チャネルの特性を活かしていないため不適切です。", "isCorrect": false },
+          { "text": "コミュニケーション設計に基づき、各チャネルの特性を活かし、相互補完的に提供する。", "rationale": "WEB、カタログ、コールセンターなどを相互補完的に組み合わせることが重要です。", "isCorrect": true },
+          { "text": "コスト削減のため、最も安価なチャネル一つに絞り込む。", "rationale": "D2Cのマルチチャネル展開の強みを活かせていません。", "isCorrect": false },
+          { "text": "各チャネルの責任者に完全に任せ、全社的な設計は行わない。", "rationale": "サイロ化（縦割り）を招くため不適切です。", "isCorrect": false }
+        ],
+        "hint": "それぞれのチャネルの「得意なこと」を組み合わせて相乗効果を狙います。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "戦略のPDCA「PLAN」における「情報システム基盤投資計画」について、その投資の正当性を証明するためには何と関連付けるべきとされているか。",
+        "answerOptions": [
+          { "text": "競合他社のシステム予算", "rationale": "自社の戦略とは無関係です。", "isCorrect": false },
+          { "text": "過去の売上高", "rationale": "過去の数字だけでは将来の投資の正当性は証明できません。", "isCorrect": false },
+          { "text": "KPI評価", "rationale": "システム投資もKPI評価と関連付けることで、その投資がどのような成果（プロセス改善）をもたらすか正当性を証明できます。", "isCorrect": true },
+          { "text": "従業員の勤続年数", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「このシステムを入れると、この指標がこれだけ良くなる」と説明できる指標です。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "D2Cの強みである「常に仮説検証（PDCA）のサイクルを精密に回すこと」を組織的に活用するために、不可欠とされているものは何か。",
+        "answerOptions": [
+          { "text": "計画的かつ日常的な教育・訓練の実施", "rationale": "このサイクルを回すためには、人材の育成（教育計画）が必要不可欠であると指摘されています。", "isCorrect": true },
+          { "text": "外部コンサルタントへの全面的な業務委託", "rationale": "組織としてのノウハウ蓄積になりません。", "isCorrect": false },
+          { "text": "最先端のAIツールの無条件な導入", "rationale": "ツールを入れるだけでは組織的な活用にはなりません。", "isCorrect": false },
+          { "text": "全ての業務マニュアルの廃止", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "仕組みを動かす「人」を育てるための取り組みです。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "戦略のPDCA「DO」に挙げられている「アクションチェーン・マネジメント」とは、何を起点にした一連のモノとお金の流れの全体最適化を指すか。",
+        "answerOptions": [
+          { "text": "競合他社の新商品発売", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客からのクレーム", "rationale": "クレーム対応は重要ですが、事業プロセス全体の起点ではありません。", "isCorrect": false },
+          { "text": "企画部門のアクション", "rationale": "企画部門のアクション（計画）を起点に、関係部署間で情報共有・連携する取り組みです。", "isCorrect": true },
+          { "text": "物流センターの在庫過多", "rationale": "これはサプライチェーンの課題の一部です。", "isCorrect": false }
+        ],
+        "hint": "「いつから、どうやって売るか」という最初の『計画』のことです。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "戦略のPDCA「DO」における「チャネル統合」について、システム面でのデータ統合と同等に重要な、マネジメント側の側面は何か。",
+        "answerOptions": [
+          { "text": "全チャネルの売上目標を同一に設定すること。", "rationale": "チャネルごとに役割が違うため不適切です。", "isCorrect": false },
+          { "text": "各チャネルの責任者を一人に統合すること。", "rationale": "物理的な統合だけでは解決しません。", "isCorrect": false },
+          { "text": "チャネル/組織の壁を越えた、顧客への価値提供の意識共有。", "rationale": "システム面の統合だけでなく、組織の壁を越えた「意識の共有」がマネジメント上非常に重要だと指摘されています。", "isCorrect": true },
+          { "text": "不採算チャネルの即時閉鎖。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「自分の部署の売上だけ」を考えるのではなく、会社全体で顧客を見るマインドです。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "戦略のPDCA「CHECK」において、コールセンターなどに蓄積される「顧客の声」などの定性情報は、どのように扱うべきとされているか。",
+        "answerOptions": [
+          { "text": "そのまま担当者の記憶に留めておく。", "rationale": "組織の資産になりません。", "isCorrect": false },
+          { "text": "クレームのみを抽出し、他は破棄する。", "rationale": "有益な意見や要望を逃してしまいます。", "isCorrect": false },
+          { "text": "項目ごとに分類して定量評価できるような仕組みを作って継続的に評価する。", "rationale": "定性情報も分類して定量評価できるようにし、KPI等と合わせて継続評価する仕組みが重要です。", "isCorrect": true },
+          { "text": "外部のSNSに公開して一般の意見を求める。", "rationale": "不適切かつコンプライアンス違反の可能性があります。", "isCorrect": false }
+        ],
+        "hint": "言葉で表現された情報を、分析しやすい「数字」や「傾向」に落とし込む作業です。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "戦略のPDCA「CHECK」で得られた各種顧客アンケートの集計結果は、どのように管理・活用すべきとされているか。",
+        "answerOptions": [
+          { "text": "個別のExcelファイルで担当者のみが保管する。", "rationale": "情報のサイロ化を招きます。", "isCorrect": false },
+          { "text": "購買歴などとともに顧客に紐づけ、データベース上で保管する。", "rationale": "アンケート結果は重要なセグメンテーション情報となるため、顧客のID（購買歴など）に紐付けてデータベースで保管すべきです。", "isCorrect": true },
+          { "text": "集計が終わった紙の原本は直ちに焼却する。", "rationale": "データベース化の言及が欠けています。", "isCorrect": false },
+          { "text": "商品開発部門のみに共有し、マーケティング部門には共有しない。", "rationale": "全社的な活用ができません。", "isCorrect": false }
+        ],
+        "hint": "「誰が」そのアンケートに答えたかが分かる状態にしておくことが重要です。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "戦略のPDCA「ACT」のプロセスに含まれる「市場変化への対応」「組織再編」などの項目は、組織内でどのような役割分担で行われることが多いか。",
+        "answerOptions": [
+          { "text": "新入社員が発案し、現場のリーダーが決裁する。", "rationale": "権限が合っていません。", "isCorrect": false },
+          { "text": "外部のコンサルタントが全て決定し、社員はそれに従う。", "rationale": "自律的な組織運営ではありません。", "isCorrect": false },
+          { "text": "ミドル・マネジメントが立案し、トップが決断する。", "rationale": "ACTの領域は組織の持続的成長のキーであり、ミドル層が立案しトップが決断するタイプの意思決定事案が多いとされています。", "isCorrect": true },
+          { "text": "株主総会でのみ議論され決定される。", "rationale": "日常的なマネジメントサイクルとしては遅すぎます。", "isCorrect": false }
+        ],
+        "hint": "現場を統括する層がプランを練り、経営層がGOサインを出す形です。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "テキスト（P.18）の「D2Cにおける各マネジメント領域の相互関係図」において、「自社が提供する価値（商品・サービス）」と「自社が受け取る価値（新規顧客獲得・顧客維持）」を結ぶプロセスにおいて、顧客ごとに評価される指標は何か。",
+        "answerOptions": [
+          { "text": "CPO（新規獲得単価）", "rationale": "図の該当箇所には記載されていません。", "isCorrect": false },
+          { "text": "従業員満足度", "rationale": "これは業績評価（成果）の項目です。", "isCorrect": false },
+          { "text": "顧客セグメント別生涯価値", "rationale": "図の中央部において、提供価値と受け取る価値の循環の中で「顧客セグメント別生涯価値」が評価・蓄積される構図になっています。", "isCorrect": true },
+          { "text": "株価総額", "rationale": "図の該当箇所には記載されていません。", "isCorrect": false }
+        ],
+        "hint": "各セグメントの顧客が一生涯にもたらす利益の大きさです。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "ビジネスプロセスを「パイプライン」や「水道管」に例え、上位のKPIが悪化した際に、下位のKPIをたどって「どこで水漏れが起きているのか」を探ることを何と呼ぶか。",
+        "answerOptions": [
+          { "text": "要因分析", "rationale": "KPIツリーを用いて、悪化の根本的な原因（水漏れの箇所）を下位の指標から探ることを要因分析と呼びます。", "isCorrect": true },
+          { "text": "相関分析", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "重回帰分析", "rationale": "統計手法の名称であり、ここでの文脈とは異なります。", "isCorrect": false },
+          { "text": "クラスター分析", "rationale": "これは顧客をグループ分けする際などに使われる手法です。", "isCorrect": false }
+        ],
+        "hint": "結果を引き起こした「原因」を特定するための分析です。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第2章：戦略の策定 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第2章「戦略の策定」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  細かい知識の定着と確認に最適です。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

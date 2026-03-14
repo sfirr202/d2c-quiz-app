@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第1章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第1章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "D2Cという言葉の定義の変遷において、「初期のD2C」に含まれていなかったものはどれか。",
+        "answerOptions": [
+          { "text": "デジタル・ネイティブな起業形態", "rationale": "初期のD2Cの代表的な形態です。", "isCorrect": false },
+          { "text": "既存の通販（カタログ）", "rationale": "初期のD2Cは、既存の通販とは全く違うものとしてアピールされており、定義に含まれていませんでした。", "isCorrect": true },
+          { "text": "テック系スタートアップ", "rationale": "初期のD2Cの特徴として強調されていました。", "isCorrect": false },
+          { "text": "ブランドの世界観の強調", "rationale": "初期のD2Cが強く押し出していた特徴です。", "isCorrect": false }
+        ],
+        "hint": "当時は「新しいビジネスモデル」として、従来のやり方と明確に区別されていました。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "D2Cという言葉の範囲が「拡張」された時期において、新たにD2Cを自称するようになったプレーヤーとして不適切なものはどれか。",
+        "answerOptions": [
+          { "text": "既存ネット通販", "rationale": "拡張期にはD2Cを自称するようになりました。", "isCorrect": false },
+          { "text": "メーカー系通販（EC）", "rationale": "DXの流れとともに、直販サイトを立ち上げてD2Cを名乗るようになりました。", "isCorrect": false },
+          { "text": "通販支援会社", "rationale": "ソリューションを提供する支援会社も、自らの事業をD2C領域と定義するようになりました。", "isCorrect": false },
+          { "text": "中間流通を前提とした卸売業者", "rationale": "D2CはDirect to Consumerであり、中間流通を介する卸売業者は定義に含まれません。", "isCorrect": true }
+        ],
+        "hint": "D2C（Direct to Consumer）の「Direct（直接）」に反する業態です。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "「現在のD2C（新型コロナ収束以降）」の定義として、テキストで説明されているものはどれか。",
+        "answerOptions": [
+          { "text": "消費者向けダイレクトマーケティングモデル全般", "rationale": "現在のD2Cはチャネルを問わず、企業と消費者が直接繋がるダイレクトマーケティング全般を指す一般用語として定着しています。", "isCorrect": true },
+          { "text": "自社オンラインストアのみでの起業", "rationale": "これは初期〜拡張期の一部に見られた形態です。", "isCorrect": false },
+          { "text": "B2B（企業間取引）に特化したビジネスモデル", "rationale": "D2Cは消費者向け（to Consumer）です。", "isCorrect": false },
+          { "text": "海外市場への販売のみを行う越境EC", "rationale": "市場を限定するものではありません。", "isCorrect": false }
+        ],
+        "hint": "販売チャネル（カタログ、オンライン、店舗）の枠を超えた、より広い意味を持っています。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "初期のD2Cが既存の通販との違いとしてアピールしていた特徴として、不適切なものはどれか。",
+        "answerOptions": [
+          { "text": "デジタルネイティブなテック系スタートアップ", "rationale": "適切な特徴です。", "isCorrect": false },
+          { "text": "圧倒的な価格の安さでの大量販売", "rationale": "初期のD2Cは「量的拡大よりもコアなファン獲得を目指す」ものであり、価格の安さや大量販売を主眼としていませんでした。", "isCorrect": true },
+          { "text": "ブランドの世界観、価値観を強調する", "rationale": "適切な特徴です。", "isCorrect": false },
+          { "text": "量的拡大よりもコアなファン獲得を目指す", "rationale": "適切な特徴です。", "isCorrect": false }
+        ],
+        "hint": "薄利多売（安く大量に売る）のモデルとは対極にありました。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "テキストに引用されている博報堂DYメディアパートナーズの「メディア定点調査」において、携帯/スマホの接触時間構成比が「テレビ」を上回ったのはいつか。",
+        "answerOptions": [
+          { "text": "2010年", "rationale": "まだテレビが優位でした。", "isCorrect": false },
+          { "text": "2014年", "rationale": "2014年はパソコンを上回った年です。", "isCorrect": false },
+          { "text": "2018年", "rationale": "まだテレビがわずかに上回っていました。", "isCorrect": false },
+          { "text": "2022年", "rationale": "グラフのデータによると、2022年に携帯/スマホ（33.0%）がテレビ（32.2%）を上回りました。", "isCorrect": true }
+        ],
+        "hint": "比較的最近の出来事です。コロナ禍に入ってからの年です。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "テキストに引用されている博報堂DYメディアパートナーズの「メディア定点調査」において、携帯/スマホの接触時間構成比が「パソコン」を上回ったのはいつか。",
+        "answerOptions": [
+          { "text": "2010年", "rationale": "まだパソコンが優位でした。", "isCorrect": false },
+          { "text": "2012年", "rationale": "まだパソコンと均衡または少し下でした。", "isCorrect": false },
+          { "text": "2014年", "rationale": "2014年に携帯/スマホ（19.2%）がパソコン（17.9%）を上回りました。", "isCorrect": true },
+          { "text": "2022年", "rationale": "2022年はテレビを上回った年です。", "isCorrect": false }
+        ],
+        "hint": "スマホの普及が本格化し、初期のD2Cが成長し始めた時期と重なります。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "2007年のiPhone登場以降、スマホはその携帯性や常時接続性から、どのツールと非常に相性が良く、企業と消費者の直接的なつながりを発展させたか。",
+        "answerOptions": [
+          { "text": "テレビCM", "rationale": "スマホとの直接的な双方向の相性とは異なります。", "isCorrect": false },
+          { "text": "SNS", "rationale": "スマホの携帯性や常時接続性はSNSと非常に相性が良く、ダイレクトコミュニケーションの発展を支えました。", "isCorrect": true },
+          { "text": "ダイレクトメール（DM）", "rationale": "DMは紙媒体のアナログツールです。", "isCorrect": false },
+          { "text": "テレマーケティング", "rationale": "電話機としての機能だけでなく、アプリと常時接続性が重要でした。", "isCorrect": false }
+        ],
+        "hint": "個人がいつでもどこでも発信・閲覧できるデジタルの交流プラットフォームです。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "D2Cブランドにおいて「ブランドの世界観」が強調されるようになった社会的背景として、適切なものはどれか。",
+        "answerOptions": [
+          { "text": "流行のファッションに皆が一斉に身を包む「均質性」が高まったため", "rationale": "逆です。均質性は失われました。", "isCorrect": false },
+          { "text": "マス広告の信頼性が過去最高になったため", "rationale": "テキストにそのような記述はありません。", "isCorrect": false },
+          { "text": "社会の成熟化や価値観の多様化によって、かつての「同一性」「均質性」が失われてきたため", "rationale": "多様化によって皆が同じものを求める時代が終わり、ブランド独自の世界観（Only One）が求められるようになりました。", "isCorrect": true },
+          { "text": "すべての商品がコモディティ化し、価格競争しか差別化要因がなくなったため", "rationale": "価格競争を避けるための世界観構築でもありますが、文脈としては価値観の多様化が直接の背景です。", "isCorrect": false }
+        ],
+        "hint": "消費者が「みんなと同じもの」よりも「自分に合うもの」を選ぶようになった時代背景です。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "テキストにおいて、D2Cの一般化（拡張期）に大きな役割を果たしたとされる2つの要素は何か。",
+        "answerOptions": [
+          { "text": "マスメディアの復権 と 法律の緩和", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "DX（デジタル・トランスフォーメーション） と 新型コロナ", "rationale": "DXによるデジタル化の推進と、新型コロナによる非対面・非接触への移行がD2Cの一般化を加速させました。", "isCorrect": true },
+          { "text": "AI技術の発展 と インバウンド需要", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "物流コストの低下 と キャッシュレス決済", "rationale": "重要な要素ではありますが、テキストで明言されている2大要素はDXと新型コロナです。", "isCorrect": false }
+        ],
+        "hint": "企業のデジタル化の波と、世界的なパンデミックがキーワードです。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "新型コロナの流行を背景に、従来は「店頭接客」を最重要視していた業界も一斉にオンライン販売とSNSコミュニケーションに舵を切った。テキストで挙げられている該当業界はどれか。",
+        "answerOptions": [
+          { "text": "自動車・住宅", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "アパレルや化粧品メーカー", "rationale": "店頭での接客（タッチアップや試着など）を重視していたアパレルや化粧品メーカーもオンライン化を加速させました。", "isCorrect": true },
+          { "text": "生鮮食品スーパー", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "旅行・ホテル", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "実際に商品を試したり、販売員のアドバイスを受けたりすることが重視されていた業界です。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "現在のD2Cにおいて、企業が追求している体験進化のあり方として最も適切なものはどれか。",
+        "answerOptions": [
+          { "text": "完全オンライン化による、実店舗の全廃", "rationale": "実店舗を含めた統合が現在のトレンドです。", "isCorrect": false },
+          { "text": "各チャネルを完全に独立させ、別々の顧客情報を管理する", "rationale": "顧客データの統合が重要視されています。", "isCorrect": false },
+          { "text": "オン/オフ各チャネルで取得した顧客データを統合し、どのチャネルでも高い満足が得られる体験", "rationale": "オンラインとオフライン（店舗やカタログ）を統合し、シームレスな体験を提供するのが現在のD2Cの本質です。", "isCorrect": true },
+          { "text": "SNS上でのみカスタマーサポートを行う体制", "rationale": "チャネルを限定する考え方は不適切です。", "isCorrect": false }
+        ],
+        "hint": "リアルとデジタルの垣根をなくし、一貫したサービスを提供することです。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "ファンケルレポート2021において、同社のD2Cビジネスはどのように表現されているか。",
+        "answerOptions": [
+          { "text": "自社ECサイトのみを通じて販売するビジネス", "rationale": "店舗での販売も含まれています。", "isCorrect": false },
+          { "text": "研究開発し製造した製品を、お客様に通販と店舗で販売するビジネス", "rationale": "ファンケルは創業以来、通販と店舗の両方を通じたD2Cビジネスを行っていると記述されています。", "isCorrect": true },
+          { "text": "卸売業者を通じて全国の小売店に販売するビジネス", "rationale": "これはB2B2Cのマスマーケティングモデルです。", "isCorrect": false },
+          { "text": "海外の提携工場で製造したものを輸入販売するビジネス", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「直営店舗」も立派なダイレクトマーケティングのチャネルであるという認識が示されています。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "マスマーケティングとダイレクトマーケティングの違いの一つとして、「顧客が特定できているかいないか」が挙げられる。ダイレクトマーケティングのコミュニケーションの方向性として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "1対不特定多数で一方向", "rationale": "これはマスマーケティングの特徴です。", "isCorrect": false },
+          { "text": "1対特定多数で双方向", "rationale": "ダイレクトマーケティングは、顧客を特定し、双方向のコミュニケーションを行います。", "isCorrect": true },
+          { "text": "1対1の完全対面のみ", "rationale": "対面に限定されません。", "isCorrect": false },
+          { "text": "多対多のコミュニティ型", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "相手が誰か分かった上で、お互いにやり取りができる関係性です。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "マスマーケティングとダイレクトマーケティングのもう一つの大きな違いとして挙げられている「一貫性」とは何か。",
+        "answerOptions": [
+          { "text": "すべての商品を同じ価格で販売する一貫性", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "広告宣伝費の予算配分の一貫性", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客への価値提供プロセスの一貫性", "rationale": "自社製品の企画から販売、アフターサービスまでのプロセスをすべて自社のコントロール下に置ける「価値提供プロセスの一貫性」が違いとして挙げられています。", "isCorrect": true },
+          { "text": "従業員の採用基準の一貫性", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "商品を作ってから、お客様の手元に届き、その後フォローするまでを「誰がコントロールするか」の違いです。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "下記文章の( )にあてはまる語句として適切なものを一つ選べ。\n日本ダイレクトマーケティング学会の定義によると、「ダイレクトマーケティングとは自組織が( )した顧客に対し、その顧客データを活用して設計した価値提供プロセスに基づき、直接顧客に働きかけ、組織の目的を達成する活動である」",
+        "answerOptions": [
+          { "text": "個々に識別", "rationale": "顧客を個々に識別（特定）していることがダイレクトマーケティングの前提となります。", "isCorrect": true },
+          { "text": "無作為に抽出", "rationale": "マスマーケティングやアンケート調査の手法です。", "isCorrect": false },
+          { "text": "商品を販売", "rationale": "販売だけでなく、関係構築などより広い意味を持ちます。", "isCorrect": false },
+          { "text": "一斉に配信", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "Aさん、Bさん、Cさんと一人ひとりを分けて認識している状態です。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "D2Cビジネスにおけるマネジメント層の役割として、テキストで「挙げられていない」ものはどれか。",
+        "answerOptions": [
+          { "text": "顧客を特定し、データを収集/分析するための環境整備や人材開発", "rationale": "マネジメント層の重要な役割です。", "isCorrect": false },
+          { "text": "組織の目的と連動した顧客への価値提供プロセスの設計", "rationale": "マネジメント層の重要な役割です。", "isCorrect": false },
+          { "text": "顧客への価値提供プロセスの実行を評価、改善するサイクルづくり", "rationale": "マネジメント層の重要な役割です。", "isCorrect": false },
+          { "text": "中間流通業者に対する販売ノルマの設定と管理", "rationale": "D2Cは中間流通を介さないビジネスモデルであるため、この役割は不適切です。", "isCorrect": true }
+        ],
+        "hint": "D2Cモデルでは「存在しない」相手に対するマネジメントです。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "マーケティングの世界において、「自社製品の企画、製造、広告宣伝、販売、お届け、アフターサービスなどの一連のプロセス」を表現する言葉として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "サプライチェーン・マネジメント", "rationale": "生産から消費までのモノの流れを指す言葉であり、マーケティングの文脈での一連の価値提供プロセス全体を指す言葉としては狭義です。", "isCorrect": false },
+          { "text": "価値の創造、伝達、提供", "rationale": "一連のプロセスは、マーケティング用語で「価値の創造、伝達、提供」と表現されます。", "isCorrect": true },
+          { "text": "マス・コミュニケーション", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "カスタマー・サクセス", "rationale": "アフターサービスの一部を指す言葉です。", "isCorrect": false }
+        ],
+        "hint": "商品（価値）を作り出し、それを知らせて、届けるという3つのフェーズです。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "D2Cは「価値の創造、伝達、提供」のプロセスを、顧客からの( )を常に受けながら進化させる。",
+        "answerOptions": [
+          { "text": "資金提供", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "フィードバック", "rationale": "顧客からの反応や意見（フィードバック）を常に受け取り、プロセスを進化させます。", "isCorrect": true },
+          { "text": "紹介のみ", "rationale": "紹介も一部ですが、フィードバック全般を指します。", "isCorrect": false },
+          { "text": "クレームのみ", "rationale": "クレームもフィードバックの一部ですが、肯定的な意見や行動データも含みます。", "isCorrect": false }
+        ],
+        "hint": "お客様からの様々な「声」や「反応」のことです。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "テキストP.18「D2Cにおける各マネジメント領域の相互関係図」において、『戦略策定』のレイヤーを構成する2つの戦略は何か。",
+        "answerOptions": [
+          { "text": "事業戦略と顧客戦略", "rationale": "図の最上位のレイヤーとして「事業戦略」と「顧客戦略」が記載されています。", "isCorrect": true },
+          { "text": "商品戦略と価格戦略", "rationale": "これらはより下位の戦術レベルです。", "isCorrect": false },
+          { "text": "マーケティング戦略と財務戦略", "rationale": "図の構成とは異なります。", "isCorrect": false },
+          { "text": "人事戦略とIT戦略", "rationale": "図の構成とは異なります。", "isCorrect": false }
+        ],
+        "hint": "会社が目指す方向と、誰に売るかの方針です。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、事業戦略の構成要素として記載されているものはどれか。",
+        "answerOptions": [
+          { "text": "自社顧客の特性の理解", "rationale": "これは顧客戦略の要素です。", "isCorrect": false },
+          { "text": "経営ビジョン、業界の変化、競合の対応", "rationale": "これら3つが事業戦略の構成要素として図に記載されています。", "isCorrect": true },
+          { "text": "セグメンテーションの方針", "rationale": "これは顧客戦略の要素です。", "isCorrect": false },
+          { "text": "新規顧客獲得、顧客維持", "rationale": "これは「自社が受け取る価値」の要素です。", "isCorrect": false }
+        ],
+        "hint": "会社全体がどう進むべきか、外的な要因や将来の目標に関する項目です。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、顧客戦略の構成要素として記載されているものはどれか。",
+        "answerOptions": [
+          { "text": "経営ビジョン", "rationale": "これは事業戦略の要素です。", "isCorrect": false },
+          { "text": "自社顧客の特性の理解、セグメンテーションの方針", "rationale": "これら2つが顧客戦略の構成要素として図に記載されています。", "isCorrect": true },
+          { "text": "業界の変化、競合の対応", "rationale": "これは事業戦略の要素です。", "isCorrect": false },
+          { "text": "商品、サービス", "rationale": "これは「自社が提供する価値」の要素です。", "isCorrect": false }
+        ],
+        "hint": "「誰をターゲットにするか」を決めるための前提となる分析と方針です。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『価値創造』のプロセスで「自社が提供する価値」として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "新規顧客獲得、顧客維持", "rationale": "これは「自社が受け取る価値」です。", "isCorrect": false },
+          { "text": "商品、サービス", "rationale": "自社が顧客に提供する価値の具体例として、商品とサービスが挙げられています。", "isCorrect": true },
+          { "text": "事業収益、株主価値", "rationale": "これは「業績評価（成果）」の項目です。", "isCorrect": false },
+          { "text": "データベース、分析ツール", "rationale": "これは「情報管理」の項目です。", "isCorrect": false }
+        ],
+        "hint": "お客様がお金を払って手に入れるものです。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『価値創造』のプロセスで「自社が受け取る価値」として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "商品、サービス", "rationale": "これは自社が「提供する価値」です。", "isCorrect": false },
+          { "text": "新規顧客獲得、顧客維持", "rationale": "価値を提供した結果として、自社は新規獲得や維持という価値を受け取ります。", "isCorrect": true },
+          { "text": "従業員満足、顧客満足", "rationale": "これは「業績評価（成果）」の項目です。", "isCorrect": false },
+          { "text": "経営ビジョン、業界の変化", "rationale": "これは事業戦略の要素です。", "isCorrect": false }
+        ],
+        "hint": "お客様に価値を提供した結果として、会社に還元されるビジネス上の恩恵です。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、自社が提供する価値と自社が受け取る価値の間に存在し、双方向の矢印で結ばれている概念は何か。",
+        "answerOptions": [
+          { "text": "価格競争", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客との共創", "rationale": "図の中央に「顧客との共創」が配置され、提供価値と受け取る価値を繋いでいます。", "isCorrect": true },
+          { "text": "競合分析", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "サプライチェーン", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "企業からの一方通行ではなく、お客様と一緒になって価値を作り上げるプロセスです。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『価値伝達・提供』のレイヤーに「含まれない」チャネルはどれか。",
+        "answerOptions": [
+          { "text": "店舗", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "コールセンター", "rationale": "含まれます。", "isCorrect": false },
+          { "text": "卸売業者", "rationale": "D2Cの直接的なチャネルとしては図に記載されていません（B2Bの領域になります）。", "isCorrect": true },
+          { "text": "Web (PC / モバイル)", "rationale": "含まれます。", "isCorrect": false }
+        ],
+        "hint": "D2C（Direct to Consumer）において、企業が直接コントロールしない外部の流通経路です。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『価値伝達・提供』の各チャネルを通じた活動は、最終的に何を生み出すとされているか。",
+        "answerOptions": [
+          { "text": "分断されたデータ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "統合された顧客体験", "rationale": "店舗、コールセンター、Webなどの各接点が連携し「統合された顧客体験」を生み出します。", "isCorrect": true },
+          { "text": "一方的な広告メッセージ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "価格破壊", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様がどの窓口を利用しても、スムーズで一貫した心地よい時間を過ごせることです。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『業績評価（成果）』の項目に該当するものはどれか。",
+        "answerOptions": [
+          { "text": "基準決定、定量/定性評価、KPI", "rationale": "これらは業績評価の「測定」の項目です。", "isCorrect": false },
+          { "text": "事業収益、株主価値、従業員満足、顧客満足", "rationale": "これら4つが「成果」として図に記載されています。", "isCorrect": true },
+          { "text": "商品、サービス、新規顧客獲得", "rationale": "これらは「価値創造」の項目です。", "isCorrect": false },
+          { "text": "データベース、分析ツール", "rationale": "これらは「情報管理」の項目です。", "isCorrect": false }
+        ],
+        "hint": "活動の結果として生み出された「目に見える良い結果」や「満足度」のことです。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、『業績評価（測定）』の項目に該当するものはどれか。",
+        "answerOptions": [
+          { "text": "事業収益、株主価値", "rationale": "これらは業績評価の「成果」の項目です。", "isCorrect": false },
+          { "text": "基準決定、定量/定性評価、KPI", "rationale": "これら3つが「測定」として図に記載されています。", "isCorrect": true },
+          { "text": "自社顧客の特性の理解", "rationale": "これは顧客戦略の要素です。", "isCorrect": false },
+          { "text": "カスタマー・ジャーニー", "rationale": "これは価値伝達・提供に関連する概念です。", "isCorrect": false }
+        ],
+        "hint": "成果がどれくらい出ているかを「測るための基準や指標」のことです。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "「D2Cにおける各マネジメント領域の相互関係図」において、すべての活動の基盤となる一番下のレイヤー『情報管理』に含まれる要素はどれか。",
+        "answerOptions": [
+          { "text": "従業員満足、顧客満足", "rationale": "これらは業績評価（成果）の項目です。", "isCorrect": false },
+          { "text": "事業戦略、顧客戦略", "rationale": "これらは戦略策定の項目です。", "isCorrect": false },
+          { "text": "データベース、ITシステム、分析ツール、各種ソフト", "rationale": "情報管理のレイヤーにはこれらのシステム・ツール群が配置されています。", "isCorrect": true },
+          { "text": "商品、サービス", "rationale": "これらは価値創造の項目です。", "isCorrect": false }
+        ],
+        "hint": "データを蓄積し、分析・活用するためのシステムインフラのことです。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "図中において、「価値創造」で得られた「自社が受け取る価値（新規獲得・顧客維持）」と「統合された顧客体験」を結ぶループ上に配置されている重要な評価指標は何か。",
+        "answerOptions": [
+          { "text": "顧客セグメント別生涯価値", "rationale": "図の右側のループ部分に「顧客セグメント別生涯価値」が配置され、各活動の循環の指標となっています。", "isCorrect": true },
+          { "text": "月間アクティブユーザー数（MAU）", "rationale": "図には記載されていません。", "isCorrect": false },
+          { "text": "顧客獲得単価（CPA）", "rationale": "図には記載されていません。", "isCorrect": false },
+          { "text": "従業員離職率", "rationale": "図には記載されていません。", "isCorrect": false }
+        ],
+        "hint": "顧客のグループごとに、一生涯でどれだけの利益をもたらしてくれるかを表す指標です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "D2Cの誕生初期、アメリカで華々しく紹介された際の特徴として「量的拡大よりも何を獲得することを目指す」とされていたか。",
+        "answerOptions": [
+          { "text": "マス市場での圧倒的シェア", "rationale": "不適切です。マス市場は狙っていませんでした。", "isCorrect": false },
+          { "text": "一時的なブームに乗るミーハー層", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ブランドの世界観に共感するコアなファン", "rationale": "初期D2Cは、量的拡大よりもコアなファンの獲得を目指すことを特徴としていました。", "isCorrect": true },
+          { "text": "とにかく安いものを求める価格敏感層", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "少数でも、ブランドを熱狂的に愛し支えてくれる顧客のことです。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "ブランドの「世界観」や「価値観」という言葉がD2Cで頻繁に使われるようになった背景として、消費者が求めるものが「均質性」から何に変化したことが挙げられるか。",
+        "answerOptions": [
+          { "text": "多様性（Only One）", "rationale": "社会の成熟化に伴い、皆と同じ「No.1」ではなく、自分に合う「Only One」という多様性が求められるようになりました。", "isCorrect": true },
+          { "text": "画一性", "rationale": "均質性と同義であり不適切です。", "isCorrect": false },
+          { "text": "同調圧力", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "大量消費", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「みんなが持っているから欲しい」ではなく「私らしいから欲しい」という考え方です。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "拡張期のD2Cにおいて、新興のD2Cブランドと共同でセミナー等のイベントを開催するようになった既存の業態はどれか。",
+        "answerOptions": [
+          { "text": "コンビニエンスストア", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "既存のオンライン通販や通販支援会社", "rationale": "DXの波に乗り、既存の通販企業や支援会社も自らをD2Cと定義し、新興ブランドと交流するようになりました。", "isCorrect": true },
+          { "text": "不動産デベロッパー", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "重工業メーカー", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "彼らもまた「直接消費者に販売する」ノウハウを持っていたため、新興ブランドと領域が重なりました。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "新型コロナの流行は、実店舗を持つ企業（アパレルなど）のデジタル化に対してどのような影響を与えたとされているか。",
+        "answerOptions": [
+          { "text": "店舗接客の重要性を再認識させ、デジタル化を停止させた", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "もともと取り組んでいた各社のオンラインチャネル強化の取組みを一気に加速させた", "rationale": "非対面・非接触の生活様式が、オンラインシフトを強烈に加速させました。", "isCorrect": true },
+          { "text": "影響は全くなく、以前と同じ営業スタイルが維持された", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一時的にオンライン化したが、収束後は完全に元の店舗のみに戻った", "rationale": "現在もオンオフ統合の形で進化した体験を追求しています。", "isCorrect": false }
+        ],
+        "hint": "「非対面・非接触」を余儀なくされたことで、変化のスピードはどうなりましたか？"
+      },
+      {
+        "questionNumber": 35,
+        "question": "「D2Cエキスパート検定」という名称への変更は、D2Cという言葉が「流行語」から何へ変化した流れを意識したものか。",
+        "answerOptions": [
+          { "text": "死語", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一部のIT業界だけの専門用語", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ダイレクトマーケティング全般を指す一般用語", "rationale": "D2Cが特定のスタートアップを指す流行語から、メーカーや既存通販も含めたビジネスモデルを表す一般用語として定着したことを受けての変更です。", "isCorrect": true },
+          { "text": "法律の正式名称", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "誰もが当たり前のように使う、一般的な言葉になったということです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "ダイレクトマーケティングの特徴である「双方向」のコミュニケーションの対義語として、マスマーケティングのコミュニケーションの方向性はどう表現されるか。",
+        "answerOptions": [
+          { "text": "一方向", "rationale": "マスマーケティングは企業から不特定多数へ向けた「一方向」のコミュニケーションです。", "isCorrect": true },
+          { "text": "無方向", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "全方向", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "逆方向", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "テレビCMのように、企業から消費者へ一方的にメッセージを伝える形式です。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "マスマーケティングにおいて「自社ではコントロールできないプロセス」が途中から発生してしまう主な理由は何か。",
+        "answerOptions": [
+          { "text": "商品が不良品だから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "広告代理店が勝手に広告を作るから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "中間流通（問屋や小売店など）を介するから", "rationale": "中間業者を挟むことで、店頭での陳列や接客など、メーカー自身が直接管理できないプロセスが生じます。", "isCorrect": true },
+          { "text": "消費者がすぐに商品を捨ててしまうから", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "メーカーと消費者の間に「別の会社」が介入するためです。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "日本ダイレクトマーケティング学会の定義において、組織の目的を達成するために「何に基づき」直接顧客に働きかけるとされているか。",
+        "answerOptions": [
+          { "text": "経営者の直感", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社の模倣", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客データを活用して設計した価値提供プロセス", "rationale": "収集したデータを基に設計されたプロセス（創造・伝達・提供）に基づいて働きかけると定義されています。", "isCorrect": true },
+          { "text": "マス広告の反響", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様の過去の購入履歴などの「事実」をベースに作られた仕組みのことです。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "図「D2Cにおける各マネジメント領域の相互関係図」において、一番上に位置する最も大きな方針・計画を示すレイヤーは何か。",
+        "answerOptions": [
+          { "text": "価値創造", "rationale": "戦略の下に位置します。", "isCorrect": false },
+          { "text": "価値伝達・提供", "rationale": "実行のレイヤーです。", "isCorrect": false },
+          { "text": "戦略策定", "rationale": "事業戦略と顧客戦略を含む「戦略策定」が最上段に配置されています。", "isCorrect": true },
+          { "text": "業績評価", "rationale": "結果のレイヤーです。", "isCorrect": false }
+        ],
+        "hint": "すべてのアクションの起点となる「計画を立てる」段階です。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "図において、「カスタマー・ジャーニー」という言葉はどの要素と密接に関連して描かれているか。",
+        "answerOptions": [
+          { "text": "経営ビジョン", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "統合された顧客体験", "rationale": "各チャネルを通じた「統合された顧客体験」の横にカッコ書きで「カスタマー・ジャーニー」と示されています。", "isCorrect": true },
+          { "text": "株主価値", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "分析ツール", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様が商品を知ってから買うまでの「体験の旅」のことです。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "当協会の設立理念は「ダイレクトマーケティングの可能性を切り拓く( )の育成と輩出」である。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "システム", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "企業", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "人材", "rationale": "「人材の育成と輩出」が設立理念として「はじめに」に記載されています。", "isCorrect": true },
+          { "text": "商品", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "システムや商品を作る「人」のことです。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "D2Cの初期に強調されていた「デジタルネイティブ」とは、主にどのデバイスを介したコミュニケーションを前提としていたか。",
+        "answerOptions": [
+          { "text": "デスクトップPC", "rationale": "PCよりもスマホが主役です。", "isCorrect": false },
+          { "text": "スマートフォン", "rationale": "スマホを介した企業と消費者の直接的つながり（SNS等）がデジタルネイティブなD2Cの背景です。", "isCorrect": true },
+          { "text": "固定電話", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "FAX", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "2010年代以降に急速に普及した、手のひらサイズの端末です。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "ブランドの「世界観」を構築する上で、商品やサービスの設計だけでなく、どこにまで一貫したメッセージを貫徹させることが重要とされているか。",
+        "answerOptions": [
+          { "text": "競合他社の広告", "rationale": "他社の広告をコントロールすることはできません。", "isCorrect": false },
+          { "text": "クリエイティブデザイン、顧客接点、社内人材育成など", "rationale": "商品だけでなく、デザインやコミュニケーションスタイル、社内の人材育成に至るまで貫徹することが重要とされています。", "isCorrect": true },
+          { "text": "政治的な発言のみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "株価の操作", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様に見える部分だけでなく、働く「従業員」に対しても浸透させる必要があります。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "コロナ禍を経て、各企業は「オンラインチャネル」と「オフラインチャネル」の( )の重要性を痛感した。()に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "分離", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "統合", "rationale": "両チャネルを別々に扱うのではなく「統合」することの重要性を痛感しました。", "isCorrect": true },
+          { "text": "廃止", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "別々にするのではなく、一つに合わせることです。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "マスマーケティングを行う大手メーカーなどが採用している、中間流通を前提としたビジネスモデルの一般的な呼称はどれか。",
+        "answerOptions": [
+          { "text": "C2C", "rationale": "Consumer to Consumer（フリマアプリなど）です。", "isCorrect": false },
+          { "text": "B2B2C", "rationale": "企業（メーカー）が企業（卸・小売）を介して消費者（Consumer）へ販売するB2B2Cモデルです。", "isCorrect": true },
+          { "text": "B2B", "rationale": "企業間取引のみを指します。", "isCorrect": false },
+          { "text": "O2O", "rationale": "Online to Offline（送客手法）のことです。", "isCorrect": false }
+        ],
+        "hint": "Business to Business to Consumer の略です。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "「顧客データを活用して設計した価値提供プロセス」において、D2Cでは何の中継を介さずに一連のプロセスをコントロールできるのが強みか。",
+        "answerOptions": [
+          { "text": "インターネット", "rationale": "インターネットは活用します。", "isCorrect": false },
+          { "text": "中間流通", "rationale": "問屋や小売店などの中間流通を介さないことが、プロセスの一貫性を保てる最大の理由です。", "isCorrect": true },
+          { "text": "物流業者（宅配便）", "rationale": "物流は外部のパートナー企業を利用するのが一般的です。", "isCorrect": false },
+          { "text": "クレジットカード会社", "rationale": "決済業者は介します。", "isCorrect": false }
+        ],
+        "hint": "商品を仕入れて店頭に並べる「問屋」や「スーパー」などのことです。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "図中の「情報管理」において、各チャネルでの顧客とのやり取りや売上データなどを蓄積し、分析の基盤となるものは何か。",
+        "answerOptions": [
+          { "text": "カタログ", "rationale": "これは価値伝達の媒体です。", "isCorrect": false },
+          { "text": "データベース", "rationale": "情報管理レイヤーの中心として、データを蓄積するデータベースがあります。", "isCorrect": true },
+          { "text": "コールセンター", "rationale": "これは顧客接点（チャネル）です。", "isCorrect": false },
+          { "text": "経営ビジョン", "rationale": "これは事業戦略の要素です。", "isCorrect": false }
+        ],
+        "hint": "データを安全に保管し、いつでも引き出せるように整理しておく「情報の倉庫」です。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "「業績評価（測定）」において、事業の目標がどの程度達成されているかを定量的に測るための「重要業績評価指標」をアルファベット3文字で何というか。",
+        "answerOptions": [
+          { "text": "LTV", "rationale": "顧客生涯価値であり、評価指標の一つですが、図の項目にある総称ではありません。", "isCorrect": false },
+          { "text": "KPI", "rationale": "図の「測定」項目の中に明記されています。", "isCorrect": true },
+          { "text": "CRM", "rationale": "顧客関係管理の手法・システムのことです。", "isCorrect": false },
+          { "text": "SNS", "rationale": "ソーシャルネットワーキングサービスのことです。", "isCorrect": false }
+        ],
+        "hint": "Key Performance Indicatorの略です。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "D2Cのビジネスモデルにおいて、商品購入後に「製品使用開始後のアフターサービス」を自社で直接行うことのメリットとして考えられることは何か。",
+        "answerOptions": [
+          { "text": "顧客の声を直接聞き、次の価値創造（商品改善など）に素早く活かせる。", "rationale": "プロセスを一貫して管理し、顧客からのフィードバックを直接得られることがD2C最大のメリットです。", "isCorrect": true },
+          { "text": "アフターサービスの責任を小売店にすべて押し付けることができる。", "rationale": "自社で責任を持つのがD2Cです。", "isCorrect": false },
+          { "text": "顧客との関係を一度きりで終わらせることができる。", "rationale": "関係を継続・育成することが目的です。", "isCorrect": false },
+          { "text": "アフターサービスにかかるコストが常にゼロになる。", "rationale": "自社で行うためコストはかかりますが、それ以上の価値（LTV向上など）を生みます。", "isCorrect": false }
+        ],
+        "hint": "お客様の生の声を「直接」受け取れることで、次に何ができるかを考えてみましょう。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "本テキストにおいて、D2C（Direct to Consumer）を定義するにあたり、最も重視されている考え方はどれか。",
+        "answerOptions": [
+          { "text": "商品は必ずデジタルデータでなければならない。", "rationale": "化粧品やアパレルなど、物理的な商品も対象です。", "isCorrect": false },
+          { "text": "企業と消費者が直接繋がり、価値提供プロセスを一貫してマネジメントできること。", "rationale": "チャネルが店舗であろうとECであろうと、直接繋がり一貫してマネジメントできることが本質とされています。", "isCorrect": true },
+          { "text": "創業から5年以内のスタートアップ企業であること。", "rationale": "既存メーカーや老舗通販企業もD2Cに該当します。", "isCorrect": false },
+          { "text": "商品はすべて自社工場で製造しなければならないこと。", "rationale": "企画・販売をコントロールしていれば、製造自体は委託（OEM等）でもD2Cとして成立します。", "isCorrect": false }
+        ],
+        "hint": "「誰と」「どのように」繋がっているかが本質です。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第1章：D2Cの特徴をマネジメント視点で理解する 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第1章「D2Cの特徴をマネジメント視点で理解する」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  細かい知識の定着と確認に最適です。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

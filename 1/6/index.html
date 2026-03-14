@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - 第6章クイズ</title>
+  
+  <!-- Tailwind CSS の読み込み -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React, ReactDOM, Babel の読み込み -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* フェードインアニメーション用のカスタムCSS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
+    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
+    const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
+    const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
+    const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
+    const Award = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>;
+    const RefreshCw = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>;
+    const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
+    const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
+
+    // --- クイズデータ (第6章・全50問) ---
+    const quizData = [
+      {
+        "questionNumber": 1,
+        "question": "第6章のテーマは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
+        "answerOptions": [
+          { "text": "顧客管理", "rationale": "これは第3章です。", "isCorrect": false },
+          { "text": "オペレーション管理", "rationale": "これは第4章です。", "isCorrect": false },
+          { "text": "組織管理", "rationale": "第6章は「組織管理（および人材開発）」の視点からD2Cを解説しています。", "isCorrect": true },
+          { "text": "リスク管理", "rationale": "これは第7章です。", "isCorrect": false }
+        ],
+        "hint": "会社の中の「人」や「部署の形」に関するテーマです。"
+      },
+      {
+        "questionNumber": 2,
+        "question": "特徴のある商品で事業を立ち上げ、チャネルを拡張してきたD2C企業において、組織構造が「製品中心のアプローチ」のまま残っている場合に陥りがちな欠点は何か。",
+        "answerOptions": [
+          { "text": "全社一丸となって顧客に対応しすぎる点", "rationale": "むしろ連携が取れなくなります。", "isCorrect": false },
+          { "text": "顧客を「縦割り」で見てしまう点", "rationale": "製品やチャネルごとに組織が分かれていると、顧客を全体として見ず、自部署の枠内（縦割り）でしか見なくなる欠点があります。", "isCorrect": true },
+          { "text": "従業員満足度が高くなりすぎる点", "rationale": "摩擦が生じて低下しがちです。", "isCorrect": false },
+          { "text": "広告費が一切かからなくなる点", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "隣の部署が何をしているか、同じお客様にどう対応しているかが見えなくなる状態です。"
+      },
+      {
+        "questionNumber": 3,
+        "question": "製品中心（縦割り）の組織において、チャネルAのマネジャーにとって、複数チャネルを利用する「顧客」はどのように認識されがちか。",
+        "answerOptions": [
+          { "text": "他チャネルでの利用状況も含めて、会社全体の重要顧客として認識する", "rationale": "これが理想ですが、縦割り組織ではそうなりません。", "isCorrect": false },
+          { "text": "「自チャネルでの貢献の違いのみ」に関心があり、他チャネルの利用には関心を持たない", "rationale": "縦割り組織では、マネジャーの関心は「自分の管轄の売上」に集中しがちです。", "isCorrect": true },
+          { "text": "他チャネルの売上を自部門の売上として計上する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一切の顧客に関心を持たず、商品開発のみに集中する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「自分の店でいくら買ってくれたか」しか見えなくなってしまいます。"
+      },
+      {
+        "questionNumber": 4,
+        "question": "縦割り組織の弊害として、「顧客データマネジメント」において起こりがちな問題はどれか。",
+        "answerOptions": [
+          { "text": "データが完璧に統合され、AIが自動ですべて解決する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "データ統合の責任部署がなかったり、現場感覚と遊離した施策が立案されたりする", "rationale": "横断的な責任部署がないため、データが分断されたり、実務とかけ離れた施策が走る原因になります。", "isCorrect": true },
+          { "text": "個人情報がすべて一般公開されてしまう", "rationale": "情報漏洩のリスクとは別の問題です。", "isCorrect": false },
+          { "text": "紙の台帳でのみ顧客管理が行われるようになる", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「誰が全社横断でデータをまとめるのか」という責任者が不在になります。"
+      },
+      {
+        "questionNumber": 5,
+        "question": "各チャネルの責任者の評価基準が「自チャネルの売上や利益」である組織において、他チャネルへの貢献（登録誘導など）を強引に求めるとどうなるか。",
+        "answerOptions": [
+          { "text": "従業員満足度が劇的に向上する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客満足度が即座に最高になる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "チャネル間の利害が衝突し、顧客満足が上がる前に従業員満足度が下がってしまう", "rationale": "評価されない仕事を強要されるため、社内で軋轢が生まれ、従業員のモチベーションが低下します。", "isCorrect": true },
+          { "text": "自チャネルの売上が自動的に倍増する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "評価（ボーナス等）に繋がらないのに、他の部署の手伝いをさせられる現場の気持ちです。"
+      },
+      {
+        "questionNumber": 6,
+        "question": "縦割り組織のマネジャーに対して、「オムニチャネルが顧客経験価値を最大化する」と説いても、どのように受け取られがちか。",
+        "answerOptions": [
+          { "text": "明日からすぐに実行しようと熱狂的に賛同される", "rationale": "評価制度が変わらなければ賛同されません。", "isCorrect": false },
+          { "text": "「机上の空論」や「現場にいない人間の気楽な理想論」とみなされてしまう", "rationale": "組織の評価基準と合致していないため、現場からは現実味のない理想論として冷ややかに受け止められます。", "isCorrect": true },
+          { "text": "自部門を即座に解散させる理由にされる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "他社の成功事例として素直に受け入れられる", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「理屈はわかるけど、俺たちの評価（給料）はどうなるの？」という反応です。"
+      },
+      {
+        "questionNumber": 7,
+        "question": "顧客中心の組織編成に改める際、トップダウンで専門部署を作るのが難しい場合に、ミドル・マネジメント層の合意で立ち上げ可能なアプローチはどれか。",
+        "answerOptions": [
+          { "text": "労働組合の結成", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "全社員の解雇と再雇用", "rationale": "非現実的です。", "isCorrect": false },
+          { "text": "一時的なプロジェクト形式の「クロスファンクショナルチーム」の結成", "rationale": "部門横断のチームを一時的に作り、課題の洗い出しと提言を行う方法が現実的とされています。", "isCorrect": true },
+          { "text": "外部コンサルタントへの全権委譲", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "部署の枠を超えて、課題解決のために集まる「横断的なチーム」のことです。"
+      },
+      {
+        "questionNumber": 8,
+        "question": "クロスファンクショナルチームの人選において、マネジャーが意識して集めるべきメンバーはどのような人材か。",
+        "answerOptions": [
+          { "text": "「顧客中心への移行」に問題意識を持つメンバー", "rationale": "現状の縦割りに課題を感じ、顧客中心の組織へ変えたいという問題意識を持つ人を集めることが重要です。", "isCorrect": true },
+          { "text": "現在の縦割り組織を絶対に守りたいメンバー", "rationale": "改革が進みません。", "isCorrect": false },
+          { "text": "ITスキルが社内で最も高いメンバーのみ", "rationale": "スキルだけでなく問題意識が重要です。", "isCorrect": false },
+          { "text": "新入社員のみ", "rationale": "業務の全体像を把握しているメンバーも必要です。", "isCorrect": false }
+        ],
+        "hint": "「今のままじゃダメだ、変えなきゃ」と思っている人たちです。"
+      },
+      {
+        "questionNumber": 9,
+        "question": "クロスファンクショナルチームが、業務オペレーション上の課題を洗い出した後、経営層に提言すべき内容として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "全商品の値上げ案", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客中心型のKPI設計の細目", "rationale": "縦割りを打破するために、顧客中心で評価される新しいKPI（評価指標）を設計し、提言します。", "isCorrect": true },
+          { "text": "従業員の有給休暇の増加", "rationale": "本題とは異なります。", "isCorrect": false },
+          { "text": "競合他社の買収提案", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「みんながお客様のために動けるように、会社の評価の仕組み（数字）を変えましょう」という提案です。"
+      },
+      {
+        "questionNumber": 10,
+        "question": "テキストで紹介されている「顧客戦略に基づく組織編成（例1）」において、チャネルや製品の責任者よりも「上位」に置かれる役職はどれか。",
+        "answerOptions": [
+          { "text": "プロダクトマネジャー", "rationale": "これは製品中心の役職です。", "isCorrect": false },
+          { "text": "顧客セグメントマネジャー", "rationale": "「顧客」を最優先の管理対象とするため、特定の顧客グループ（セグメント）を統括するマネジャーが上位に置かれます。", "isCorrect": true },
+          { "text": "エリアマネジャー", "rationale": "地理的な管理職です。", "isCorrect": false },
+          { "text": "システム管理者", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「商品をどう売るか」ではなく、「このグループのお客様をどう満足させるか」の責任者です。"
+      },
+      {
+        "questionNumber": 11,
+        "question": "顧客育成プロセスごとに専任マネジャーを置く組織編成（例2）において、「顧客獲得」「顧客維持」と並んで配置されるマネジャーは誰か。",
+        "answerOptions": [
+          { "text": "コスト削減担当マネジャー", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客育成（追加販売）担当マネジャー", "rationale": "獲得、維持、そして追加販売（クロスセル・アップセル）を通じた「育成」を担当するマネジャーが配置されます。", "isCorrect": true },
+          { "text": "商品廃棄担当マネジャー", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "クレーム処理担当マネジャー", "rationale": "維持の要素に含まれますが、独立した3本柱の名称としては育成（追加販売）です。", "isCorrect": false }
+        ],
+        "hint": "獲得して、維持して、さらにそのお客様の価値を「大きくする（クロスセル・アップセル）」役割です。"
+      },
+      {
+        "questionNumber": 12,
+        "question": "ブラットバーグ教授が提唱する「顧客開発マネジメントチーム（CDMT）」において、各チームが専門特化して対象とするものは何か。",
+        "answerOptions": [
+          { "text": "特定の商品カテゴリー", "rationale": "これは製品中心の組織です。", "isCorrect": false },
+          { "text": "特定の販売チャネル", "rationale": "これはチャネル中心の組織です。", "isCorrect": false },
+          { "text": "特定の顧客や顧客セグメント", "rationale": "CDMTは、それぞれが対象とする特定の顧客セグメントに専門特化し、その顧客に関わるすべての活動を管理します。", "isCorrect": true },
+          { "text": "特定の広告媒体", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「20代のスマホ派のお客様」や「長年のカタログ愛読者様」などを丸ごと担当します。"
+      },
+      {
+        "questionNumber": 13,
+        "question": "CDMT（顧客開発マネジメントチーム）が管理する「顧客に関わる活動」の範囲として適切なものはどれか。",
+        "answerOptions": [
+          { "text": "マーケティング（広告）のみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "フルフィルメント（配送）のみ", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "マーケティング、サービス、流通など、対象顧客に関わる活動すべて", "rationale": "特定の顧客に対する価値提供プロセス（4P/4C）を横断的にすべて一元管理します。", "isCorrect": true },
+          { "text": "商品の企画・製造のみ", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "縦割りをなくし、その顧客に対する「ゆりかごから墓場まで」のすべてを面倒見ます。"
+      },
+      {
+        "questionNumber": 14,
+        "question": "似通ったニーズや行動をとる顧客を1つのセグメントとし、それを1つのCDMTがマネジメントすることで得られる組織的なメリットは何か。",
+        "answerOptions": [
+          { "text": "経営努力が重複するのを防止し、規模の経済性が働くこと。", "rationale": "バラバラに同じ顧客にアプローチする無駄を省き、効率よく最適な投資ができるようになります。", "isCorrect": true },
+          { "text": "社員の労働時間が倍増すること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "社内のライバル関係が激化すること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "商品価格を限界まで引き上げられること。", "rationale": "直接のメリットではありません。", "isCorrect": false }
+        ],
+        "hint": "各部署が別々に同じDMを送ってしまうような「無駄」をなくすことができます。"
+      },
+      {
+        "questionNumber": 15,
+        "question": "CDMTのような顧客中心の組織編成が効力を発揮するための必須条件として、挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "顧客に関する詳細な知識（データ）を持っていること", "rationale": "顧客を正しくセグメントし、最適な対応をするためには、詳細な顧客知識（データ）が不可欠です。", "isCorrect": true },
+          { "text": "全社員が同じオフィスに出社していること", "rationale": "働き方の問題ではありません。", "isCorrect": false },
+          { "text": "一切のITツールを使用しないこと", "rationale": "逆にITツール（データベース等）が必須です。", "isCorrect": false },
+          { "text": "取扱商品が1種類しかないこと", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "相手（お客様）のことを深く知らなければ、チームを分けても意味がありません。"
+      },
+      {
+        "questionNumber": 16,
+        "question": "多くのD2C企業における「新人研修」の特徴として、企画部門配属の新人であってもよく経験させられる業務は何か。",
+        "answerOptions": [
+          { "text": "海外工場の視察", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "フルフィルメント部門（コールセンターや物流）での実務", "rationale": "D2Cのビジネスモデルの核心である「顧客との直接接点（現場）」を理解するため、必ず現場研修が組み込まれます。", "isCorrect": true },
+          { "text": "財務諸表の作成", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "テレビCMのタレントオーディション", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "電話をとったり、段ボールに商品を梱包したりする現場の仕事です。"
+      },
+      {
+        "questionNumber": 17,
+        "question": "D2C企業において、「フルフィルメントの現場を想像できない企画社員」はどのように評価されているか。",
+        "answerOptions": [
+          { "text": "エリートとして優遇される", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "いてはならない存在とされる", "rationale": "一連のプロセス全体で顧客満足を追求するD2Cにおいて、現場を知らない企画担当は致命的（いてはならない存在）とされています。", "isCorrect": true },
+          { "text": "IT専門職として重宝される", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "海外赴任の候補となる", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "非常に厳しい言葉で、その必要性が表現されています。"
+      },
+      {
+        "questionNumber": 18,
+        "question": "現場を軽視する傾向が社内に見られた場合、マネジャーが取るべき行動として推奨されているものはどれか。",
+        "answerOptions": [
+          { "text": "自らは現場に関わらず、部下にのみ現場研修を命じる", "rationale": "マネジャー自身の意識改革も必要です。", "isCorrect": false },
+          { "text": "意識して新人研修の内容に口出しし、マネジャー自身も現場に出てみる", "rationale": "現場の重要性を組織に浸透させるため、マネジャー自らが率先して現場に関与することが推奨されています。", "isCorrect": true },
+          { "text": "フルフィルメント部門を完全に外部委託し、社内からなくす", "rationale": "外部委託しても現場管理の重要性は変わりません。", "isCorrect": false },
+          { "text": "現場の意見を一切無視したマニュアルを作成する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "上司が率先して「現場の重要性」を態度で示すことです。"
+      },
+      {
+        "questionNumber": 19,
+        "question": "とあるD2C企業のマネジャー層が、週2、3時間自らコールセンターで顧客対応をしている「主な理由」は何か。",
+        "answerOptions": [
+          { "text": "人手不足によるオペレーターの欠員補充のため", "rationale": "人手不足が主目的ではありません。", "isCorrect": false },
+          { "text": "顧客の懸念事項を理解し、マネジャー層の「真剣さ」を現場に示すため", "rationale": "生の顧客の声を聴くと同時に、経営・管理層が顧客対応をどれほど重要視しているかを組織全体に示すためです。", "isCorrect": true },
+          { "text": "オペレーターの通話時間を監視するため", "rationale": "監視目的ではありません。", "isCorrect": false },
+          { "text": "電話システムのマニュアルを作成するため", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「上司も一緒に電話をとるくらい、お客様の声は大切なんだ」と示す姿勢です。"
+      },
+      {
+        "questionNumber": 20,
+        "question": "英国のスーパー「テスコ」が行っている「テスコ・ウイーク・インストア」とはどのようなプログラムか。",
+        "answerOptions": [
+          { "text": "年に一週間、店内を完全無人化するプログラム", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "年に一週間、経営陣自ら店舗で働き、顧客との交流を図るプログラム", "rationale": "トップが現場に出て顧客と直接接することで、顧客中心の風土を維持する取り組みとして紹介されています。", "isCorrect": true },
+          { "text": "年に一週間、全商品を半額にするプログラム", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "年に一週間、他社の店舗を視察するプログラム", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "D2C企業に限らず、顧客データ活用で有名な企業が行っている「トップの現場体験」です。"
+      },
+      {
+        "questionNumber": 21,
+        "question": "D2C人材育成モデルの指針における「マーケターとしての一般的スキル」に含まれるものはどれか。",
+        "answerOptions": [
+          { "text": "コールセンター対応スキル", "rationale": "これは伝統的DMスキルです。", "isCorrect": false },
+          { "text": "顧客戦略立案スキル、STP、4Pなど", "rationale": "業種を問わずマーケターとして基本となるスキルセットです。", "isCorrect": true },
+          { "text": "マーケティングオートメーション（MA）スキル", "rationale": "これはデジタル/オムニチャネル時代のスキルです。", "isCorrect": false },
+          { "text": "薬機法・景表法などの法務スキル", "rationale": "これは伝統的DMスキルに分類されています。", "isCorrect": false }
+        ],
+        "hint": "どんな業界のマーケティングでも必要となる「基礎」のスキルです。"
+      },
+      {
+        "questionNumber": 22,
+        "question": "D2C人材育成モデルの指針における「伝統的ダイレクトマーケティングスキル」に含まれるものはどれか。",
+        "answerOptions": [
+          { "text": "カスタマー・ジャーニー管理スキル", "rationale": "一般的スキルに分類されます。", "isCorrect": false },
+          { "text": "カタログ・DM制作、フルフィルメント管理、法務スキル", "rationale": "通販時代から培われてきた、DM特有の実務スキル群です。", "isCorrect": true },
+          { "text": "SNS、SEOスキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "統合データベース管理スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false }
+        ],
+        "hint": "インターネットが普及する前の「通販時代」から重要視されているスキルです。"
+      },
+      {
+        "questionNumber": 23,
+        "question": "D2C人材育成モデルの指針における「デジタル、オムニチャネル時代のダイレクトマーケティングスキル」に含まれないものはどれか。",
+        "answerOptions": [
+          { "text": "統合データベース管理スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "データによる仮説検証スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "市場調査スキル", "rationale": "これは「マーケターとしての一般的スキル」に該当します。", "isCorrect": true },
+          { "text": "組織マネジメント／リーダーシップスキル", "rationale": "チャネル統合のための高度なマネジメントとして、このカテゴリに含まれています。", "isCorrect": false }
+        ],
+        "hint": "マーケティングの「基礎」ではなく、高度なITや組織連携が求められる最新のスキルです。"
+      },
+      {
+        "questionNumber": 24,
+        "question": "オムニチャネル時代において、「顧客統合」の次に大きなハードルになると指摘されているスキルは何か。",
+        "answerOptions": [
+          { "text": "動画編集スキル", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "シームレスな物流／在庫管理スキル", "rationale": "店舗とECで在庫を一元化し、どこからでもスムーズに届けられるようにする在庫管理は、大きなハードルとなります。", "isCorrect": true },
+          { "text": "多言語翻訳スキル", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "プログラミング言語の習得", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「ネットで買って店舗で受け取る」などを実現するために必要な、裏側のモノの管理です。"
+      },
+      {
+        "questionNumber": 25,
+        "question": "D2C事業において、自社の正社員の主な仕事が「商品や媒体の企画」である場合、それ以外の生産やフルフィルメントなどは通常どうしているか。",
+        "answerOptions": [
+          { "text": "企画担当者が空き時間ですべて手作業で行う", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "パートナー企業に外注（アウトソーシング）していることが多い", "rationale": "D2C企業の多くは、実行部隊を持たずパートナー企業に委託することで高収益性を保っています。", "isCorrect": true },
+          { "text": "顧客にセルフサービスで作業させる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一切行わず、企画書だけを販売する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "得意なことは自分たちでやり、専門的なことはプロにお願いするというモデルです。"
+      },
+      {
+        "questionNumber": 26,
+        "question": "D2C企業にとって、パートナー企業の選定や管理はどのような位置づけにあるか。",
+        "answerOptions": [
+          { "text": "外部の会社なので、基本的には放置してよい。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "自部門内のメンバー管理と同様に、重要なマネジメント対象である。", "rationale": "顧客体験に直結する業務を担うため、社内メンバーと同じくらい丁寧にマネジメントする必要があります。", "isCorrect": true },
+          { "text": "とにかく一番安い業者を毎年コロコロ変えるべきである。", "rationale": "品質が安定しません。", "isCorrect": false },
+          { "text": "法律関係の処理のみを行えばよい。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「外部の業者」ではなく、「一緒に事業を作る仲間」としての管理が求められます。"
+      },
+      {
+        "questionNumber": 27,
+        "question": "顧客から見た時、電話したコールセンターの対応が悪かったり、届いた商品の箱が汚れていた場合、どのように評価（責任の所在）されるか。",
+        "answerOptions": [
+          { "text": "「配送業者や外注先が悪い」と同情してくれる。", "rationale": "顧客は内部事情を考慮しません。", "isCorrect": false },
+          { "text": "外注していようがいまいが、すべて「そのD2C企業の業務品質（ブランド体験）」として評価される。", "rationale": "顧客にとって運営主体は関係なく、すべての接点がそのブランドの評価に直結します。", "isCorrect": true },
+          { "text": "「商品自体は良いから問題ない」と評価に影響しない。", "rationale": "体験全体で評価されます。", "isCorrect": false },
+          { "text": "国や自治体の責任だと評価される。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様にとっては、電話口に出た人も荷物を運んできた人も「その会社の人」です。"
+      },
+      {
+        "questionNumber": 28,
+        "question": "顧客からのフィードバックを共有するためにパートナー企業と定期的なミーティングを開く際、マネジャーがとるべき態度はどれか。",
+        "answerOptions": [
+          { "text": "部下に任せきりにし、自分は参加しない。", "rationale": "マネジャーの関与が必要です。", "isCorrect": false },
+          { "text": "ひたすらパートナー企業のミスを責め立てる場にする。", "rationale": "Win-Winの関係構築になりません。", "isCorrect": false },
+          { "text": "自社とパートナー企業による「価値創出」の場として積極的に関与する。", "rationale": "共に顧客満足を高めるための建設的な議論の場として、マネジャーがリードすべきです。", "isCorrect": true },
+          { "text": "自社の売上目標の達成のみを一方的に要求する。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "下請けとして扱うのではなく、対等な立場で「どうすればもっと良くなるか」を考えます。"
+      },
+      {
+        "questionNumber": 29,
+        "question": "テキストで紹介されている「自動車大手のA社」が、WEBサイト制作会社に値下げを要求する際に行った「A社らしい」アプローチとは何か。",
+        "answerOptions": [
+          { "text": "他社の安い見積もりを見せて脅迫した。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "自社工場で磨き続けた「生産性向上の方法論」を制作会社に指導した。", "rationale": "ただ値下げを迫るのではなく、相手の作業効率を上げるノウハウを提供することでコストダウンを実現しました。", "isCorrect": true },
+          { "text": "制作会社の株式を強制的に買い取った。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "納期を2倍に延ばしてあげた。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "自分たちの得意な「無駄をなくすノウハウ（トヨタ生産方式など）」を相手に教えました。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "自動車大手A社が制作会社に対して行った「具体的な指導内容」の例として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "デザインの配色をすべてA社が決定した。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "作業時間をストップウォッチで計測し無駄を見える化し、モニターを2台にするよう指導した。", "rationale": "製造現場の改善手法（タイムスタディや環境整備）をWEB制作の現場に持ち込みました。", "isCorrect": true },
+          { "text": "制作会社の従業員の給与を削減させた。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "すべての作業をAIに置き換えさせた。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "工場で作業員の動きを分析するように、デザイナーの作業環境を分析・改善しました。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "発注者であるD2C企業からもたらされる情報やノウハウが、パートナー企業の生産性向上に役立つ関係性を、テキストでは何と表現しているか。",
+        "answerOptions": [
+          { "text": "ゼロサム・ゲーム", "rationale": "一方が得をして一方が損をする関係です。", "isCorrect": false },
+          { "text": "顧客のために「共に価値を創造する」本来的な意味でのパートナー関係", "rationale": "ノウハウを共有し合い、お互いに成長しながら顧客に価値を提供する「Win-Win」の関係性です。", "isCorrect": true },
+          { "text": "完全な主従関係", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "一時的な下請け関係", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お互いが「勝者（Win）」になる関係です。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "顧客中心型のKPI設計などを行う「クロスファンクショナルチーム」は、最終的にどのような役割を担うか。",
+        "answerOptions": [
+          { "text": "決定事項を現場に強制執行する警察のような役割", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "課題を抽出し、経営層に対する「提言」を行う役割", "rationale": "部門横断で現場の課題を集約し、経営層に対して組織や評価の変革を提言する役割を担います。", "isCorrect": true },
+          { "text": "競合他社の製品を分解して調査する役割", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "社長の秘書業務を代行する役割", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "会社を良くするための「提案書」を作るチームです。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "「顧客セグメントマネジャー」の配下に属する機能（例2の図）として、配置されているものはどれか。",
+        "answerOptions": [
+          { "text": "各チャネルマネジャー、CRM、市場調査、R&D、顧客サービス", "rationale": "図において、顧客セグメントマネジャーの下にこれらのチャネルや機能がぶら下がり、統合管理される構成が示されています。", "isCorrect": true },
+          { "text": "株主対応、経理、人事", "rationale": "管理部門であり直接の配下ではありません。", "isCorrect": false },
+          { "text": "社長、マーケティング担当役員", "rationale": "これらは上位の役職です。", "isCorrect": false },
+          { "text": "外部の競合他社", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「そのお客様に売るためのすべての手段」を統括します。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "「CDMT（顧客開発マネジメントチーム）」という名称において、「D（Development）」が意味するものは何か。",
+        "answerOptions": [
+          { "text": "デザイン（Design）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "デジタル（Digital）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "開発（Development：顧客関係の育成・発展）", "rationale": "Customer Development（顧客開発＝顧客との関係を育成しLTVを高めること）を意味します。", "isCorrect": true },
+          { "text": "配送（Delivery）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様との関係を「育てていく、発展させる」という意味の英単語です。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "D2C企業において、「商品の配送箱」に関する工夫はどのスキル分類に最も深く関わるか。",
+        "answerOptions": [
+          { "text": "デジタルマーケティングスキル", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "フルフィルメント管理スキル（体験価値としての物流）", "rationale": "商品を届ける箱や同梱物も含めてフルフィルメント（伝統的DMスキル）の重要な要素です。", "isCorrect": true },
+          { "text": "法務スキル", "rationale": "表示義務などはありますが、工夫の主体ではありません。", "isCorrect": false },
+          { "text": "市場調査スキル", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「届ける」というバックヤード業務に関連するスキルです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "デジタル時代のダイレクトマーケティングにおいて、「CGM」を活用するスキルが求められる。CGMとは何か。",
+        "answerOptions": [
+          { "text": "Consumer Generated Media（消費者生成メディア・口コミ等）", "rationale": "顧客自身が発信するSNSの投稿やレビュー（CGM）をマーケティングに活用するスキルです。", "isCorrect": true },
+          { "text": "Computer Graphics Movie（コンピューターグラフィックス映像）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Customer Growth Management（顧客成長管理）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Chief General Manager（最高総括責任者）", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "ユーザーが書き込むレビューサイトやブログなどのことです。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "D2Cビジネスにおいて「各チャネルの利害調整」を行う組織マネジメントスキルが求められる背景は何か。",
+        "answerOptions": [
+          { "text": "チャネルごとに全く違う商品を売っているから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "オムニチャネル化に伴い、店舗・EC・カタログ間で顧客や売上の奪い合い（カニバリゼーション）が起きやすいため", "rationale": "顧客が複数チャネルを横断するため、部門間の評価や利害を調整する高度なリーダーシップが必要になります。", "isCorrect": true },
+          { "text": "チャネルごとに違う国の法律が適用されるから", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "社員同士が仲が悪いから", "rationale": "根本的な理由ではありません。", "isCorrect": false }
+        ],
+        "hint": "「あのお客様はウチの店舗の売上だ！」「いや、ECの売上だ！」という争いをまとめる力です。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "統合データベース管理スキルにおいて、「顧客マスター」「商品マスター」と並んで管理すべきとされるマスターデータの例はどれか。",
+        "answerOptions": [
+          { "text": "キャンペーンマスター、チャネルマスター", "rationale": "誰に、何を、どのキャンペーンで、どのチャネル経由で売ったかを統合管理するための基本マスターです。", "isCorrect": true },
+          { "text": "社員給与マスター", "rationale": "人事情報です。", "isCorrect": false },
+          { "text": "競合他社マスター", "rationale": "自社の内部DBの基本マスターではありません。", "isCorrect": false },
+          { "text": "天候マスター", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「どんな企画（販促）」で、「どこ経由（お店かネットか）」で売れたかを記録する台帳です。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "現場のオペレーター（顧客対応部門）が、新商品の特徴だけでなく「なぜこのキャンペーンを行うのか（マーケティング視点）」を理解することの最大の利点は何か。",
+        "answerOptions": [
+          { "text": "電話対応の時間を無駄に長くできる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客へのトークスクリプトを無視して勝手に話せる", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "企画の意図を汲んだ上で、より顧客の心に響く（価値を創造する）対応や提案ができるようになる", "rationale": "背景を理解することで、マニュアル通りの作業から、顧客体験を高める血の通った対応へと進化します。", "isCorrect": true },
+          { "text": "マーケティング部門に異動できる", "rationale": "目的ではありません。", "isCorrect": false }
+        ],
+        "hint": "「やらされている」のではなく、「目的」を知ることで対応の質が上がるということです。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "「企業戦略」と「事業戦略」と「顧客戦略」の関係性において、D2Cビジネスの特徴を最もよく表している表現はどれか。",
+        "answerOptions": [
+          { "text": "事業戦略の中に顧客戦略が内包され、親子のように連動してPDCAが回る", "rationale": "事業の目標（売上等）を達成するための具体的なシナリオとして顧客戦略が直結しているのがD2Cの特徴です。", "isCorrect": true },
+          { "text": "企業戦略だけで顧客のすべてを管理する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "事業戦略と顧客戦略は完全に相反する", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客戦略は広告代理店が単独で決定する", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「どうやって勝つか（事業）」と「誰に売るか（顧客）」が一体になっている状態です。"
+      },
+      {
+        "questionNumber": 41,
+        "question": "組織変革において、ミドル・マネジメント層が発揮すべきリーダーシップとはどのようなものか。",
+        "answerOptions": [
+          { "text": "社長の指示を待ってから動き始めること", "rationale": "受け身です。", "isCorrect": false },
+          { "text": "現状の縦割り組織の課題を抽出し、自ら部門横断的な連携を働きかけ、経営層へ提言すること", "rationale": "ミドル層自らが課題意識を持ち、組織の壁を越えて変革をリードする姿勢が求められます。", "isCorrect": true },
+          { "text": "自分の部署の利益だけを死守すること", "rationale": "変革を阻害します。", "isCorrect": false },
+          { "text": "すべての責任を部下に押し付けること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "上からの指示待ちではなく、現場と経営の「架け橋」として自ら動くことです。"
+      },
+      {
+        "questionNumber": 42,
+        "question": "オムニチャネル環境下において、「シームレスな在庫管理」ができていない場合に顧客が経験する可能性のある「マイナスの体験」はどれか。",
+        "answerOptions": [
+          { "text": "ネットで「在庫あり」を見て店舗に行ったのに、実際には売り切れていた", "rationale": "データが統合されていないために起こる、オムニチャネルの典型的な失敗体験です。", "isCorrect": true },
+          { "text": "商品が予定より早く届いた", "rationale": "プラスの体験です。", "isCorrect": false },
+          { "text": "メルマガが毎日届く", "rationale": "在庫管理とは無関係です。", "isCorrect": false },
+          { "text": "店舗の店員が親切だった", "rationale": "プラスの体験です。", "isCorrect": false }
+        ],
+        "hint": "リアルとデジタルの裏側のシステムが繋がっていないことで起こる悲劇です。"
+      },
+      {
+        "questionNumber": 43,
+        "question": "「D2Cエキスパート検定」が育成を目指す人物像（リーダーたち）が切り拓くべきものは何か。",
+        "answerOptions": [
+          { "text": "マスメディアの新しい広告枠", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ダイレクトマーケティングの可能性", "rationale": "公式テキストの表紙等にも記載されている通り、ダイレクトマーケティングの可能性を切り拓くリーダーの育成を目指しています。", "isCorrect": true },
+          { "text": "海外の工場開拓", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "ブロックチェーンの暗号技術", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様と直接つながるビジネスモデルの「未来」です。"
+      },
+      {
+        "questionNumber": 44,
+        "question": "「CDMT（顧客開発マネジメントチーム）」を導入する最大の目的は、製品中心組織のどのような弊害を解消するためか。",
+        "answerOptions": [
+          { "text": "製品の品質が良くなりすぎる弊害", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客一人に対して、複数の部署がバラバラに、あるいは重複してアプローチしてしまう弊害", "rationale": "セグメントごとに1つのチームが統合管理することで、顧客にとって一貫したストレスのない体験を提供できます。", "isCorrect": true },
+          { "text": "従業員同士が仲良くなりすぎる弊害", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "売上が上がりすぎる弊害", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "「あっちの部署からもこっちの部署からもDMが届く」といったお客様の混乱を防ぎます。"
+      },
+      {
+        "questionNumber": 45,
+        "question": "自動車大手A社がWEB制作会社へ生産性向上の指導を行った結果、制作会社はどうなったか。",
+        "answerOptions": [
+          { "text": "倒産してしまった", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "A社に買収された", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "生産性が大きく向上し、A社の値下げ要望にも余裕をもって応えることができた", "rationale": "指導によって無駄が省かれ、利益体質になったことで、結果的にA社のコストダウン要求にも応えられました。", "isCorrect": true },
+          { "text": "A社との取引を完全に打ち切った", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お互いにとってハッピーな結果（Win-Win）になりました。"
+      },
+      {
+        "questionNumber": 46,
+        "question": "パートナー企業との関係構築において、D2C企業側が「持ってはいけない」スタンスはどれか。",
+        "answerOptions": [
+          { "text": "共に価値を創造するパートナーとして尊重する", "rationale": "持つべきスタンスです。", "isCorrect": false },
+          { "text": "自社のノウハウを積極的に提供し、生産性向上を支援する", "rationale": "持つべきスタンスです。", "isCorrect": false },
+          { "text": "単なる「下請け業者」として扱い、一方的に無理なコストダウンや納期を押し付ける", "rationale": "このスタンスでは品質が低下し、結果的に自社の顧客体験（ブランド）を毀損します。", "isCorrect": true },
+          { "text": "定期的にミーティングを開き、顧客の声を共有する", "rationale": "持つべきスタンスです。", "isCorrect": false }
+        ],
+        "hint": "相手を下に見るような、古いビジネスのやり方です。"
+      },
+      {
+        "questionNumber": 47,
+        "question": "顧客が「ブランドの世界観」を感じるタッチポイント（接点）として、該当するものはどれか。",
+        "answerOptions": [
+          { "text": "商品のデザイン", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
+          { "text": "コールセンターのオペレーターの言葉遣いや対応", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
+          { "text": "商品が届いた時の段ボール箱のテープの留め方", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
+          { "text": "上記すべて", "rationale": "これらすべての接点（体験の連続）から、顧客はブランドの世界観や一貫性を感じ取ります。", "isCorrect": true }
+        ],
+        "hint": "お客様の目に触れるもの、耳に聞こえるもの「すべて」です。"
+      },
+      {
+        "questionNumber": 48,
+        "question": "第6章で解説されている「組織管理の視点」とは、究極的には何を実現するための手段であるか。",
+        "answerOptions": [
+          { "text": "社長の権力を強めるため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "株主への配当を減らすため", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客への「価値の創造・伝達・提供」を最大化するため", "rationale": "組織変革も人材育成もパートナー管理も、すべては顧客に最高の価値を提供するための手段です。", "isCorrect": true },
+          { "text": "従業員をリストラするため", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "このテキスト全体のメインテーマに立ち返ってください。"
+      },
+      {
+        "questionNumber": 49,
+        "question": "D2C企業において、他部署の業務内容（マーケとフルフィルの相互理解など）を知らないことで生じる最も大きな損失は何か。",
+        "answerOptions": [
+          { "text": "通勤時間の増加", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「顧客のために何ができるか」という新しいアイデア（共創）が生まれなくなること", "rationale": "相互理解がないと「言われた作業をこなすだけ」になり、組織全体で顧客体験を進化させる力が失われます。", "isCorrect": true },
+          { "text": "有給休暇が取得できなくなること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社に買収されること", "rationale": "直接の要因ではありません。", "isCorrect": false }
+        ],
+        "hint": "「1+1=3」になるような、チームワークによる相乗効果が失われることです。"
+      },
+      {
+        "questionNumber": 50,
+        "question": "これからのD2Cビジネスを牽引するマネジャーに最も求められるマインドセットはどれか。",
+        "answerOptions": [
+          { "text": "自部署の利益のみを追求し、他部署との壁を高く厚くすること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "新しいデジタル技術を拒絶し、昔ながらのカンと経験だけで勝負すること", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「顧客中心」の視点を持ち、組織の壁を越えて社内外（パートナー含む）のメンバーを巻き込み、一貫した顧客体験を創り上げること", "rationale": "全体最適の視点を持ち、関わるすべての人を巻き込んで価値を創造するリーダーシップが求められます。", "isCorrect": true },
+          { "text": "顧客の声を一切無視し、自分が作りたい商品だけを作ること", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "全体を見渡し、みんなで協力して「お客様を笑顔にする」ための姿勢です。"
+      }
+    ];
+
+    function App() {
+      const [gameState, setGameState] = useState('start'); // 'start', 'playing', 'result'
+      const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+      const [score, setScore] = useState(0);
+      const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
+      const [showHint, setShowHint] = useState(false);
+
+      const startQuiz = () => {
+        setGameState('playing');
+        setCurrentQuestionIndex(0);
+        setScore(0);
+        setSelectedAnswerIndex(null);
+        setShowHint(false);
+      };
+
+      const handleAnswerSelect = (index) => {
+        if (selectedAnswerIndex !== null) return; // Prevent multiple selections
+        setSelectedAnswerIndex(index);
+        if (quizData[currentQuestionIndex].answerOptions[index].isCorrect) {
+          setScore(score + 1);
+        }
+      };
+
+      const nextQuestion = () => {
+        if (currentQuestionIndex < quizData.length - 1) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+          setSelectedAnswerIndex(null);
+          setShowHint(false);
+        } else {
+          setGameState('result');
+        }
+      };
+
+      const currentQuestion = quizData[currentQuestionIndex];
+      const totalQuestions = quizData.length;
+      const progressPercentage = ((currentQuestionIndex) / totalQuestions) * 100;
+      
+      // 合格ラインは7割（50問中35問正解）
+      const passingScore = Math.ceil(totalQuestions * 0.7);
+
+      return (
+        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+          
+          {/* Header */}
+          <header className="mb-8 text-center max-w-2xl w-full">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
+            </div>
+            <p className="text-slate-500">第6章：組織管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+          </header>
+
+          {/* Main Content Area */}
+          <main className="w-full max-w-3xl bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+            
+            {/* State: START */}
+            {gameState === 'start' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 text-blue-600">
+                  <Award className="w-12 h-12" />
+                </div>
+                <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
+                <p className="text-slate-600 mb-8 max-w-lg">
+                  テキスト第6章「組織管理」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  縦割り組織の打破、顧客中心の組織編成(CDMT)、D2C人材に必要なスキルセットなど重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                </p>
+                <button
+                  onClick={startQuiz}
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition-all transform hover:scale-105 shadow-md flex items-center gap-2"
+                >
+                  クイズを始める
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            )}
+
+            {/* State: PLAYING */}
+            {gameState === 'playing' && (
+              <div className="flex flex-col h-full">
+                {/* Progress Bar */}
+                <div className="w-full bg-slate-100 h-2">
+                  <div 
+                    className="bg-blue-500 h-2 transition-all duration-300 ease-out"
+                    style={{ width: `${progressPercentage}%` }}
+                  ></div>
+                </div>
+
+                <div className="p-6 md:p-8 flex-grow">
+                  {/* Question Header */}
+                  <div className="flex justify-between items-center mb-6">
+                    <span className="bg-blue-100 text-blue-800 text-sm font-bold px-3 py-1 rounded-full">
+                      問題 {currentQuestionIndex + 1} / {totalQuestions}
+                    </span>
+                    <button 
+                      onClick={() => setShowHint(!showHint)}
+                      className={`flex items-center gap-1 text-sm font-medium transition-colors ${showHint ? 'text-amber-500' : 'text-slate-400 hover:text-amber-500'}`}
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      ヒント
+                    </button>
+                  </div>
+
+                  {/* Question Text */}
+                  <h3 className="text-xl md:text-2xl font-bold leading-relaxed mb-6 whitespace-pre-line">
+                    {currentQuestion.question}
+                  </h3>
+
+                  {/* Hint Box */}
+                  {showHint && (
+                    <div className="bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-4 mb-6 text-sm animate-fade-in flex items-start gap-3">
+                      <Lightbulb className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <p>{currentQuestion.hint}</p>
+                    </div>
+                  )}
+
+                  {/* Options */}
+                  <div className="space-y-3">
+                    {currentQuestion.answerOptions.map((option, index) => {
+                      const isSelected = selectedAnswerIndex === index;
+                      const isCorrect = option.isCorrect;
+                      const hasAnswered = selectedAnswerIndex !== null;
+                      
+                      // Style logic based on answer state
+                      let buttonStyle = "bg-white border-2 border-slate-200 hover:border-blue-400 hover:bg-blue-50 text-slate-700";
+                      if (hasAnswered) {
+                        if (isCorrect) {
+                          buttonStyle = "bg-green-50 border-2 border-green-500 text-green-800";
+                        } else if (isSelected) {
+                          buttonStyle = "bg-red-50 border-2 border-red-400 text-red-800";
+                        } else {
+                          buttonStyle = "bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-60";
+                        }
+                      }
+
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => handleAnswerSelect(index)}
+                          disabled={hasAnswered}
+                          className={`w-full text-left p-4 rounded-xl font-medium transition-all duration-200 flex items-start gap-3 ${buttonStyle}`}
+                        >
+                          {/* Status Icon */}
+                          <div className="flex-shrink-0 mt-0.5">
+                            {hasAnswered && isCorrect ? (
+                              <CheckCircle2 className="w-5 h-5 text-green-500" />
+                            ) : hasAnswered && isSelected && !isCorrect ? (
+                              <XCircle className="w-5 h-5 text-red-500" />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border-2 border-current opacity-30 flex items-center justify-center text-xs">
+                                {index + 1}
+                              </div>
+                            )}
+                          </div>
+                          <span className="flex-grow">{option.text}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Explanation Area (Shows after answering) */}
+                  {selectedAnswerIndex !== null && (
+                    <div className="mt-8 pt-6 border-t border-slate-100 animate-fade-in">
+                      <div className={`flex items-center gap-2 mb-3 text-lg font-bold ${currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].isCorrect ? (
+                          <><CheckCircle2 className="w-6 h-6" /> 正解！</>
+                        ) : (
+                          <><XCircle className="w-6 h-6" /> 不正解...</>
+                        )}
+                      </div>
+                      
+                      <div className="bg-slate-50 p-5 rounded-xl text-slate-700 text-sm leading-relaxed mb-6 border border-slate-200">
+                        <span className="font-bold text-slate-900 block mb-2">解説：</span>
+                        {currentQuestion.answerOptions[selectedAnswerIndex].rationale}
+                        
+                        {!currentQuestion.answerOptions[selectedAnswerIndex].isCorrect && (
+                          <div className="mt-4 pt-4 border-t border-slate-200">
+                            <span className="font-bold text-slate-900 block mb-1">正解は：</span>
+                            <span className="text-green-700 font-medium">
+                              {currentQuestion.answerOptions.find(o => o.isCorrect).text}
+                            </span>
+                            <p className="mt-1 text-slate-600">
+                               {currentQuestion.answerOptions.find(o => o.isCorrect).rationale}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      <button
+                        onClick={nextQuestion}
+                        className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3.5 rounded-xl transition-colors flex justify-center items-center gap-2"
+                      >
+                        {currentQuestionIndex < totalQuestions - 1 ? '次の問題へ' : '結果を見る'}
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* State: RESULT */}
+            {gameState === 'result' && (
+              <div className="p-10 text-center flex flex-col items-center">
+                <div className="mb-6 relative">
+                  <svg className="w-32 h-32 transform -rotate-90">
+                    <circle cx="64" cy="64" r="56" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100" />
+                    <circle 
+                      cx="64" cy="64" r="56" 
+                      stroke="currentColor" 
+                      strokeWidth="12" 
+                      fill="transparent" 
+                      strokeDasharray="351.86" 
+                      strokeDashoffset={351.86 - (351.86 * (score / totalQuestions))}
+                      className={`${score >= passingScore ? 'text-green-500' : 'text-blue-500'} transition-all duration-1000 ease-out`} 
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                    <span className="text-3xl font-black">{score}</span>
+                    <span className="text-lg text-slate-400">/{totalQuestions}</span>
+                  </div>
+                </div>
+
+                <h2 className="text-2xl font-bold mb-2">
+                  {score === totalQuestions ? 'パーフェクト！完璧な理解度です！' : 
+                   score >= passingScore ? '合格ライン到達！よく頑張りました！' : 
+                   'もう少し！復習して再挑戦しましょう！'}
+                </h2>
+                <p className="text-slate-600 mb-8">
+                  正答率: {Math.round((score / totalQuestions) * 100)}%
+                </p>
+
+                <button
+                  onClick={startQuiz}
+                  className="bg-white border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold py-3 px-8 rounded-full transition-colors flex items-center gap-2"
+                >
+                  <RefreshCw className="w-5 h-5" />
+                  もう一度挑戦する
+                </button>
+              </div>
+            )}
+
+          </main>
+          
+          <footer className="mt-8 text-center text-sm text-slate-400">
+            &copy; D2C Expert Association Quiz Simulator
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
