@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D2Cエキスパート検定1級 - クイズ一覧</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+    body { font-family: 'Noto Sans JP', sans-serif; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .card { animation: fadeUp 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+    .card:nth-child(1)  { animation-delay: 0.04s; }
+    .card:nth-child(2)  { animation-delay: 0.08s; }
+    .card:nth-child(3)  { animation-delay: 0.12s; }
+    .card:nth-child(4)  { animation-delay: 0.16s; }
+    .card:nth-child(5)  { animation-delay: 0.20s; }
+    .card:nth-child(6)  { animation-delay: 0.24s; }
+    .card:nth-child(7)  { animation-delay: 0.28s; }
+    .card:nth-child(8)  { animation-delay: 0.32s; }
+    .card:nth-child(9)  { animation-delay: 0.36s; }
+    .card:nth-child(10) { animation-delay: 0.40s; }
+
+    .ch-card { transition: background 0.15s ease; }
+    .ch-card:hover { background: #f5f5f5; }
+    .ch-card-summary:hover { background: #f0f0f0; }
+  </style>
+</head>
+<body class="min-h-screen bg-white text-[#111111]">
+
+  <!-- ===== HEADER ===== -->
+  <header class="border-b border-[#111111] px-6 pt-10 pb-8">
+    <div class="max-w-4xl mx-auto flex items-center gap-4">
+      <div class="w-10 h-10 border-2 border-[#111111] rounded-xl flex items-center justify-center flex-shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#111111]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-xl md:text-2xl font-medium text-[#111111] tracking-tight leading-tight">
+          D2Cエキスパート検定1級
+        </h1>
+        <p class="text-xs text-[#666666] mt-0.5">対策クイズ ― 全11コース・各50問</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-4xl mx-auto px-4 py-8 pb-16">
+
+    <!-- 総括クイズ -->
+    <section class="mb-8">
+      <p class="text-xs font-medium text-[#888888] uppercase tracking-widest mb-3">総まとめ</p>
+      <a href="1/0/index.html"
+         class="card ch-card ch-card-summary block bg-white border-2 border-[#111111] rounded-2xl p-6">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-medium text-[#111111] leading-tight">総括クイズ</h2>
+            <p class="text-sm text-[#666666] mt-1">第1章〜第7章 全範囲から出題｜全50問</p>
+          </div>
+          <div class="w-8 h-8 border border-[#111111] rounded-full flex items-center justify-center flex-shrink-0 ml-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#111111]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- 章別クイズ -->
+    <section>
+      <p class="text-xs font-medium text-[#888888] uppercase tracking-widest mb-3">章別クイズ</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+        <!-- 第1章 -->
+        <a href="1/1/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第1章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">D2Cの特徴をマネジメント視点で理解する</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第2章 -->
+        <a href="1/2/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第2章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">戦略の策定</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第3章 -->
+        <a href="1/3/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第3章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">顧客管理の視点で見た価値の創造/伝達/提供</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第3章 ver.2 -->
+        <a href="1/3a/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第3章</span>
+              <span class="text-xs text-[#aaaaaa]">ver.2</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">顧客管理（実践編）</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第4章 -->
+        <a href="1/4/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第4章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">オペレーション管理の視点で見た価値の創造/伝達/提供</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第5章 -->
+        <a href="1/5/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第5章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">財務管理の視点で見た価値の創造/伝達/提供</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第5章 ver.2 -->
+        <a href="1/5a/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第5章</span>
+              <span class="text-xs text-[#aaaaaa]">ver.2</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">財務管理（実践編）</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第6章 -->
+        <a href="1/6/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第6章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">組織管理の視点で見た価値の創造/伝達/提供</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第7章 -->
+        <a href="1/7/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第7章</span>
+              <span class="text-xs text-[#aaaaaa]">50問</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">法律・第7章</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+        <!-- 第7章 ver.2 -->
+        <a href="1/7a/index.html" class="card ch-card bg-white border border-[#111111] rounded-2xl p-5 flex items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-xs font-medium text-[#888888]">第7章</span>
+              <span class="text-xs text-[#aaaaaa]">ver.2</span>
+            </div>
+            <p class="text-sm font-medium text-[#111111] leading-snug">リスク管理（実践編）</p>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#aaaaaa] flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-[#eeeeee] text-center text-xs text-[#aaaaaa] py-6">
+    &copy; D2C Expert Association Quiz Simulator
+  </footer>
+
+</body>
+</html>
