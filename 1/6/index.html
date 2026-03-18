@@ -5,16 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>D2Cエキスパート検定1級 - 第6章クイズ</title>
   
-  <!-- Tailwind CSS の読み込み -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- React, ReactDOM, Babel の読み込み -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    /* フェードインアニメーション用のカスタムCSS */
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -24,14 +20,12 @@
     }
   </style>
 </head>
-<body>
+<body class="bg-slate-50">
   <div id="root"></div>
 
   <script type="text/babel">
     const { useState } = React;
 
-    // --- アイコンの定義 (Lucide React の代わりとなるSVG) ---
-    const HelpCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>;
     const CheckCircle2 = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>;
     const XCircle = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg>;
     const ChevronRight = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"></path></svg>;
@@ -40,27 +34,26 @@
     const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
     const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
 
-    // --- クイズデータ (第6章・全50問) ---
     const quizData = [
       {
         "questionNumber": 1,
         "question": "第6章のテーマは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
         "answerOptions": [
-          { "text": "顧客管理", "rationale": "これは第3章です。", "isCorrect": false },
-          { "text": "オペレーション管理", "rationale": "これは第4章です。", "isCorrect": false },
-          { "text": "組織管理", "rationale": "第6章は「組織管理（および人材開発）」の視点からD2Cを解説しています。", "isCorrect": true },
-          { "text": "リスク管理", "rationale": "これは第7章です。", "isCorrect": false }
+          { "text": "企業と社会の信頼関係を構築する「リスク管理」", "rationale": "これは第7章のテーマです。", "isCorrect": false },
+          { "text": "LTV最大化に向けた投資を最適化する「財務管理」", "rationale": "これは第5章のテーマです。", "isCorrect": false },
+          { "text": "部門間の連携と人材育成を推進する「組織管理」", "rationale": "第6章は「組織管理」の視点からD2Cを解説しています。", "isCorrect": true },
+          { "text": "サプライチェーン全体を最適化する「オペレーション管理」", "rationale": "これは第4章のテーマです。", "isCorrect": false }
         ],
         "hint": "会社の中の「人」や「部署の形」に関するテーマです。"
       },
       {
         "questionNumber": 2,
-        "question": "特徴のある商品で事業を立ち上げ、チャネルを拡張してきたD2C企業において、組織構造が「製品中心のアプローチ」のまま残っている場合に陥りがちな欠点は何か。",
+        "question": "事業を立ち上げチャネルを拡張してきたD2C企業において、組織構造が「製品中心のアプローチ」のまま残っている場合に陥りがちな欠点は何か。",
         "answerOptions": [
-          { "text": "全社一丸となって顧客に対応しすぎる点", "rationale": "むしろ連携が取れなくなります。", "isCorrect": false },
-          { "text": "顧客を「縦割り」で見てしまう点", "rationale": "製品やチャネルごとに組織が分かれていると、顧客を全体として見ず、自部署の枠内（縦割り）でしか見なくなる欠点があります。", "isCorrect": true },
-          { "text": "従業員満足度が高くなりすぎる点", "rationale": "摩擦が生じて低下しがちです。", "isCorrect": false },
-          { "text": "広告費が一切かからなくなる点", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "顧客のニーズが多様化する中で、全社一丸となって一人の顧客に過剰なサービスを提供してしまう点。", "rationale": "むしろ連携が取れなくなります。", "isCorrect": false },
+          { "text": "各チャネルのシステムが完全に統合されているため、各部門の責任の所在が不明確になる点。", "rationale": "システムが統合されていても、組織の壁があれば弊害は生じます。", "isCorrect": false },
+          { "text": "既存顧客の維持にのみ予算が集中し、新規顧客の獲得活動が完全に停止してしまう点。", "rationale": "予算配分の問題とは直接関係ありません。", "isCorrect": false },
+          { "text": "製品やチャネルごとに組織が分かれていると、顧客を全体として見ず自部署の枠内でしか見なくなる点。", "rationale": "これが縦割り組織（サイロ化）の最大の欠点として指摘されています。", "isCorrect": true }
         ],
         "hint": "隣の部署が何をしているか、同じお客様にどう対応しているかが見えなくなる状態です。"
       },
@@ -68,10 +61,10 @@
         "questionNumber": 3,
         "question": "製品中心（縦割り）の組織において、チャネルAのマネジャーにとって、複数チャネルを利用する「顧客」はどのように認識されがちか。",
         "answerOptions": [
-          { "text": "他チャネルでの利用状況も含めて、会社全体の重要顧客として認識する", "rationale": "これが理想ですが、縦割り組織ではそうなりません。", "isCorrect": false },
-          { "text": "「自チャネルでの貢献の違いのみ」に関心があり、他チャネルの利用には関心を持たない", "rationale": "縦割り組織では、マネジャーの関心は「自分の管轄の売上」に集中しがちです。", "isCorrect": true },
-          { "text": "他チャネルの売上を自部門の売上として計上する", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "一切の顧客に関心を持たず、商品開発のみに集中する", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "他チャネルでの利用状況も含めて、会社全体のLTVを高めるべき重要顧客として認識する。", "rationale": "これが理想ですが、縦割り組織ではそうなりません。", "isCorrect": false },
+          { "text": "「自チャネルでの貢献の違いのみ」に関心があり、他チャネルの利用には関心を持たない。", "rationale": "縦割り組織では、評価基準が自部門の売上に偏るため、このような認識に陥りがちです。", "isCorrect": true },
+          { "text": "他チャネルの売上データを自動的に自部門の売上として計上し、統合的に管理する。", "rationale": "そのようなシステム上の都合の良い解釈は通常行われません。", "isCorrect": false },
+          { "text": "一切の顧客データに関心を持たず、商品の原価低減や開発業務のみに集中する。", "rationale": "販売チャネルのマネジャーとしては不自然です。", "isCorrect": false }
         ],
         "hint": "「自分の店でいくら買ってくれたか」しか見えなくなってしまいます。"
       },
@@ -79,10 +72,10 @@
         "questionNumber": 4,
         "question": "縦割り組織の弊害として、「顧客データマネジメント」において起こりがちな問題はどれか。",
         "answerOptions": [
-          { "text": "データが完璧に統合され、AIが自動ですべて解決する", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "データ統合の責任部署がなかったり、現場感覚と遊離した施策が立案されたりする", "rationale": "横断的な責任部署がないため、データが分断されたり、実務とかけ離れた施策が走る原因になります。", "isCorrect": true },
-          { "text": "個人情報がすべて一般公開されてしまう", "rationale": "情報漏洩のリスクとは別の問題です。", "isCorrect": false },
-          { "text": "紙の台帳でのみ顧客管理が行われるようになる", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "データが完璧に統合され、AIが自動ですべてのマーケティング施策を決定してしまう問題。", "rationale": "縦割り組織ではデータは統合されにくいです。", "isCorrect": false },
+          { "text": "データ統合の責任部署が不在となり、現場感覚と遊離した現実味のない施策が立案される問題。", "rationale": "横断的な責任部署がないため、データが分断されたり、実務とかけ離れた施策が走る原因になります。", "isCorrect": true },
+          { "text": "各部門が競って顧客データを収集した結果、個人情報が社外に漏洩しやすくなる問題。", "rationale": "情報漏洩のリスクとは別の次元の問題です。", "isCorrect": false },
+          { "text": "顧客データへのアクセスが経営層のみに限定され、現場が一切のデータを活用できなくなる問題。", "rationale": "現場は自部門のデータだけは持っていることが多いです。", "isCorrect": false }
         ],
         "hint": "「誰が全社横断でデータをまとめるのか」という責任者が不在になります。"
       },
@@ -90,87 +83,87 @@
         "questionNumber": 5,
         "question": "各チャネルの責任者の評価基準が「自チャネルの売上や利益」である組織において、他チャネルへの貢献（登録誘導など）を強引に求めるとどうなるか。",
         "answerOptions": [
-          { "text": "従業員満足度が劇的に向上する", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客満足度が即座に最高になる", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "チャネル間の利害が衝突し、顧客満足が上がる前に従業員満足度が下がってしまう", "rationale": "評価されない仕事を強要されるため、社内で軋轢が生まれ、従業員のモチベーションが低下します。", "isCorrect": true },
-          { "text": "自チャネルの売上が自動的に倍増する", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "全社的なKPIが自然と統一され、従業員満足度が劇的に向上する。", "rationale": "評価基準が変わらなければ不満が溜まります。", "isCorrect": false },
+          { "text": "顧客がシームレスな体験に感動し、顧客満足度が即座に最高水準に達する。", "rationale": "内部の軋轢がある状態では良いサービスは提供できません。", "isCorrect": false },
+          { "text": "チャネル間の利害が衝突し、顧客満足が上がる前に従業員のモチベーションが低下する。", "rationale": "評価されない仕事を強要されるため、社内で軋轢が生まれ、従業員の士気が低下します。", "isCorrect": true },
+          { "text": "各チャネルが互いに協力し合うようになり、自チャネルの売上が自動的に倍増する。", "rationale": "利害が衝突するため協力し合う関係にはなりにくいです。", "isCorrect": false }
         ],
         "hint": "評価（ボーナス等）に繋がらないのに、他の部署の手伝いをさせられる現場の気持ちです。"
       },
       {
         "questionNumber": 6,
-        "question": "縦割り組織のマネジャーに対して、「オムニチャネルが顧客経験価値を最大化する」と説いても、どのように受け取られがちか。",
+        "question": "縦割り組織のマネジャーに対して、「オムニチャネルが顧客経験価値を最大化する」と説いても、現場ではどのように受け取られがちか。",
         "answerOptions": [
-          { "text": "明日からすぐに実行しようと熱狂的に賛同される", "rationale": "評価制度が変わらなければ賛同されません。", "isCorrect": false },
-          { "text": "「机上の空論」や「現場にいない人間の気楽な理想論」とみなされてしまう", "rationale": "組織の評価基準と合致していないため、現場からは現実味のない理想論として冷ややかに受け止められます。", "isCorrect": true },
-          { "text": "自部門を即座に解散させる理由にされる", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "他社の成功事例として素直に受け入れられる", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "自部門の売上向上に直結する画期的なアイデアとして、熱狂的に賛同される。", "rationale": "評価制度が変わらなければ賛同されません。", "isCorrect": false },
+          { "text": "「机上の空論」や「現場にいない人間の気楽な理想論」とみなされてしまう。", "rationale": "組織の評価基準と合致していないため、現場からは現実味のない理想論として冷ややかに受け止められます。", "isCorrect": true },
+          { "text": "自部門の権限を拡大し、他部門を吸収合併するための絶好の口実として利用される。", "rationale": "そこまでの権力闘争には発展しにくいです。", "isCorrect": false },
+          { "text": "他社の成功事例として素直に受け入れられ、即座に組織再編が実行される。", "rationale": "縦割り組織では容易に受け入れられません。", "isCorrect": false }
         ],
         "hint": "「理屈はわかるけど、俺たちの評価（給料）はどうなるの？」という反応です。"
       },
       {
         "questionNumber": 7,
-        "question": "顧客中心の組織編成に改める際、トップダウンで専門部署を作るのが難しい場合に、ミドル・マネジメント層の合意で立ち上げ可能なアプローチはどれか。",
+        "question": "顧客中心の組織編成に改める際、トップダウンで専門部署を作るのが難しい場合に、ミドル層の合意で立ち上げ可能なアプローチはどれか。",
         "answerOptions": [
-          { "text": "労働組合の結成", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "全社員の解雇と再雇用", "rationale": "非現実的です。", "isCorrect": false },
-          { "text": "一時的なプロジェクト形式の「クロスファンクショナルチーム」の結成", "rationale": "部門横断のチームを一時的に作り、課題の洗い出しと提言を行う方法が現実的とされています。", "isCorrect": true },
-          { "text": "外部コンサルタントへの全権委譲", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "既存の評価制度を無視し、各部門が独自の判断でマーケティング予算を執行するアプローチ。", "rationale": "組織の混乱を招くだけです。", "isCorrect": false },
+          { "text": "全ての業務を一旦停止し、全社員参加型のワークショップを数ヶ月間開催するアプローチ。", "rationale": "非現実的です。", "isCorrect": false },
+          { "text": "一時的なプロジェクト形式の「クロスファンクショナルチーム」を結成するアプローチ。", "rationale": "部門横断のチームを一時的に作り、課題の洗い出しと提言を行う方法が現実的とされています。", "isCorrect": true },
+          { "text": "外部の組織コンサルタントに全権を委譲し、強制的なリストラを断行するアプローチ。", "rationale": "ミドル層の合意で進めるアプローチではありません。", "isCorrect": false }
         ],
         "hint": "部署の枠を超えて、課題解決のために集まる「横断的なチーム」のことです。"
       },
       {
         "questionNumber": 8,
-        "question": "クロスファンクショナルチームの人選において、マネジャーが意識して集めるべきメンバーはどのような人材か。",
+        "question": "クロスファンクショナルチームの人選において、マネジャーが特に意識して集めるべきメンバーはどのような人材か。",
         "answerOptions": [
-          { "text": "「顧客中心への移行」に問題意識を持つメンバー", "rationale": "現状の縦割りに課題を感じ、顧客中心の組織へ変えたいという問題意識を持つ人を集めることが重要です。", "isCorrect": true },
-          { "text": "現在の縦割り組織を絶対に守りたいメンバー", "rationale": "改革が進みません。", "isCorrect": false },
-          { "text": "ITスキルが社内で最も高いメンバーのみ", "rationale": "スキルだけでなく問題意識が重要です。", "isCorrect": false },
-          { "text": "新入社員のみ", "rationale": "業務の全体像を把握しているメンバーも必要です。", "isCorrect": false }
+          { "text": "「顧客中心への移行」の必要性に問題意識を持ち、現状の打破を望んでいるメンバー。", "rationale": "現状の縦割りに課題を感じ、顧客中心の組織へ変えたいという問題意識を持つ人を集めることが重要です。", "isCorrect": true },
+          { "text": "現在の縦割り組織による評価制度の恩恵を最も受けており、それを守りたいメンバー。", "rationale": "改革が進みません。", "isCorrect": false },
+          { "text": "ITスキルやプログラミング能力が社内で最も高く、システム構築を一人で完結できるメンバー。", "rationale": "スキルだけでなく問題意識と連携力が重要です。", "isCorrect": false },
+          { "text": "自社の事業の歴史やしがらみを知らない、入社直後の新入社員のみで構成されたメンバー。", "rationale": "業務の全体像を把握している中核メンバーが必要です。", "isCorrect": false }
         ],
-        "hint": "「今のままじゃダメだ、変えなきゃ」と思っている人たちです。"
+        "hint": "「今のままじゃダメだ、変えなきゃ」と本気で思っている人たちです。"
       },
       {
         "questionNumber": 9,
-        "question": "クロスファンクショナルチームが、業務オペレーション上の課題を洗い出した後、経営層に提言すべき内容として適切なものはどれか。",
+        "question": "クロスファンクショナルチームが、業務オペレーション上の課題を洗い出した後、経営層に提言すべき内容として最も適切なものはどれか。",
         "answerOptions": [
-          { "text": "全商品の値上げ案", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客中心型のKPI設計の細目", "rationale": "縦割りを打破するために、顧客中心で評価される新しいKPI（評価指標）を設計し、提言します。", "isCorrect": true },
-          { "text": "従業員の有給休暇の増加", "rationale": "本題とは異なります。", "isCorrect": false },
-          { "text": "競合他社の買収提案", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "利益率を即座に向上させるための、全商品の抜本的な値上げ案とコストカット案。", "rationale": "組織変革の提言としては焦点がずれています。", "isCorrect": false },
+          { "text": "縦割りを打破し、全社で顧客価値を追求するための「顧客中心型のKPI設計の細目」。", "rationale": "縦割りを打破するために、顧客中心で評価される新しいKPI（評価指標）を設計し、提言します。", "isCorrect": true },
+          { "text": "従業員のモチベーションを維持するための、有給休暇の増加と福利厚生の拡充案。", "rationale": "本題の組織管理・顧客中心のアプローチとは異なります。", "isCorrect": false },
+          { "text": "競合他社のシェアを奪うための、同業他社の買収・M&Aに関する具体的な提案。", "rationale": "経営戦略そのものであり、クロスファンクショナルチームの役割を超えています。", "isCorrect": false }
         ],
         "hint": "「みんながお客様のために動けるように、会社の評価の仕組み（数字）を変えましょう」という提案です。"
       },
       {
         "questionNumber": 10,
-        "question": "テキストで紹介されている「顧客戦略に基づく組織編成（例1）」において、チャネルや製品の責任者よりも「上位」に置かれる役職はどれか。",
+        "question": "テキストで紹介されている「顧客戦略に基づく組織編成」において、チャネルや製品の責任者よりも「上位」に置かれる役職はどれか。",
         "answerOptions": [
-          { "text": "プロダクトマネジャー", "rationale": "これは製品中心の役職です。", "isCorrect": false },
-          { "text": "顧客セグメントマネジャー", "rationale": "「顧客」を最優先の管理対象とするため、特定の顧客グループ（セグメント）を統括するマネジャーが上位に置かれます。", "isCorrect": true },
-          { "text": "エリアマネジャー", "rationale": "地理的な管理職です。", "isCorrect": false },
-          { "text": "システム管理者", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "特定の商品開発に全責任を負う「プロダクトマネジャー」", "rationale": "これは製品中心の役職です。", "isCorrect": false },
+          { "text": "特定の顧客グループを統括し、そのLTV最大化に責任を持つ「顧客セグメントマネジャー」", "rationale": "「顧客」を最優先の管理対象とするため、特定の顧客グループを統括するマネジャーが上位に置かれます。", "isCorrect": true },
+          { "text": "特定の出店地域の売上を管轄する「エリアマネジャー」", "rationale": "地理的な管理職です。", "isCorrect": false },
+          { "text": "全社のITインフラを統合管理する「システム・アーキテクト」", "rationale": "IT部門の専門職であり、ビジネスの直接の責任者ではありません。", "isCorrect": false }
         ],
         "hint": "「商品をどう売るか」ではなく、「このグループのお客様をどう満足させるか」の責任者です。"
       },
       {
         "questionNumber": 11,
-        "question": "顧客育成プロセスごとに専任マネジャーを置く組織編成（例2）において、「顧客獲得」「顧客維持」と並んで配置されるマネジャーは誰か。",
+        "question": "顧客育成プロセスごとに専任マネジャーを置く組織編成において、「顧客獲得」「顧客維持」と並んで配置されるマネジャーは誰か。",
         "answerOptions": [
-          { "text": "コスト削減担当マネジャー", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客育成（追加販売）担当マネジャー", "rationale": "獲得、維持、そして追加販売（クロスセル・アップセル）を通じた「育成」を担当するマネジャーが配置されます。", "isCorrect": true },
-          { "text": "商品廃棄担当マネジャー", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "クレーム処理担当マネジャー", "rationale": "維持の要素に含まれますが、独立した3本柱の名称としては育成（追加販売）です。", "isCorrect": false }
+          { "text": "フルフィルメントコストの削減を担う「コスト管理担当マネジャー」", "rationale": "コスト管理は全社的な課題ですが、育成プロセスの主軸ではありません。", "isCorrect": false },
+          { "text": "クロスセルやアップセルを通じて顧客の価値を高める「顧客育成（追加販売）担当マネジャー」", "rationale": "獲得、維持、そして追加販売（クロスセル・アップセル）を通じた「育成」を担当するマネジャーが配置されます。", "isCorrect": true },
+          { "text": "売れ残り商品の見切り販売や廃棄を決定する「在庫処分担当マネジャー」", "rationale": "顧客育成プロセスとは無関係です。", "isCorrect": false },
+          { "text": "悪質なクレーム対応のみを専門に行う「リスク管理担当マネジャー」", "rationale": "維持の要素に含まれる一部の業務です。", "isCorrect": false }
         ],
-        "hint": "獲得して、維持して、さらにそのお客様の価値を「大きくする（クロスセル・アップセル）」役割です。"
+        "hint": "獲得して、維持して、さらにそのお客様の価値を「大きくする（追加で買ってもらう）」役割です。"
       },
       {
         "questionNumber": 12,
         "question": "ブラットバーグ教授が提唱する「顧客開発マネジメントチーム（CDMT）」において、各チームが専門特化して対象とするものは何か。",
         "answerOptions": [
-          { "text": "特定の商品カテゴリー", "rationale": "これは製品中心の組織です。", "isCorrect": false },
-          { "text": "特定の販売チャネル", "rationale": "これはチャネル中心の組織です。", "isCorrect": false },
-          { "text": "特定の顧客や顧客セグメント", "rationale": "CDMTは、それぞれが対象とする特定の顧客セグメントに専門特化し、その顧客に関わるすべての活動を管理します。", "isCorrect": true },
-          { "text": "特定の広告媒体", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "利益率が最も高い「特定の商品カテゴリー」", "rationale": "これは製品中心の組織です。", "isCorrect": false },
+          { "text": "最も成長が著しい「特定の販売チャネル（例：スマートフォンアプリ）」", "rationale": "これはチャネル中心の組織です。", "isCorrect": false },
+          { "text": "共通のニーズや行動特性を持つ「特定の顧客や顧客セグメント」", "rationale": "CDMTは、それぞれが対象とする特定の顧客セグメントに専門特化し、その顧客に関わるすべての活動を管理します。", "isCorrect": true },
+          { "text": "CPOが最も安く済む「特定の広告媒体（例：SNS広告）」", "rationale": "媒体中心の組織ではありません。", "isCorrect": false }
         ],
         "hint": "「20代のスマホ派のお客様」や「長年のカタログ愛読者様」などを丸ごと担当します。"
       },
@@ -178,76 +171,76 @@
         "questionNumber": 13,
         "question": "CDMT（顧客開発マネジメントチーム）が管理する「顧客に関わる活動」の範囲として適切なものはどれか。",
         "answerOptions": [
-          { "text": "マーケティング（広告）のみ", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "フルフィルメント（配送）のみ", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "マーケティング、サービス、流通など、対象顧客に関わる活動すべて", "rationale": "特定の顧客に対する価値提供プロセス（4P/4C）を横断的にすべて一元管理します。", "isCorrect": true },
-          { "text": "商品の企画・製造のみ", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "新規獲得のための「マーケティング（広告宣伝）」活動のみに限定される。", "rationale": "獲得だけではLTVの最大化はできません。", "isCorrect": false },
+          { "text": "商品のお届けや返品対応などの「フルフィルメント」活動のみに限定される。", "rationale": "それだけでは顧客開発（育成）になりません。", "isCorrect": false },
+          { "text": "マーケティング、サービス、流通など、対象顧客に関わる「活動すべて」を横断管理する。", "rationale": "特定の顧客に対する価値提供プロセス（4P/4C）を横断的にすべて一元管理します。", "isCorrect": true },
+          { "text": "商品の「企画・製造」のみを管理し、販売は別部隊に任せる。", "rationale": "それでは製品中心のアプローチに戻ってしまいます。", "isCorrect": false }
         ],
         "hint": "縦割りをなくし、その顧客に対する「ゆりかごから墓場まで」のすべてを面倒見ます。"
       },
       {
         "questionNumber": 14,
-        "question": "似通ったニーズや行動をとる顧客を1つのセグメントとし、それを1つのCDMTがマネジメントすることで得られる組織的なメリットは何か。",
+        "question": "似通ったニーズや行動をとる顧客を1つのCDMTがマネジメントすることで得られる、組織的なメリットは何か。",
         "answerOptions": [
-          { "text": "経営努力が重複するのを防止し、規模の経済性が働くこと。", "rationale": "バラバラに同じ顧客にアプローチする無駄を省き、効率よく最適な投資ができるようになります。", "isCorrect": true },
-          { "text": "社員の労働時間が倍増すること。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "社内のライバル関係が激化すること。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "商品価格を限界まで引き上げられること。", "rationale": "直接のメリットではありません。", "isCorrect": false }
+          { "text": "各部署がバラバラに同じ顧客にアプローチする経営努力の重複を防ぎ、規模の経済性が働くこと。", "rationale": "アプローチの無駄を省き、効率よく最適な投資ができるようになります。", "isCorrect": true },
+          { "text": "各チームが独自にシステムを構築するため、全社のIT予算が大幅に増加すること。", "rationale": "これはデメリットであり、通常システムは共通基盤を利用します。", "isCorrect": false },
+          { "text": "チーム間の競争が激化し、社内のライバル関係が業績向上のみを目的とするようになること。", "rationale": "競争よりも顧客への価値提供が主眼です。", "isCorrect": false },
+          { "text": "顧客のニーズを無視して、自社の都合で商品価格を限界まで引き上げられるようになること。", "rationale": "顧客中心の理念に反します。", "isCorrect": false }
         ],
-        "hint": "各部署が別々に同じDMを送ってしまうような「無駄」をなくすことができます。"
+        "hint": "「あっちの部署からもこっちの部署からも同じDMが届く」といった無駄をなくすことができます。"
       },
       {
         "questionNumber": 15,
-        "question": "CDMTのような顧客中心の組織編成が効力を発揮するための必須条件として、挙げられているものはどれか。",
+        "question": "CDMTのような顧客中心の組織編成が効力を発揮するための必須条件として、テキストで挙げられているものはどれか。",
         "answerOptions": [
-          { "text": "顧客に関する詳細な知識（データ）を持っていること", "rationale": "顧客を正しくセグメントし、最適な対応をするためには、詳細な顧客知識（データ）が不可欠です。", "isCorrect": true },
-          { "text": "全社員が同じオフィスに出社していること", "rationale": "働き方の問題ではありません。", "isCorrect": false },
-          { "text": "一切のITツールを使用しないこと", "rationale": "逆にITツール（データベース等）が必須です。", "isCorrect": false },
-          { "text": "取扱商品が1種類しかないこと", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "各セグメントに対する的確なアプローチを可能にする「顧客に関する詳細な知識（データ）」を持っていること。", "rationale": "顧客を正しくセグメントし、最適な対応をするためには、詳細な顧客知識（データと分析力）が不可欠です。", "isCorrect": true },
+          { "text": "全社員が同じオフィスに集まり、対面でのコミュニケーションのみで業務を完結させること。", "rationale": "働き方の問題ではありません。", "isCorrect": false },
+          { "text": "顧客の声を直接聞くために、一切のITツールやAIを使用せず、全てアナログで管理すること。", "rationale": "逆にITツール（データベース等）が必須です。", "isCorrect": false },
+          { "text": "管理を容易にするため、自社で取り扱う商品を1つのカテゴリーのみに限定すること。", "rationale": "商品数を限定する必要はありません。", "isCorrect": false }
         ],
-        "hint": "相手（お客様）のことを深く知らなければ、チームを分けても意味がありません。"
+        "hint": "相手（お客様）のことを深く知らなければ、チームを分けても的確な対応ができません。"
       },
       {
         "questionNumber": 16,
-        "question": "多くのD2C企業における「新人研修」の特徴として、企画部門配属の新人であってもよく経験させられる業務は何か。",
+        "question": "多くのD2C企業における「新人研修」の特徴として、企画部門配属の新人であっても必ず経験させられる業務は何か。",
         "answerOptions": [
-          { "text": "海外工場の視察", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "フルフィルメント部門（コールセンターや物流）での実務", "rationale": "D2Cのビジネスモデルの核心である「顧客との直接接点（現場）」を理解するため、必ず現場研修が組み込まれます。", "isCorrect": true },
-          { "text": "財務諸表の作成", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "テレビCMのタレントオーディション", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "海外の製造工場に赴き、生産ラインの効率化を図る業務。", "rationale": "D2Cの核心部分とは少しずれます。", "isCorrect": false },
+          { "text": "コールセンターや物流倉庫など、フルフィルメント部門における現場の実務。", "rationale": "D2Cのビジネスモデルの核心である「顧客との直接接点（現場）」を理解するため、必ず現場研修が組み込まれます。", "isCorrect": true },
+          { "text": "過去10年分の財務諸表を分析し、経営課題を抽出する業務。", "rationale": "新人研修としては一般的ではありません。", "isCorrect": false },
+          { "text": "テレビCMに出演するタレントのオーディション選考業務。", "rationale": "一部の業務に過ぎず、必須の研修とは言えません。", "isCorrect": false }
         ],
-        "hint": "電話をとったり、段ボールに商品を梱包したりする現場の仕事です。"
+        "hint": "電話をとったり、段ボールに商品を梱包したりする、顧客に一番近い場所での仕事です。"
       },
       {
         "questionNumber": 17,
         "question": "D2C企業において、「フルフィルメントの現場を想像できない企画社員」はどのように評価されているか。",
         "answerOptions": [
-          { "text": "エリートとして優遇される", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "いてはならない存在とされる", "rationale": "一連のプロセス全体で顧客満足を追求するD2Cにおいて、現場を知らない企画担当は致命的（いてはならない存在）とされています。", "isCorrect": true },
-          { "text": "IT専門職として重宝される", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "海外赴任の候補となる", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "現場の雑務から解放された、戦略立案に特化したエリートとして優遇される。", "rationale": "現場を知らないことはD2Cでは弱点になります。", "isCorrect": false },
+          { "text": "顧客満足を追求する一連のプロセスを理解できないため、いてはならない存在とされる。", "rationale": "一連のプロセス全体で顧客体験を追求するD2Cにおいて、現場を知らない企画担当は致命的とされています。", "isCorrect": true },
+          { "text": "高度なデータ分析のみを行う、IT専門職として別の部署で重宝される。", "rationale": "データ分析にも現場の理解は必要です。", "isCorrect": false },
+          { "text": "現場を知らないからこそ斬新なアイデアが出せるとして、イノベーション担当に抜擢される。", "rationale": "現場の裏付けのないアイデアは空論になりがちです。", "isCorrect": false }
         ],
-        "hint": "非常に厳しい言葉で、その必要性が表現されています。"
+        "hint": "非常に厳しい言葉で、現場理解の必要性が表現されています。"
       },
       {
         "questionNumber": 18,
-        "question": "現場を軽視する傾向が社内に見られた場合、マネジャーが取るべき行動として推奨されているものはどれか。",
+        "question": "現場を軽視する傾向が社内に見られた場合、マネジャー層が取るべき行動として推奨されているものはどれか。",
         "answerOptions": [
-          { "text": "自らは現場に関わらず、部下にのみ現場研修を命じる", "rationale": "マネジャー自身の意識改革も必要です。", "isCorrect": false },
-          { "text": "意識して新人研修の内容に口出しし、マネジャー自身も現場に出てみる", "rationale": "現場の重要性を組織に浸透させるため、マネジャー自らが率先して現場に関与することが推奨されています。", "isCorrect": true },
-          { "text": "フルフィルメント部門を完全に外部委託し、社内からなくす", "rationale": "外部委託しても現場管理の重要性は変わりません。", "isCorrect": false },
-          { "text": "現場の意見を一切無視したマニュアルを作成する", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "自らは現場に関わらず、部下にのみ長期間の現場研修を強制的に命じる。", "rationale": "マネジャー自身の態度が変わらなければ組織風土は変わりません。", "isCorrect": false },
+          { "text": "新人研修の内容を見直すとともに、マネジャー自身も率先して現場に出て業務に関与する。", "rationale": "現場の重要性を組織に浸透させるため、マネジャー自らが率先して現場に関与することが推奨されています。", "isCorrect": true },
+          { "text": "現場を軽視する原因となるフルフィルメント部門を、完全に外部企業へ委託してしまう。", "rationale": "外部委託しても現場管理の重要性は変わりません。", "isCorrect": false },
+          { "text": "現場からの意見を一切排除し、データのみに基づくマニュアルを新たに作成する。", "rationale": "現場軽視を助長する行動です。", "isCorrect": false }
         ],
-        "hint": "上司が率先して「現場の重要性」を態度で示すことです。"
+        "hint": "上司が率先して「現場の重要性」を自分の態度で示すことです。"
       },
       {
         "questionNumber": 19,
-        "question": "とあるD2C企業のマネジャー層が、週2、3時間自らコールセンターで顧客対応をしている「主な理由」は何か。",
+        "question": "とあるD2C企業のマネジャー層が、週2、3時間自らコールセンターで顧客対応をしている「真の理由」は何か。",
         "answerOptions": [
-          { "text": "人手不足によるオペレーターの欠員補充のため", "rationale": "人手不足が主目的ではありません。", "isCorrect": false },
-          { "text": "顧客の懸念事項を理解し、マネジャー層の「真剣さ」を現場に示すため", "rationale": "生の顧客の声を聴くと同時に、経営・管理層が顧客対応をどれほど重要視しているかを組織全体に示すためです。", "isCorrect": true },
-          { "text": "オペレーターの通話時間を監視するため", "rationale": "監視目的ではありません。", "isCorrect": false },
-          { "text": "電話システムのマニュアルを作成するため", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "繁忙期における人手不足を補うための、一時的なオペレーター要員として機能するため。", "rationale": "欠員補充が目的ではありません。", "isCorrect": false },
+          { "text": "「ほんの小さな顧客の変化も見逃したくない」という想いと、現場の重要性を組織に示すため。", "rationale": "生の顧客の声を聴き、経営層が顧客対応をどれほど重要視しているかを示すために行っています。", "isCorrect": true },
+          { "text": "現場のオペレーターの通話時間を監視し、直接的な人事評価を下すため。", "rationale": "監視目的ではありません。", "isCorrect": false },
+          { "text": "外注しているコールセンターの業務委託費を適正に査定するための現状調査として。", "rationale": "不適切です。", "isCorrect": false }
         ],
         "hint": "「上司も一緒に電話をとるくらい、お客様の声は大切なんだ」と示す姿勢です。"
       },
@@ -255,340 +248,340 @@
         "questionNumber": 20,
         "question": "英国のスーパー「テスコ」が行っている「テスコ・ウイーク・インストア」とはどのようなプログラムか。",
         "answerOptions": [
-          { "text": "年に一週間、店内を完全無人化するプログラム", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "年に一週間、経営陣自ら店舗で働き、顧客との交流を図るプログラム", "rationale": "トップが現場に出て顧客と直接接することで、顧客中心の風土を維持する取り組みとして紹介されています。", "isCorrect": true },
-          { "text": "年に一週間、全商品を半額にするプログラム", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "年に一週間、他社の店舗を視察するプログラム", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "年に一週間、店内を完全無人化し、デジタル決済のテストを行うプログラム。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "年に一週間、経営陣自ら店舗の現場で働き、顧客との直接的な交流を図るプログラム。", "rationale": "トップが現場に出て顧客と直接接することで、顧客中心の風土を維持する取り組みとして紹介されています。", "isCorrect": true },
+          { "text": "年に一週間、全商品を原価で販売し、在庫を完全に一掃するプログラム。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "年に一週間、従業員を他社の店舗に派遣し、競合調査を行うプログラム。", "rationale": "不適切です。", "isCorrect": false }
         ],
         "hint": "D2C企業に限らず、顧客データ活用で有名な企業が行っている「トップの現場体験」です。"
       },
       {
         "questionNumber": 21,
-        "question": "D2C人材育成モデルの指針における「マーケターとしての一般的スキル」に含まれるものはどれか。",
+        "question": "D2C人材育成モデルにおける「マーケターとしての一般的スキル」に含まれるものはどれか。",
         "answerOptions": [
-          { "text": "コールセンター対応スキル", "rationale": "これは伝統的DMスキルです。", "isCorrect": false },
-          { "text": "顧客戦略立案スキル、STP、4Pなど", "rationale": "業種を問わずマーケターとして基本となるスキルセットです。", "isCorrect": true },
-          { "text": "マーケティングオートメーション（MA）スキル", "rationale": "これはデジタル/オムニチャネル時代のスキルです。", "isCorrect": false },
-          { "text": "薬機法・景表法などの法務スキル", "rationale": "これは伝統的DMスキルに分類されています。", "isCorrect": false }
+          { "text": "カタログ・DMのレスポンス分析スキル", "rationale": "これは伝統的DMスキルです。", "isCorrect": false },
+          { "text": "顧客戦略の立案、STP分析、4P策定などの基礎スキル", "rationale": "業種を問わずマーケターとして基本となるスキルセットです。", "isCorrect": true },
+          { "text": "マーケティングオートメーション（MA）ツールの運用スキル", "rationale": "これはデジタル時代のスキルです。", "isCorrect": false },
+          { "text": "薬機法や景表法など、表示に関する法務スキル", "rationale": "これは伝統的DMスキルに分類されています。", "isCorrect": false }
         ],
         "hint": "どんな業界のマーケティングでも必要となる「基礎」のスキルです。"
       },
       {
         "questionNumber": 22,
-        "question": "D2C人材育成モデルの指針における「伝統的ダイレクトマーケティングスキル」に含まれるものはどれか。",
+        "question": "D2C人材育成モデルにおける「伝統的ダイレクトマーケティングスキル」に含まれるものはどれか。",
         "answerOptions": [
-          { "text": "カスタマー・ジャーニー管理スキル", "rationale": "一般的スキルに分類されます。", "isCorrect": false },
-          { "text": "カタログ・DM制作、フルフィルメント管理、法務スキル", "rationale": "通販時代から培われてきた、DM特有の実務スキル群です。", "isCorrect": true },
-          { "text": "SNS、SEOスキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
-          { "text": "統合データベース管理スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false }
+          { "text": "カスタマー・ジャーニーの統合管理スキル", "rationale": "一般的スキルまたはオムニチャネル時代のスキルに分類されます。", "isCorrect": false },
+          { "text": "カタログ制作、リスト抽出、フルフィルメント管理、法務スキル", "rationale": "通販時代から培われてきた、DM特有の実務スキル群です。", "isCorrect": true },
+          { "text": "SEO（検索エンジン最適化）およびSNS運用スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "AIを活用した需要予測モデリングスキル", "rationale": "高度なデジタル時代のスキルです。", "isCorrect": false }
         ],
-        "hint": "インターネットが普及する前の「通販時代」から重要視されているスキルです。"
+        "hint": "インターネットが普及する前の「通販時代」から重要視されている実務スキルです。"
       },
       {
         "questionNumber": 23,
-        "question": "D2C人材育成モデルの指針における「デジタル、オムニチャネル時代のダイレクトマーケティングスキル」に含まれないものはどれか。",
+        "question": "D2C人材育成モデルにおける「デジタル、オムニチャネル時代のダイレクトマーケティングスキル」に含まれないものはどれか。",
         "answerOptions": [
-          { "text": "統合データベース管理スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
-          { "text": "データによる仮説検証スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
-          { "text": "市場調査スキル", "rationale": "これは「マーケターとしての一般的スキル」に該当します。", "isCorrect": true },
-          { "text": "組織マネジメント／リーダーシップスキル", "rationale": "チャネル統合のための高度なマネジメントとして、このカテゴリに含まれています。", "isCorrect": false }
+          { "text": "統合データベースやMAツールの管理・運用スキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "デジタルデータを用いた仮説検証と高速なPDCAスキル", "rationale": "デジタル時代のスキルです。", "isCorrect": false },
+          { "text": "一般的な市場調査の設計と分析スキル", "rationale": "これは「マーケターとしての一般的スキル」に該当します。", "isCorrect": true },
+          { "text": "各チャネルの利害を調整する組織マネジメント／リーダーシップスキル", "rationale": "チャネル統合のための高度なマネジメントとして、このカテゴリに含まれています。", "isCorrect": false }
         ],
         "hint": "マーケティングの「基礎」ではなく、高度なITや組織連携が求められる最新のスキルです。"
       },
       {
         "questionNumber": 24,
-        "question": "オムニチャネル時代において、「顧客統合」の次に大きなハードルになると指摘されているスキルは何か。",
+        "question": "オムニチャネル時代において、「顧客データの統合」の次に越えなければならない大きなハードルとして指摘されているスキルは何か。",
         "answerOptions": [
-          { "text": "動画編集スキル", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "シームレスな物流／在庫管理スキル", "rationale": "店舗とECで在庫を一元化し、どこからでもスムーズに届けられるようにする在庫管理は、大きなハードルとなります。", "isCorrect": true },
-          { "text": "多言語翻訳スキル", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "プログラミング言語の習得", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "マス広告とデジタル広告の予算配分スキル", "rationale": "重要ですが、最大のハードルとしては別のものが挙げられています。", "isCorrect": false },
+          { "text": "店舗とECをまたいだ、シームレスな物流および在庫管理スキル", "rationale": "「ネットで買って店舗で受け取る」などを実現するための、裏側のモノの管理（在庫一元化）が大きなハードルとなります。", "isCorrect": true },
+          { "text": "多言語対応のコールセンター運営スキル", "rationale": "越境ECでは重要ですが、一般的なオムニチャネルの文脈とは異なります。", "isCorrect": false },
+          { "text": "最新のプログラミング言語を用いた自社アプリ開発スキル", "rationale": "開発自体は外注も可能です。", "isCorrect": false }
         ],
-        "hint": "「ネットで買って店舗で受け取る」などを実現するために必要な、裏側のモノの管理です。"
+        "hint": "情報の統合の次は、「モノ（商品）」の統合です。"
       },
       {
         "questionNumber": 25,
-        "question": "D2C事業において、自社の正社員の主な仕事が「商品や媒体の企画」である場合、それ以外の生産やフルフィルメントなどは通常どうしているか。",
+        "question": "デジタル時代のダイレクトマーケティングにおいて活用が求められる「CGM」とは、何を指す言葉か。",
         "answerOptions": [
-          { "text": "企画担当者が空き時間ですべて手作業で行う", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "パートナー企業に外注（アウトソーシング）していることが多い", "rationale": "D2C企業の多くは、実行部隊を持たずパートナー企業に委託することで高収益性を保っています。", "isCorrect": true },
-          { "text": "顧客にセルフサービスで作業させる", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "一切行わず、企画書だけを販売する", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "Consumer Generated Media（消費者自身が発信するSNSや口コミなどのメディア）", "rationale": "ユーザーが書き込むレビューサイトやSNSなどをマーケティングに活用するスキルが求められます。", "isCorrect": true },
+          { "text": "Computer Graphics Movie（商品を高精細に表現する映像技術）", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "Customer Growth Management（顧客のLTV成長を管理するシステム）", "rationale": "CRMに似た造語ですが不適切です。", "isCorrect": false },
+          { "text": "Chief General Manager（全チャネルを統括する最高責任者）", "rationale": "役職名ではありません。", "isCorrect": false }
         ],
-        "hint": "得意なことは自分たちでやり、専門的なことはプロにお願いするというモデルです。"
+        "hint": "企業ではなく、一般のユーザーが作り出すメディアのことです。"
       },
       {
         "questionNumber": 26,
-        "question": "D2C企業にとって、パートナー企業の選定や管理はどのような位置づけにあるか。",
+        "question": "D2Cビジネスにおいて、高度な「各チャネルの利害調整（組織マネジメント）」スキルが求められる背景は何か。",
         "answerOptions": [
-          { "text": "外部の会社なので、基本的には放置してよい。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "自部門内のメンバー管理と同様に、重要なマネジメント対象である。", "rationale": "顧客体験に直結する業務を担うため、社内メンバーと同じくらい丁寧にマネジメントする必要があります。", "isCorrect": true },
-          { "text": "とにかく一番安い業者を毎年コロコロ変えるべきである。", "rationale": "品質が安定しません。", "isCorrect": false },
-          { "text": "法律関係の処理のみを行えばよい。", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "「外部の業者」ではなく、「一緒に事業を作る仲間」としての管理が求められます。"
-      },
-      {
-        "questionNumber": 27,
-        "question": "顧客から見た時、電話したコールセンターの対応が悪かったり、届いた商品の箱が汚れていた場合、どのように評価（責任の所在）されるか。",
-        "answerOptions": [
-          { "text": "「配送業者や外注先が悪い」と同情してくれる。", "rationale": "顧客は内部事情を考慮しません。", "isCorrect": false },
-          { "text": "外注していようがいまいが、すべて「そのD2C企業の業務品質（ブランド体験）」として評価される。", "rationale": "顧客にとって運営主体は関係なく、すべての接点がそのブランドの評価に直結します。", "isCorrect": true },
-          { "text": "「商品自体は良いから問題ない」と評価に影響しない。", "rationale": "体験全体で評価されます。", "isCorrect": false },
-          { "text": "国や自治体の責任だと評価される。", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "お客様にとっては、電話口に出た人も荷物を運んできた人も「その会社の人」です。"
-      },
-      {
-        "questionNumber": 28,
-        "question": "顧客からのフィードバックを共有するためにパートナー企業と定期的なミーティングを開く際、マネジャーがとるべき態度はどれか。",
-        "answerOptions": [
-          { "text": "部下に任せきりにし、自分は参加しない。", "rationale": "マネジャーの関与が必要です。", "isCorrect": false },
-          { "text": "ひたすらパートナー企業のミスを責め立てる場にする。", "rationale": "Win-Winの関係構築になりません。", "isCorrect": false },
-          { "text": "自社とパートナー企業による「価値創出」の場として積極的に関与する。", "rationale": "共に顧客満足を高めるための建設的な議論の場として、マネジャーがリードすべきです。", "isCorrect": true },
-          { "text": "自社の売上目標の達成のみを一方的に要求する。", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "下請けとして扱うのではなく、対等な立場で「どうすればもっと良くなるか」を考えます。"
-      },
-      {
-        "questionNumber": 29,
-        "question": "テキストで紹介されている「自動車大手のA社」が、WEBサイト制作会社に値下げを要求する際に行った「A社らしい」アプローチとは何か。",
-        "answerOptions": [
-          { "text": "他社の安い見積もりを見せて脅迫した。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "自社工場で磨き続けた「生産性向上の方法論」を制作会社に指導した。", "rationale": "ただ値下げを迫るのではなく、相手の作業効率を上げるノウハウを提供することでコストダウンを実現しました。", "isCorrect": true },
-          { "text": "制作会社の株式を強制的に買い取った。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "納期を2倍に延ばしてあげた。", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "自分たちの得意な「無駄をなくすノウハウ（トヨタ生産方式など）」を相手に教えました。"
-      },
-      {
-        "questionNumber": 30,
-        "question": "自動車大手A社が制作会社に対して行った「具体的な指導内容」の例として挙げられているものはどれか。",
-        "answerOptions": [
-          { "text": "デザインの配色をすべてA社が決定した。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "作業時間をストップウォッチで計測し無駄を見える化し、モニターを2台にするよう指導した。", "rationale": "製造現場の改善手法（タイムスタディや環境整備）をWEB制作の現場に持ち込みました。", "isCorrect": true },
-          { "text": "制作会社の従業員の給与を削減させた。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "すべての作業をAIに置き換えさせた。", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "工場で作業員の動きを分析するように、デザイナーの作業環境を分析・改善しました。"
-      },
-      {
-        "questionNumber": 31,
-        "question": "発注者であるD2C企業からもたらされる情報やノウハウが、パートナー企業の生産性向上に役立つ関係性を、テキストでは何と表現しているか。",
-        "answerOptions": [
-          { "text": "ゼロサム・ゲーム", "rationale": "一方が得をして一方が損をする関係です。", "isCorrect": false },
-          { "text": "顧客のために「共に価値を創造する」本来的な意味でのパートナー関係", "rationale": "ノウハウを共有し合い、お互いに成長しながら顧客に価値を提供する「Win-Win」の関係性です。", "isCorrect": true },
-          { "text": "完全な主従関係", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "一時的な下請け関係", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "お互いが「勝者（Win）」になる関係です。"
-      },
-      {
-        "questionNumber": 32,
-        "question": "顧客中心型のKPI設計などを行う「クロスファンクショナルチーム」は、最終的にどのような役割を担うか。",
-        "answerOptions": [
-          { "text": "決定事項を現場に強制執行する警察のような役割", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "課題を抽出し、経営層に対する「提言」を行う役割", "rationale": "部門横断で現場の課題を集約し、経営層に対して組織や評価の変革を提言する役割を担います。", "isCorrect": true },
-          { "text": "競合他社の製品を分解して調査する役割", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "社長の秘書業務を代行する役割", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "会社を良くするための「提案書」を作るチームです。"
-      },
-      {
-        "questionNumber": 33,
-        "question": "「顧客セグメントマネジャー」の配下に属する機能（例2の図）として、配置されているものはどれか。",
-        "answerOptions": [
-          { "text": "各チャネルマネジャー、CRM、市場調査、R&D、顧客サービス", "rationale": "図において、顧客セグメントマネジャーの下にこれらのチャネルや機能がぶら下がり、統合管理される構成が示されています。", "isCorrect": true },
-          { "text": "株主対応、経理、人事", "rationale": "管理部門であり直接の配下ではありません。", "isCorrect": false },
-          { "text": "社長、マーケティング担当役員", "rationale": "これらは上位の役職です。", "isCorrect": false },
-          { "text": "外部の競合他社", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "「そのお客様に売るためのすべての手段」を統括します。"
-      },
-      {
-        "questionNumber": 34,
-        "question": "「CDMT（顧客開発マネジメントチーム）」という名称において、「D（Development）」が意味するものは何か。",
-        "answerOptions": [
-          { "text": "デザイン（Design）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "デジタル（Digital）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "開発（Development：顧客関係の育成・発展）", "rationale": "Customer Development（顧客開発＝顧客との関係を育成しLTVを高めること）を意味します。", "isCorrect": true },
-          { "text": "配送（Delivery）", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "お客様との関係を「育てていく、発展させる」という意味の英単語です。"
-      },
-      {
-        "questionNumber": 35,
-        "question": "D2C企業において、「商品の配送箱」に関する工夫はどのスキル分類に最も深く関わるか。",
-        "answerOptions": [
-          { "text": "デジタルマーケティングスキル", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "フルフィルメント管理スキル（体験価値としての物流）", "rationale": "商品を届ける箱や同梱物も含めてフルフィルメント（伝統的DMスキル）の重要な要素です。", "isCorrect": true },
-          { "text": "法務スキル", "rationale": "表示義務などはありますが、工夫の主体ではありません。", "isCorrect": false },
-          { "text": "市場調査スキル", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "「届ける」というバックヤード業務に関連するスキルです。"
-      },
-      {
-        "questionNumber": 36,
-        "question": "デジタル時代のダイレクトマーケティングにおいて、「CGM」を活用するスキルが求められる。CGMとは何か。",
-        "answerOptions": [
-          { "text": "Consumer Generated Media（消費者生成メディア・口コミ等）", "rationale": "顧客自身が発信するSNSの投稿やレビュー（CGM）をマーケティングに活用するスキルです。", "isCorrect": true },
-          { "text": "Computer Graphics Movie（コンピューターグラフィックス映像）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "Customer Growth Management（顧客成長管理）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "Chief General Manager（最高総括責任者）", "rationale": "不適切です。", "isCorrect": false }
-        ],
-        "hint": "ユーザーが書き込むレビューサイトやブログなどのことです。"
-      },
-      {
-        "questionNumber": 37,
-        "question": "D2Cビジネスにおいて「各チャネルの利害調整」を行う組織マネジメントスキルが求められる背景は何か。",
-        "answerOptions": [
-          { "text": "チャネルごとに全く違う商品を売っているから", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "オムニチャネル化に伴い、店舗・EC・カタログ間で顧客や売上の奪い合い（カニバリゼーション）が起きやすいため", "rationale": "顧客が複数チャネルを横断するため、部門間の評価や利害を調整する高度なリーダーシップが必要になります。", "isCorrect": true },
-          { "text": "チャネルごとに違う国の法律が適用されるから", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "社員同士が仲が悪いから", "rationale": "根本的な理由ではありません。", "isCorrect": false }
+          { "text": "チャネルごとに全く違うブランド商品を販売しているため。", "rationale": "通常は同一ブランドを販売します。", "isCorrect": false },
+          { "text": "オムニチャネル化に伴い、店舗・EC間で顧客や売上の奪い合い（カニバリゼーション）が起きやすいため。", "rationale": "顧客が複数チャネルを横断するため、部門間の評価や利害を調整する高度なリーダーシップが必要になります。", "isCorrect": true },
+          { "text": "チャネルごとに適用される法律が異なり、法務部門の負担が大きいため。", "rationale": "法律の違いが利害調整の主因ではありません。", "isCorrect": false },
+          { "text": "社員の世代間ギャップにより、デジタルへの理解度に差があるため。", "rationale": "世代間ギャップは別の問題です。", "isCorrect": false }
         ],
         "hint": "「あのお客様はウチの店舗の売上だ！」「いや、ECの売上だ！」という争いをまとめる力です。"
       },
       {
-        "questionNumber": 38,
-        "question": "統合データベース管理スキルにおいて、「顧客マスター」「商品マスター」と並んで管理すべきとされるマスターデータの例はどれか。",
+        "questionNumber": 27,
+        "question": "統合データベース管理において、「顧客マスター」「商品マスター」と並んで、施策の反応を正確に追うために管理すべきマスターデータはどれか。",
         "answerOptions": [
           { "text": "キャンペーンマスター、チャネルマスター", "rationale": "誰に、何を、どのキャンペーンで、どのチャネル経由で売ったかを統合管理するための基本マスターです。", "isCorrect": true },
-          { "text": "社員給与マスター", "rationale": "人事情報です。", "isCorrect": false },
-          { "text": "競合他社マスター", "rationale": "自社の内部DBの基本マスターではありません。", "isCorrect": false },
-          { "text": "天候マスター", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "従業員評価マスター", "rationale": "人事情報です。", "isCorrect": false },
+          { "text": "競合他社動向マスター", "rationale": "自社の内部DBの基本マスターではありません。", "isCorrect": false },
+          { "text": "気象情報・天候マスター", "rationale": "外部要因のデータです。", "isCorrect": false }
         ],
         "hint": "「どんな企画（販促）」で、「どこ経由（お店かネットか）」で売れたかを記録する台帳です。"
       },
       {
-        "questionNumber": 39,
-        "question": "現場のオペレーター（顧客対応部門）が、新商品の特徴だけでなく「なぜこのキャンペーンを行うのか（マーケティング視点）」を理解することの最大の利点は何か。",
+        "questionNumber": 28,
+        "question": "現場のオペレーター（顧客対応部門）が、単なる商品の特徴だけでなく「なぜこのキャンペーンを行うのか（マーケティングの意図）」を理解することの最大の利点は何か。",
         "answerOptions": [
-          { "text": "電話対応の時間を無駄に長くできる", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客へのトークスクリプトを無視して勝手に話せる", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "企画の意図を汲んだ上で、より顧客の心に響く（価値を創造する）対応や提案ができるようになる", "rationale": "背景を理解することで、マニュアル通りの作業から、顧客体験を高める血の通った対応へと進化します。", "isCorrect": true },
-          { "text": "マーケティング部門に異動できる", "rationale": "目的ではありません。", "isCorrect": false }
+          { "text": "クレーム対応の時間を意図的に引き延ばし、顧客を疲れさせることができる。", "rationale": "不適切な対応です。", "isCorrect": false },
+          { "text": "マニュアル化されたトークスクリプトを完全に無視し、個人の裁量で自由に話せるようになる。", "rationale": "自由すぎると品質が担保できません。", "isCorrect": false },
+          { "text": "企画の意図を汲んだ上で、より顧客の心に響く（価値を創造する）対応や提案ができるようになる。", "rationale": "背景を理解することで、マニュアル通りの作業から、顧客体験を高める血の通った対応へと進化します。", "isCorrect": true },
+          { "text": "早期にマーケティング部門への異動願いを出す正当な理由になる。", "rationale": "異動が目的ではありません。", "isCorrect": false }
         ],
         "hint": "「やらされている」のではなく、「目的」を知ることで対応の質が上がるということです。"
       },
       {
-        "questionNumber": 40,
-        "question": "「企業戦略」と「事業戦略」と「顧客戦略」の関係性において、D2Cビジネスの特徴を最もよく表している表現はどれか。",
+        "questionNumber": 29,
+        "question": "D2C企業において、自社の正社員の主な仕事が「商品や媒体の企画」である場合、それ以外の生産やフルフィルメントなどは通常どのように運用されているか。",
         "answerOptions": [
-          { "text": "事業戦略の中に顧客戦略が内包され、親子のように連動してPDCAが回る", "rationale": "事業の目標（売上等）を達成するための具体的なシナリオとして顧客戦略が直結しているのがD2Cの特徴です。", "isCorrect": true },
-          { "text": "企業戦略だけで顧客のすべてを管理する", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "事業戦略と顧客戦略は完全に相反する", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客戦略は広告代理店が単独で決定する", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "企画担当者が残業や休日出勤を行い、すべて手作業でカバーしている。", "rationale": "物理的に不可能です。", "isCorrect": false },
+          { "text": "パートナー企業（専門業者）に外注（アウトソーシング）していることが多い。", "rationale": "D2C企業の多くは、実行部隊を持たずパートナー企業に委託することで高収益性を保っています。", "isCorrect": true },
+          { "text": "顧客自身にセルフサービスで作業を負担してもらっている。", "rationale": "D2Cのモデルとは異なります。", "isCorrect": false },
+          { "text": "生産や配送は行わず、商品の「企画書」や「データ」のみを販売している。", "rationale": "有形商材を扱うD2Cの前提から外れます。", "isCorrect": false }
         ],
-        "hint": "「どうやって勝つか（事業）」と「誰に売るか（顧客）」が一体になっている状態です。"
+        "hint": "得意なことは自分たちでやり、専門的なことはプロにお願いするというモデルです。"
+      },
+      {
+        "questionNumber": 30,
+        "question": "顧客から見た時、電話したコールセンターの対応が悪かったり、届いた商品の箱が汚れていた場合、どのように評価（責任の所在）されるか。",
+        "answerOptions": [
+          { "text": "「配送業者や外注先のコールセンターが悪いのだ」と企業に同情してくれる。", "rationale": "顧客は内部事情を考慮しません。", "isCorrect": false },
+          { "text": "外注していようがいまいが、すべて「そのD2C企業の業務品質（ブランド体験）」として評価される。", "rationale": "顧客にとって運営主体は関係なく、すべての接点がそのブランドの評価に直結します。", "isCorrect": true },
+          { "text": "「商品自体は良いのだから問題ない」と判断され、リピート購入には影響しない。", "rationale": "体験全体で評価されるため影響します。", "isCorrect": false },
+          { "text": "国のガイドラインが不十分であるとして、行政の責任だと評価される。", "rationale": "不適切です。", "isCorrect": false }
+        ],
+        "hint": "お客様にとっては、電話口に出た人も荷物を運んできた人も「その会社の人」です。"
+      },
+      {
+        "questionNumber": 31,
+        "question": "顧客からのフィードバックを共有するためにパートナー企業と定期的なミーティングを開く際、D2C企業のマネジャーがとるべき態度はどれか。",
+        "answerOptions": [
+          { "text": "現場の実務は分からないため、部下に任せきりにし、自分は参加しない。", "rationale": "マネジャーの関与が必要です。", "isCorrect": false },
+          { "text": "「発注者」としての優位な立場を利用し、ひたすらパートナー企業のミスを責め立てる。", "rationale": "Win-Winの関係構築になりません。", "isCorrect": false },
+          { "text": "自社とパートナー企業による「価値創出（価値共創）」の場として、対等な立場で積極的に関与する。", "rationale": "共に顧客満足を高めるための建設的な議論の場として、マネジャーがリードすべきです。", "isCorrect": true },
+          { "text": "自社の売上目標の数値を提示し、その達成のみをパートナー企業に一方的に要求する。", "rationale": "一方的な要求はパートナーシップを損ないます。", "isCorrect": false }
+        ],
+        "hint": "下請けとして扱うのではなく、同じ目標に向かう仲間として接します。"
+      },
+      {
+        "questionNumber": 32,
+        "question": "テキストで紹介されている「自動車大手のA社」が、WEBサイト制作会社に対してコストダウンを要求する際に行った「A社らしい」アプローチとは何か。",
+        "answerOptions": [
+          { "text": "他社の極端に安い見積もりを提示し、契約打ち切りをちらつかせて脅迫した。", "rationale": "不適切な取引手法です。", "isCorrect": false },
+          { "text": "自社工場で長年磨き続けた「生産性向上の方法論（ノウハウ）」を制作会社に直接指導した。", "rationale": "ただ値下げを迫るのではなく、相手の作業効率を上げるノウハウを提供することでコストダウンを実現しました。", "isCorrect": true },
+          { "text": "制作会社の株式の過半数を強制的に買い取り、経営権を完全に掌握した。", "rationale": "強引なM&Aであり、事例とは異なります。", "isCorrect": false },
+          { "text": "納品の期限を従来の2倍以上に延ばし、品質を下げることを許可した。", "rationale": "品質を下げるアプローチではありません。", "isCorrect": false }
+        ],
+        "hint": "自分たちの得意な「無駄をなくすノウハウ（トヨタ生産方式など）」を相手に教えました。"
+      },
+      {
+        "questionNumber": 33,
+        "question": "自動車大手A社が制作会社に対して行った「具体的な指導内容」の例として挙げられているものはどれか。",
+        "answerOptions": [
+          { "text": "デザインの配色やレイアウトの決定権をすべてA社が引き取った。", "rationale": "制作のノウハウを奪うことではありません。", "isCorrect": false },
+          { "text": "作業時間をストップウォッチで計測し無駄を見える化し、作業効率を上げるためモニターを2台にするよう指導した。", "rationale": "製造現場の改善手法（タイムスタディや環境整備）をWEB制作の現場に持ち込みました。", "isCorrect": true },
+          { "text": "コスト削減のために、制作会社の従業員の給与水準を一律で引き下げさせた。", "rationale": "給与削減ではなく生産性向上です。", "isCorrect": false },
+          { "text": "手作業によるデザインをやめさせ、全ての工程を海外の安価な外注先に再委託させた。", "rationale": "丸投げではなくプロセスの改善です。", "isCorrect": false }
+        ],
+        "hint": "工場で作業員の動きを分析するように、デザイナーの作業環境を分析・改善しました。"
+      },
+      {
+        "questionNumber": 34,
+        "question": "発注者であるD2C企業からもたらされる情報やノウハウが、パートナー企業の生産性向上に役立つような関係性を、テキストでは何と表現しているか。",
+        "answerOptions": [
+          { "text": "一方が得をすれば他方が損をする「ゼロサム・ゲーム」の関係", "rationale": "対極にある関係性です。", "isCorrect": false },
+          { "text": "顧客のために「共に価値を創造する」本来的な意味でのパートナー関係（Win-Win）", "rationale": "ノウハウを共有し合い、お互いに成長しながら顧客に価値を提供する関係性です。", "isCorrect": true },
+          { "text": "指示する側とされる側が明確に分かれた「完全な主従関係」", "rationale": "主従関係ではありません。", "isCorrect": false },
+          { "text": "特定のプロジェクトが終われば解消される「一時的な下請け関係」", "rationale": "継続的なパートナーシップを目指します。", "isCorrect": false }
+        ],
+        "hint": "お互いが「勝者（Win）」になり、一緒にお客様を喜ばせる関係です。"
+      },
+      {
+        "questionNumber": 35,
+        "question": "顧客中心の組織編成への移行において、従来の「製品別（ブランド別）組織」が抱える問題点として、テキストの文脈に最も合うものはどれか。",
+        "answerOptions": [
+          { "text": "製品の品質が高くなりすぎ、価格競争力を失ってしまう点。", "rationale": "品質向上自体は問題ではありません。", "isCorrect": false },
+          { "text": "製品の売上を伸ばすことが自己目的化し、顧客の全体的なライフサイクルやLTVが軽視される点。", "rationale": "製品を売ること（製品中心）に執着し、顧客との長期的な関係構築（LTV）が後回しになる弊害です。", "isCorrect": true },
+          { "text": "従業員が特定の製品に愛着を持ちすぎ、他部署への異動を極端に拒むようになる点。", "rationale": "直接的な弊害の記述とは異なります。", "isCorrect": false },
+          { "text": "製品ごとに別々の工場を持つ必要があり、莫大な設備投資がかかる点。", "rationale": "製造体制の問題ではなくマーケティング組織の問題です。", "isCorrect": false }
+        ],
+        "hint": "「この商品をどう売るか」ばかり考えて、「このお客様にどう満足してもらうか」という視点が抜けてしまうことです。"
+      },
+      {
+        "questionNumber": 36,
+        "question": "クロスファンクショナルチームの性質として、適切なものはどれか。",
+        "answerOptions": [
+          { "text": "恒久的な組織として設置され、全社の最終意思決定権を永続的に持つ。", "rationale": "一時的なプロジェクトチームであり、最終決定権は経営層にあります。", "isCorrect": false },
+          { "text": "課題の洗い出しと経営層への提言を目的とした「一時的なプロジェクト形式」のチームである。", "rationale": "縦割りを打破するための起爆剤として、期間限定で結成される横断チームです。", "isCorrect": true },
+          { "text": "外部のコンサルタントのみで構成され、社内の人間は一切参加しない。", "rationale": "社内のミドルマネジメント層が中心となります。", "isCorrect": false },
+          { "text": "社内の不正やコンプライアンス違反を摘発するためだけの秘密組織である。", "rationale": "監査部門とは異なります。", "isCorrect": false }
+        ],
+        "hint": "問題を解決するための「タスクフォース（特別チーム）」のような位置づけです。"
+      },
+      {
+        "questionNumber": 37,
+        "question": "「顧客セグメントマネジャー」の役割として、最も重視される責任はどれか。",
+        "answerOptions": [
+          { "text": "担当する特定商品の製造コストを極限まで下げること。", "rationale": "商品中心の責任です。", "isCorrect": false },
+          { "text": "担当する特定のチャネル（例：ECサイト）のアクセス数を最大化すること。", "rationale": "チャネル中心の責任です。", "isCorrect": false },
+          { "text": "担当する特定の顧客グループのLTV（顧客資産価値）を最大化すること。", "rationale": "顧客グループを任され、その顧客がもたらす生涯価値を最大化することがミッションです。", "isCorrect": true },
+          { "text": "会社の全新入社員の教育プログラムを策定し実行すること。", "rationale": "人事部門の役割です。", "isCorrect": false }
+        ],
+        "hint": "「20代女性のスマホユーザー」などの特定の顧客層を丸ごと任され、その人たちに長く買ってもらうための責任者です。"
+      },
+      {
+        "questionNumber": 38,
+        "question": "「CDMT（顧客開発マネジメントチーム）」の名称に含まれる「Development（開発）」が意味する、D2Cビジネスにおける重要な概念は何か。",
+        "answerOptions": [
+          { "text": "最新のテクノロジーを用いた「システム開発（System Development）」", "rationale": "システムに限定されません。", "isCorrect": false },
+          { "text": "競合他社にはない画期的な「新商品開発（Product Development）」", "rationale": "製品開発に限定されません。", "isCorrect": false },
+          { "text": "顧客との関係性を長期的に育成し、LTVを高めていく「顧客開発（Customer Development）」", "rationale": "獲得した顧客を育て（育成・発展させ）、ロイヤルカスタマーにしていくプロセスを「開発」と表現しています。", "isCorrect": true },
+          { "text": "未開拓の海外市場に進出するための「市場開発（Market Development）」", "rationale": "市場開拓とは異なります。", "isCorrect": false }
+        ],
+        "hint": "お客様との絆を「育てていく、発展させる」という意味合いです。"
+      },
+      {
+        "questionNumber": 39,
+        "question": "顧客の体験価値を高めるため、「商品の配送箱（段ボール）」を開けやすくしたり、内側にメッセージを印字したりする工夫は、どのスキル分類の実践例と言えるか。",
+        "answerOptions": [
+          { "text": "デジタル広告の最適化スキル", "rationale": "デジタル空間の施策ではありません。", "isCorrect": false },
+          { "text": "フルフィルメント管理スキル（体験価値としての物流）", "rationale": "商品を届ける箱や同梱物も含めてフルフィルメント（伝統的DMスキル）の重要な要素です。", "isCorrect": true },
+          { "text": "薬機法などの表示法務スキル", "rationale": "法的要件を満たすことは前提ですが、工夫の主体ではありません。", "isCorrect": false },
+          { "text": "ビッグデータを用いた統計解析スキル", "rationale": "データ分析そのものではありません。", "isCorrect": false }
+        ],
+        "hint": "「届ける」というバックヤード業務を、いかに「おもてなし」に変えるかというスキルです。"
+      },
+      {
+        "questionNumber": 40,
+        "question": "「企業戦略」と「事業戦略」と「顧客戦略」の連動について、D2Cの理想的な状態を表す記述はどれか。",
+        "answerOptions": [
+          { "text": "各戦略がそれぞれ独立した目標を持ち、互いに干渉し合わない状態。", "rationale": "干渉しないとシナジーが生まれません。", "isCorrect": false },
+          { "text": "事業戦略（売上目標など）を達成するための具体的なシナリオとして、顧客戦略（誰にどう売るか）が直結している状態。", "rationale": "事業の目標を達成するための具体的なシナリオとして顧客戦略が親子のように直結しているのがD2Cの特徴です。", "isCorrect": true },
+          { "text": "顧客の要望にすべて応えるため、企業戦略の理念をその都度変更している状態。", "rationale": "理念は簡単には変更すべきではありません。", "isCorrect": false },
+          { "text": "広告代理店が策定した顧客戦略を、そのまま自社の企業戦略として採用している状態。", "rationale": "戦略は自社で策定すべきです。", "isCorrect": false }
+        ],
+        "hint": "「どうやって会社を伸ばすか（事業）」と「誰に買ってもらうか（顧客）」が一本の線で繋がっている状態です。"
       },
       {
         "questionNumber": 41,
-        "question": "組織変革において、ミドル・マネジメント層が発揮すべきリーダーシップとはどのようなものか。",
+        "question": "組織変革において、ミドル・マネジメント層（部長や課長など）が発揮すべきリーダーシップとはどのようなものか。",
         "answerOptions": [
-          { "text": "社長の指示を待ってから動き始めること", "rationale": "受け身です。", "isCorrect": false },
-          { "text": "現状の縦割り組織の課題を抽出し、自ら部門横断的な連携を働きかけ、経営層へ提言すること", "rationale": "ミドル層自らが課題意識を持ち、組織の壁を越えて変革をリードする姿勢が求められます。", "isCorrect": true },
-          { "text": "自分の部署の利益だけを死守すること", "rationale": "変革を阻害します。", "isCorrect": false },
-          { "text": "すべての責任を部下に押し付けること", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "経営トップからの詳細な指示が下りてくるまで、現場の混乱を静観すること。", "rationale": "受け身の姿勢は評価されません。", "isCorrect": false },
+          { "text": "現状の縦割り組織の課題を自ら抽出し、部門横断的な連携を働きかけ、経営層へ改革を提言すること。", "rationale": "ミドル層自らが課題意識を持ち、組織の壁を越えて変革をリードする能動的な姿勢が求められます。", "isCorrect": true },
+          { "text": "自部署の予算と人員を死守するため、他部署からの干渉を徹底的に排除すること。", "rationale": "縦割りを強化するだけの行動です。", "isCorrect": false },
+          { "text": "現場の不満を吸収するため、すべての責任を自身の部下に押し付けること。", "rationale": "リーダーシップの放棄です。", "isCorrect": false }
         ],
         "hint": "上からの指示待ちではなく、現場と経営の「架け橋」として自ら動くことです。"
       },
       {
         "questionNumber": 42,
-        "question": "オムニチャネル環境下において、「シームレスな在庫管理」ができていない場合に顧客が経験する可能性のある「マイナスの体験」はどれか。",
+        "question": "オムニチャネル環境下において、「シームレスな在庫管理」ができていない場合、顧客が経験する可能性のある致命的な「マイナスの体験」はどれか。",
         "answerOptions": [
-          { "text": "ネットで「在庫あり」を見て店舗に行ったのに、実際には売り切れていた", "rationale": "データが統合されていないために起こる、オムニチャネルの典型的な失敗体験です。", "isCorrect": true },
-          { "text": "商品が予定より早く届いた", "rationale": "プラスの体験です。", "isCorrect": false },
-          { "text": "メルマガが毎日届く", "rationale": "在庫管理とは無関係です。", "isCorrect": false },
-          { "text": "店舗の店員が親切だった", "rationale": "プラスの体験です。", "isCorrect": false }
+          { "text": "ネットで「在庫あり」と確認して実店舗に行ったのに、実際には売り切れていた。", "rationale": "システムと店舗のデータが統合されていないために起こる、オムニチャネルの典型的な失敗体験です。", "isCorrect": true },
+          { "text": "注文した商品が、予定よりも1日早く手元に届いてしまった。", "rationale": "これは通常プラスまたは許容範囲内の体験です。", "isCorrect": false },
+          { "text": "商品の使い方を説明するメールマガジンが毎日届くようになった。", "rationale": "在庫管理とは無関係のCRMの課題です。", "isCorrect": false },
+          { "text": "実店舗の店員が、オンライン専用商品の特徴について丁寧に説明してくれた。", "rationale": "これはプラスの体験です。", "isCorrect": false }
         ],
-        "hint": "リアルとデジタルの裏側のシステムが繋がっていないことで起こる悲劇です。"
+        "hint": "リアルとデジタルの裏側のシステムが繋がっていないことで起こる、お客様の期待を裏切る悲劇です。"
       },
       {
         "questionNumber": 43,
-        "question": "「D2Cエキスパート検定」が育成を目指す人物像（リーダーたち）が切り拓くべきものは何か。",
+        "question": "「D2Cエキスパート検定」が育成を目指す人物像（リーダーたち）が、社会に対して切り拓くべきものは何かと定義されているか。",
         "answerOptions": [
-          { "text": "マスメディアの新しい広告枠", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "ダイレクトマーケティングの可能性", "rationale": "公式テキストの表紙等にも記載されている通り、ダイレクトマーケティングの可能性を切り拓くリーダーの育成を目指しています。", "isCorrect": true },
-          { "text": "海外の工場開拓", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "ブロックチェーンの暗号技術", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "マスメディアにおける、全く新しい斬新な広告枠。", "rationale": "マス広告に限定したものではありません。", "isCorrect": false },
+          { "text": "ダイレクトマーケティングの可能性。", "rationale": "公式テキストの表紙等にも記載されている通り、ダイレクトマーケティングの可能性を切り拓くリーダーの育成を目指しています。", "isCorrect": true },
+          { "text": "人件費が極めて安い、海外の新たな製造工場ネットワーク。", "rationale": "製造業のコストダウンのみを目的としていません。", "isCorrect": false },
+          { "text": "ブロックチェーンを用いた、中央集権的ではない暗号通貨決済の仕組み。", "rationale": "技術に特化した検定ではありません。", "isCorrect": false }
         ],
-        "hint": "お客様と直接つながるビジネスモデルの「未来」です。"
+        "hint": "企業とお客様が直接つながるビジネスモデルの「未来」です。"
       },
       {
         "questionNumber": 44,
-        "question": "「CDMT（顧客開発マネジメントチーム）」を導入する最大の目的は、製品中心組織のどのような弊害を解消するためか。",
+        "question": "CDMT（顧客開発マネジメントチーム）を導入する最大の目的は、従来の組織が抱えていたどのような弊害を解消するためか。",
         "answerOptions": [
-          { "text": "製品の品質が良くなりすぎる弊害", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客一人に対して、複数の部署がバラバラに、あるいは重複してアプローチしてしまう弊害", "rationale": "セグメントごとに1つのチームが統合管理することで、顧客にとって一貫したストレスのない体験を提供できます。", "isCorrect": true },
-          { "text": "従業員同士が仲良くなりすぎる弊害", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "売上が上がりすぎる弊害", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "製品の品質基準が高くなりすぎ、商品価格が高騰してしまう弊害。", "rationale": "品質の問題ではありません。", "isCorrect": false },
+          { "text": "顧客一人に対して、複数の部署がバラバラに、あるいは重複してアプローチしてしまう弊害。", "rationale": "セグメントごとに1つのチームが統合管理することで、顧客にとって一貫したストレスのない体験を提供できます。", "isCorrect": true },
+          { "text": "従業員同士が仲良くなりすぎ、社内に適度な緊張感が失われる弊害。", "rationale": "組織論の主たる課題ではありません。", "isCorrect": false },
+          { "text": "特定のスタープレイヤーに売上が依存しすぎる弊害。", "rationale": "属人化の排除も重要ですが、CDMTの直接の目的は縦割りの解消です。", "isCorrect": false }
         ],
-        "hint": "「あっちの部署からもこっちの部署からもDMが届く」といったお客様の混乱を防ぎます。"
+        "hint": "「あっちの部署からもこっちの部署からも同じDMが届く」といったお客様の混乱を防ぎます。"
       },
       {
         "questionNumber": 45,
-        "question": "自動車大手A社がWEB制作会社へ生産性向上の指導を行った結果、制作会社はどうなったか。",
+        "question": "D2C企業がパートナー企業（外注先）にコストダウンを要求する場合、テキストで推奨されている「あるべき姿勢」はどれか。",
         "answerOptions": [
-          { "text": "倒産してしまった", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "A社に買収された", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "生産性が大きく向上し、A社の値下げ要望にも余裕をもって応えることができた", "rationale": "指導によって無駄が省かれ、利益体質になったことで、結果的にA社のコストダウン要求にも応えられました。", "isCorrect": true },
-          { "text": "A社との取引を完全に打ち切った", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "発注者の立場を利用し、他社の安い見積もりを盾に強引に値下げを迫る。", "rationale": "パートナー関係を損なう古い手法です。", "isCorrect": false },
+          { "text": "自社のノウハウを提供して相手の作業の無駄を省き、生産性を向上させることでコストを下げる。", "rationale": "自動車大手A社の事例のように、相手の作業効率を上げる支援を行うことでWin-Winのコストダウンを実現します。", "isCorrect": true },
+          { "text": "コストに見合うよう、パートナー企業に無断で納品物の品質を低下させることを容認する。", "rationale": "ブランド体験を毀損します。", "isCorrect": false },
+          { "text": "コストダウンの要求は一切せず、パートナー企業の言い値で全額支払う。", "rationale": "適正なコスト管理は必要です。", "isCorrect": false }
         ],
-        "hint": "お互いにとってハッピーな結果（Win-Win）になりました。"
+        "hint": "ただ「安くしろ」と脅すのではなく、「こうすればもっと楽に早くできるよ」と教えることです。"
       },
       {
         "questionNumber": 46,
-        "question": "パートナー企業との関係構築において、D2C企業側が「持ってはいけない」スタンスはどれか。",
+        "question": "パートナー企業との関係構築において、D2C企業側が「持ってはいけない（避けるべき）」スタンスはどれか。",
         "answerOptions": [
-          { "text": "共に価値を創造するパートナーとして尊重する", "rationale": "持つべきスタンスです。", "isCorrect": false },
-          { "text": "自社のノウハウを積極的に提供し、生産性向上を支援する", "rationale": "持つべきスタンスです。", "isCorrect": false },
-          { "text": "単なる「下請け業者」として扱い、一方的に無理なコストダウンや納期を押し付ける", "rationale": "このスタンスでは品質が低下し、結果的に自社の顧客体験（ブランド）を毀損します。", "isCorrect": true },
-          { "text": "定期的にミーティングを開き、顧客の声を共有する", "rationale": "持つべきスタンスです。", "isCorrect": false }
+          { "text": "共に顧客価値を創造する対等なパートナーとして相手を尊重する。", "rationale": "持つべきスタンスです。", "isCorrect": false },
+          { "text": "自社の持つマーケティングデータを共有し、施策の背景を理解してもらう。", "rationale": "持つべきスタンスです。", "isCorrect": false },
+          { "text": "単なる「下請け業者」として扱い、一方的に無理な納期や責任を押し付ける。", "rationale": "このスタンスでは品質が低下し、結果的に自社の顧客体験（ブランド）を毀損します。", "isCorrect": true },
+          { "text": "定期的にミーティングを開き、顧客の生の声を共有して改善策を議論する。", "rationale": "持つべきスタンスです。", "isCorrect": false }
         ],
         "hint": "相手を下に見るような、古いビジネスのやり方です。"
       },
       {
         "questionNumber": 47,
-        "question": "顧客が「ブランドの世界観」を感じるタッチポイント（接点）として、該当するものはどれか。",
+        "question": "顧客が「ブランドの世界観」を感じ取り、評価を下すタッチポイント（接点）として、該当するものはどれか。",
         "answerOptions": [
-          { "text": "商品のデザイン", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
-          { "text": "コールセンターのオペレーターの言葉遣いや対応", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
-          { "text": "商品が届いた時の段ボール箱のテープの留め方", "rationale": "該当しますが、これだけではありません。", "isCorrect": false },
-          { "text": "上記すべて", "rationale": "これらすべての接点（体験の連続）から、顧客はブランドの世界観や一貫性を感じ取ります。", "isCorrect": true }
+          { "text": "ECサイトの洗練されたWebデザインのみ。", "rationale": "デザインも接点ですが、それだけではありません。", "isCorrect": false },
+          { "text": "コールセンターのオペレーターの言葉遣いや対応のみ。", "rationale": "対応も接点ですが、それだけではありません。", "isCorrect": false },
+          { "text": "商品が届いた時の段ボール箱のテープの留め方などの物理的接点のみ。", "rationale": "物理的接点も重要ですが、それだけではありません。", "isCorrect": false },
+          { "text": "上記のような、デジタル・アナログを問わないすべての接点の連続。", "rationale": "これらすべての接点（体験の連続）から、顧客はブランドの世界観や一貫性を感じ取ります。", "isCorrect": true }
         ],
         "hint": "お客様の目に触れるもの、耳に聞こえるもの「すべて」です。"
       },
       {
         "questionNumber": 48,
-        "question": "第6章で解説されている「組織管理の視点」とは、究極的には何を実現するための手段であるか。",
+        "question": "第6章で解説されている組織の縦割り打破やCDMTの導入といった「組織管理の視点」は、究極的には何を実現するための手段であるか。",
         "answerOptions": [
-          { "text": "社長の権力を強めるため", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "株主への配当を減らすため", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "顧客への「価値の創造・伝達・提供」を最大化するため", "rationale": "組織変革も人材育成もパートナー管理も、すべては顧客に最高の価値を提供するための手段です。", "isCorrect": true },
-          { "text": "従業員をリストラするため", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "社内の権力闘争を無くし、社長の権限を絶対的なものにするため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "不要な部署を統廃合し、人件費などの固定費を劇的に削減するため。", "rationale": "コスト削減が究極の目的ではありません。", "isCorrect": false },
+          { "text": "顧客への「価値の創造・伝達・提供」を最大化し、LTVを向上させるため。", "rationale": "組織変革も人材育成もパートナー管理も、すべては顧客に最高の価値を提供するための手段です。", "isCorrect": true },
+          { "text": "全社員が定時で帰宅できるような、快適なホワイト企業を作るため。", "rationale": "労働環境の改善は副産物であり、究極の事業目的とは異なります。", "isCorrect": false }
         ],
-        "hint": "このテキスト全体のメインテーマに立ち返ってください。"
+        "hint": "このテキスト全体のメインテーマ（D2Cの存在意義）に立ち返ってください。"
       },
       {
         "questionNumber": 49,
-        "question": "D2C企業において、他部署の業務内容（マーケとフルフィルの相互理解など）を知らないことで生じる最も大きな損失は何か。",
+        "question": "D2C企業において、他部署の業務内容（マーケとフルフィルの相互理解など）を知らないことで生じる最も大きな損失（機会ロス）は何か。",
         "answerOptions": [
-          { "text": "通勤時間の増加", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "「顧客のために何ができるか」という新しいアイデア（共創）が生まれなくなること", "rationale": "相互理解がないと「言われた作業をこなすだけ」になり、組織全体で顧客体験を進化させる力が失われます。", "isCorrect": true },
-          { "text": "有給休暇が取得できなくなること", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "競合他社に買収されること", "rationale": "直接の要因ではありません。", "isCorrect": false }
+          { "text": "各担当者の残業時間が増え、通勤にかかる疲労が蓄積すること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "「顧客のために何ができるか」という新しいアイデア（価値共創）が生まれなくなること。", "rationale": "相互理解がないと「言われた作業をこなすだけ」になり、組織全体で顧客体験を進化させる力が失われます。", "isCorrect": true },
+          { "text": "社内システムのアカウント権限が複雑になり、ログインに時間がかかること。", "rationale": "些末な問題です。", "isCorrect": false },
+          { "text": "自社のノウハウが外部に漏れやすくなり、競合他社に模倣されること。", "rationale": "情報共有不足と情報漏洩は直結しません。", "isCorrect": false }
         ],
         "hint": "「1+1=3」になるような、チームワークによる相乗効果が失われることです。"
       },
       {
         "questionNumber": 50,
-        "question": "これからのD2Cビジネスを牽引するマネジャーに最も求められるマインドセットはどれか。",
+        "question": "これからのD2Cビジネスを牽引するマネジャーに最も求められるマインドセット（心のあり方）はどれか。",
         "answerOptions": [
-          { "text": "自部署の利益のみを追求し、他部署との壁を高く厚くすること", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "新しいデジタル技術を拒絶し、昔ながらのカンと経験だけで勝負すること", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "「顧客中心」の視点を持ち、組織の壁を越えて社内外（パートナー含む）のメンバーを巻き込み、一貫した顧客体験を創り上げること", "rationale": "全体最適の視点を持ち、関わるすべての人を巻き込んで価値を創造するリーダーシップが求められます。", "isCorrect": true },
-          { "text": "顧客の声を一切無視し、自分が作りたい商品だけを作ること", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "自部署の予算と権限を死守し、他部署からの要求を論理的に跳ね返す力。", "rationale": "縦割りを強化するマインドです。", "isCorrect": false },
+          { "text": "新しいデジタル技術を拒絶し、長年培ったカンと経験だけで直感的に勝負する度胸。", "rationale": "データ軽視はD2Cにおいて危険です。", "isCorrect": false },
+          { "text": "「顧客中心」の視点を持ち、組織の壁を越えて社内外のメンバーを巻き込み、一貫した顧客体験を創り上げる姿勢。", "rationale": "全体最適の視点を持ち、関わるすべての人を巻き込んで価値を創造するリーダーシップが求められます。", "isCorrect": true },
+          { "text": "顧客の声をノイズとして遮断し、自分が本当に作りたい商品だけを芸術家のように追求する信念。", "rationale": "顧客の声を聞かないのはD2Cの理念に反します。", "isCorrect": false }
         ],
         "hint": "全体を見渡し、みんなで協力して「お客様を笑顔にする」ための姿勢です。"
       }
@@ -635,7 +628,7 @@
       const passingScore = Math.ceil(totalQuestions * 0.7);
 
       return (
-        <div className="min-h-screen bg-slate-50 flex flex-col items-center py-10 px-4 font-sans text-slate-800">
+        <div className="min-h-screen flex flex-col items-center py-10 px-4 font-sans text-slate-800">
           
           {/* Header */}
           <header className="mb-8 text-center max-w-2xl w-full">
@@ -658,7 +651,9 @@
                 <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
                 <p className="text-slate-600 mb-8 max-w-lg">
                   テキスト第6章「組織管理」の知識を網羅した、全50問の特大ボリュームクイズです。
-                  縦割り組織の打破、顧客中心の組織編成(CDMT)、D2C人材に必要なスキルセットなど重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                  CDMTや縦割り組織の打破など重要項目が詰まっています。<br />
+                  <span className="text-red-500 font-bold text-sm">※問題と選択肢の難易度を本番レベルに引き上げた改訂版です。</span><br />
+                  合格ラインは70%（35問正解）です！
                 </p>
                 <button
                   onClick={startQuiz}
