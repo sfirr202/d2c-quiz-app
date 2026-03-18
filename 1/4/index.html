@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>D2Cエキスパート検定1級 - 第4章クイズ</title>
+  <title>D2Cエキスパート検定1級 - 第5章クイズ</title>
   
   <!-- Tailwind CSS の読み込み -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -40,557 +40,557 @@
     const Lightbulb = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.9 1.2 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>;
     const BookOpen = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>;
 
-    // --- クイズデータ (第4章・全50問) ---
+    // --- クイズデータ (第5章・難易度アップ版・全50問) ---
     const quizData = [
       {
         "questionNumber": 1,
-        "question": "一般流通小売（店舗販売）のオペレーションズ・マネジメントにおいて、商品を調達して店頭に並べるまでのプロセスを管理することを何と呼ぶか。",
+        "question": "D2Cと大手メーカー(B2B2C)の収益構造の比較について、適切な記述はどれか。",
         "answerOptions": [
-          { "text": "エリアマーケティング", "rationale": "これは商圏分析などを指します。", "isCorrect": false },
-          { "text": "サプライチェーン・マネジメント", "rationale": "原材料の調達から店頭に商品が並ぶまでの生産・流通プロセスの管理を指します。", "isCorrect": true },
-          { "text": "カスタマー・リレーションシップ・マネジメント", "rationale": "顧客との関係管理のことです。", "isCorrect": false },
-          { "text": "アクションチェーン・マネジメント", "rationale": "これはD2C特有の考え方です。", "isCorrect": false }
+          { "text": "D2Cは流通網の広さから売上規模が拡大しやすい。", "rationale": "売上規模はメーカーの方が大きくなる傾向があります。", "isCorrect": false },
+          { "text": "D2Cは広告費の削減により売上高販管費率が低くなる。", "rationale": "D2Cでも広告費はかかります。販管費率の優位性は効率性にあります。", "isCorrect": false },
+          { "text": "D2Cは効率的なオペレーションにより営業利益率が高まりやすい。", "rationale": "顧客データを活用した効率化により、D2Cは営業利益率が高水準になる傾向があります。", "isCorrect": true },
+          { "text": "メーカーは顧客データ活用により売上総利益率が高くなる。", "rationale": "顧客データの直接活用による粗利率向上は、主にD2Cの強みです。", "isCorrect": false }
         ],
-        "hint": "供給（サプライ）の連鎖（チェーン）を管理するという意味です。"
+        "hint": "売上規模の大きさと、利益率の高さの違いに着目してください。"
       },
       {
         "questionNumber": 2,
-        "question": "一般流通小売（店舗販売）における「エリアマーケティング」とはどのような活動を指すか。",
+        "question": "D2Cビジネスの「売上総利益率（粗利率）」を高水準に保つ要因として、テキストで指摘されているものはどれか。",
         "answerOptions": [
-          { "text": "店舗の開発・経営のための商圏分析や来店顧客の動向を想定・分析すること", "rationale": "出店地域の特性や商圏を分析する活動です。", "isCorrect": true },
-          { "text": "商品の企画から入庫までの時間を短縮すること", "rationale": "これはサプライチェーンの課題です。", "isCorrect": false },
-          { "text": "オンラインショップでのアクセスログを解析すること", "rationale": "これはデジタルマーケティングの領域です。", "isCorrect": false },
-          { "text": "顧客の返品対応を迅速に行うこと", "rationale": "これはフルフィルメントの一部です。", "isCorrect": false }
+          { "text": "広告宣伝費の継続的な削減と最適化", "rationale": "広告費の削減は販管費率に影響しますが、粗利率の直接の要因ではありません。", "isCorrect": false },
+          { "text": "顧客データを活用した精緻な売上予測と生産計画", "rationale": "正確な予測による無駄の排除が、原価コントロール（粗利率向上）に繋がります。", "isCorrect": true },
+          { "text": "フルフィルメント業務の完全自社運用化", "rationale": "フルフィルメントの自社運用化自体が粗利率を高めるわけではありません。", "isCorrect": false },
+          { "text": "中間流通業者との強固な価格交渉", "rationale": "D2Cは中間流通を介さないモデルです。", "isCorrect": false }
         ],
-        "hint": "「どこに出店するか」「その地域にはどんな人がいるか」を考えることです。"
+        "hint": "仕入れや製造の無駄をなくすための、データ活用のアプローチです。"
       },
       {
         "questionNumber": 3,
-        "question": "D2Cにおいて、一般流通小売における「店舗」に該当するものは何か。",
+        "question": "「売上高販管費率」のコントロールにおいて、D2C企業が発揮する優位性の背景は何か。",
         "answerOptions": [
-          { "text": "コールセンター", "rationale": "顧客接点ですが「店舗＝売り場」のメイン機能ではありません。", "isCorrect": false },
-          { "text": "物流倉庫", "rationale": "商品を保管・発送する場所です。", "isCorrect": false },
-          { "text": "媒体（ECサイトやカタログなど）", "rationale": "D2Cにおいて、顧客が商品を見て選ぶ「売り場」となるのは媒体です。", "isCorrect": true },
-          { "text": "広告代理店", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "セグメントごとの顧客特性にマッチした媒体戦略", "rationale": "顧客の特性に合わせて的確な媒体やフルフィルメントを提供することで、販管費の効率化を図ります。", "isCorrect": true },
+          { "text": "大量生産による商品原価の劇的な低減", "rationale": "原価の低減は「売上総利益率（粗利率）」の要因です。", "isCorrect": false },
+          { "text": "全顧客に対する均一なプロモーションの実施", "rationale": "均一なプロモーションは非効率を生む原因となります。", "isCorrect": false },
+          { "text": "カタログ媒体からWEB媒体への完全移行", "rationale": "媒体を限定することが効率化の絶対条件ではありません。", "isCorrect": false }
         ],
-        "hint": "多くのD2C企業でこれを「売場」と表現しています。"
+        "hint": "費用をかけるべきターゲットを「絞り込む」ことで効率を上げます。"
       },
       {
         "questionNumber": 4,
-        "question": "D2Cにおいて、「エリアマーケティング」の考え方が活用される場面として適切なものはどれか。",
+        "question": "CE（カスタマー・エクイティ）の提唱者とされる二人の学者は誰か。",
         "answerOptions": [
-          { "text": "全国一律の送料無料キャンペーンの実施", "rationale": "エリアを区別していないため異なります。", "isCorrect": false },
-          { "text": "DMや新聞折り込みチラシのエリア選定", "rationale": "投資に対する効率性の観点から、特定の地域を狙って広告を打つ際にエリアマーケティングの発想が使われます。", "isCorrect": true },
-          { "text": "商品の生産工場の場所を決めること", "rationale": "これは生産管理・サプライチェーンの領域です。", "isCorrect": false },
-          { "text": "コールセンターのオペレーターの採用", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "フィリップ・コトラーとデイヴィッド・アーカー", "rationale": "マーケティングとブランド戦略の大家ですが異なります。", "isCorrect": false },
+          { "text": "ドン・ペパーズとマーサ・ロジャース", "rationale": "One to Oneマーケティングの提唱者です。", "isCorrect": false },
+          { "text": "ブラットバーグとデイトン", "rationale": "CEの概念を最初に提唱した学者としてテキストで紹介されています。", "isCorrect": true },
+          { "text": "カール・アルブレヒトとドン・ペパーズ", "rationale": "異なる学者の組み合わせです。", "isCorrect": false }
         ],
-        "hint": "全国に売れるとはいえ、広告の「費用対効果」を上げるために地域を絞るアプローチです。"
+        "hint": "テキストで「二人の学者」として紹介された人物です。"
       },
       {
         "questionNumber": 5,
-        "question": "通販・D2Cビジネスにおいて、店舗販売には存在しない「受注から配送、代金回収などの一連の業務」を総称して何と呼ぶか。",
+        "question": "ブラットバーグとデイトンによるCE（顧客資産価値）の定義として最も適切なものはどれか。",
         "answerOptions": [
-          { "text": "マーチャンダイジング", "rationale": "商品の企画・品揃えのことです。", "isCorrect": false },
-          { "text": "フルフィルメント", "rationale": "注文を受けてからお客様に届き、代金を回収するまでのバックヤード業務全般をフルフィルメントと呼びます。", "isCorrect": true },
-          { "text": "プロモーション", "rationale": "販売促進活動のことです。", "isCorrect": false },
-          { "text": "オムニチャネル", "rationale": "複数チャネルの統合のことです。", "isCorrect": false }
+          { "text": "新規獲得した顧客が1年間にもたらす利益の合計値", "rationale": "単年度の利益ではなく、生涯にわたる価値です。", "isCorrect": false },
+          { "text": "特定のチャネルから得られる将来的な売上の期待値", "rationale": "チャネル限定ではなく、企業全体の顧客を対象とします。", "isCorrect": false },
+          { "text": "全顧客がユーザである期間にもたらす貢献利益の現在価値", "rationale": "保有する全顧客のLTV（将来利益の現在価値）の合計と定義されています。", "isCorrect": true },
+          { "text": "既存顧客の維持に投じたマーケティング費用の総額", "rationale": "費用ではなく、得られる利益価値を指します。", "isCorrect": false }
         ],
-        "hint": "英語で「業務の遂行・完了」を意味する言葉です。"
+        "hint": "会社全体の顧客基盤が、将来にわたって生み出す利益の総和です。"
       },
       {
         "questionNumber": 6,
-        "question": "D2Cは商品を届けるために顧客情報の取得が前提となっているため、どのようなデータがデータベースに蓄積されるか。",
+        "question": "テキストによれば、CEが「最大」になるのはどのような状態の時か。",
         "answerOptions": [
-          { "text": "競合他社の販売データ", "rationale": "自社のDBには蓄積されません。", "isCorrect": false },
-          { "text": "媒体送付歴や商品購入、各種問合せなどの顧客とのコンタクト歴", "rationale": "直接取引を行うため、これらの顧客行動履歴がすべて自社データとして蓄積されます。", "isCorrect": true },
-          { "text": "マスメディアの視聴率データ", "rationale": "外部の調査データです。", "isCorrect": false },
-          { "text": "全社員の健康診断結果", "rationale": "人事データであり、マーケティングの文脈とは異なります。", "isCorrect": false }
+          { "text": "新規顧客獲得費用が既存顧客維持費用を上回った時", "rationale": "単純な費用の大小で決まるものではありません。", "isCorrect": false },
+          { "text": "既存顧客からの紹介数が新規獲得数を上回った時", "rationale": "紹介数は重要ですが、CE最大化の定義とは異なります。", "isCorrect": false },
+          { "text": "マーケティング投資額に対する短期的な売上が最大化した時", "rationale": "短期的な売上最大化は、長期的なCE最大化と相反することがあります。", "isCorrect": false },
+          { "text": "新規顧客獲得投資と既存顧客維持投資が最適なバランスになった時", "rationale": "獲得と維持の双方が最適なバランスになった際にCEが最大化すると定義されています。", "isCorrect": true }
         ],
-        "hint": "「誰に、いつ、何を送り、何を買ってくれたか」という記録です。"
+        "hint": "「新しい顧客」と「今いる顧客」への投資割合がカギを握ります。"
       },
       {
         "questionNumber": 7,
-        "question": "D2Cのオペレーションズ・マネジメントにおいて、媒体やフルフィルメントと組み合わせて考えるべき重要な視点は「何」か。",
+        "question": "CE最大化のためのマネジメントを実践する際のポイントとして、テキストで挙げられているものはどれか。",
         "answerOptions": [
-          { "text": "空間", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "時間", "rationale": "商品の企画から入庫、媒体企画から発行、お届け、関係継続の「時間」という視点が重要です。", "isCorrect": true },
-          { "text": "気温", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "競合数", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "マーケティング部門に権限を集中させてトップダウンで実行する。", "rationale": "一部門ではなく、全社横断的な取り組みが求められます。", "isCorrect": false },
+          { "text": "組織全体を挙げて、顧客セグメントごとに管理を行う。", "rationale": "組織全体で取り組み、獲得・維持・育成の各段階をセグメントごとに計測・管理することが重要です。", "isCorrect": true },
+          { "text": "中間流通業者と連携し、販売チャネルを拡大する。", "rationale": "D2Cの直接取引モデルから外れるアプローチです。", "isCorrect": false },
+          { "text": "財務部門が単独で各チャネルの投資対効果を測定する。", "rationale": "財務部門だけの単独作業ではありません。", "isCorrect": false }
         ],
-        "hint": "「いつまでに準備するか」「どれくらい続くか」という概念です。"
+        "hint": "特定の部門だけでなく、会社全体で顧客を見る仕組みが必要です。"
       },
       {
         "questionNumber": 8,
-        "question": "テキストで挙げられているD2Cにおける「時間」の視点に含まれないものはどれか。",
+        "question": "「年間マーケティング支出の最適投資ゾーン」を示すグラフにおいて、最適な投資ゾーン(ゾーンB)の特徴はどれか。",
         "answerOptions": [
-          { "text": "商品の企画から入庫までの時間", "rationale": "含まれます。", "isCorrect": false },
-          { "text": "媒体・広告の企画から発行・掲載までの時間", "rationale": "含まれます。", "isCorrect": false },
-          { "text": "競合他社が類似品を開発するまでの時間", "rationale": "自社オペレーションの「時間軸」の例には含まれていません。", "isCorrect": true },
-          { "text": "一人の顧客と取引関係が継続する時間", "rationale": "含まれます。", "isCorrect": false }
+          { "text": "支出が最大の限界収益を生み出すため、長期的な収益性は低下する。", "rationale": "収益性は低下しません。", "isCorrect": false },
+          { "text": "限界収益が減少していくが、長期的な収益性はCEが最大になる点まで増加し続ける。", "rationale": "このゾーンでは投資効率は徐々に落ちるものの、全体の資産価値（CE）は最大化に向けて成長します。", "isCorrect": true },
+          { "text": "追加的な支出で売上が増加しても、CEは全く増加しなくなる。", "rationale": "これは過剰投資ゾーン（ゾーンC）の特徴に近いです。", "isCorrect": false },
+          { "text": "投資額とCEの成長が完全に比例し続ける。", "rationale": "常に比例するわけではなく、一定のカーブを描きます。", "isCorrect": false }
         ],
-        "hint": "自社の事業プロセスや顧客との関係性の中での時間の流れを指しています。"
+        "hint": "効率は少しずつ落ちていきますが、トータルの価値はまだ伸びる段階です。"
       },
       {
         "questionNumber": 9,
-        "question": "D2Cというビジネスモデルの強みである「オペレーションの一貫性」を象徴するキーワードは何か。",
+        "question": "新規顧客獲得のための広告支出について、多くのD2C企業の実情として正しい記述はどれか。",
         "answerOptions": [
-          { "text": "部門間の「つながり」", "rationale": "計画部門と実行部門が鎖のようにつながっていることがD2Cの強みを引き出します。", "isCorrect": true },
-          { "text": "部門ごとの「独立採算」", "rationale": "つながりを阻害する要因になり得ます。", "isCorrect": false },
-          { "text": "業務の「完全自動化」", "rationale": "自動化も重要ですが、一貫性を象徴するキーワードとしては「つながり」が強調されています。", "isCorrect": false },
-          { "text": "外部への「丸投げ」", "rationale": "一貫性が失われます。", "isCorrect": false }
+          { "text": "初回取引の利益だけで広告支出を十分に回収できる。", "rationale": "通常、初回は赤字になるのが一般的です。", "isCorrect": false },
+          { "text": "広告支出は短期的に赤字となるが、LTVを通じて回収していく。", "rationale": "初回の広告費を後々のリピート購入（LTV）で回収するのがD2Cモデルの実情です。", "isCorrect": true },
+          { "text": "既存顧客の利益を圧迫するため、広告支出は極力抑えられている。", "rationale": "新規獲得の投資を抑えると事業が縮小します。", "isCorrect": false },
+          { "text": "新規獲得コストは年々低下しており、常に黒字化しやすい。", "rationale": "獲得コストは高騰傾向にあります。", "isCorrect": false }
         ],
-        "hint": "計画部門と実行部門がバラバラに動くのではなく、連携することです。"
+        "hint": "最初から利益が出るビジネスモデルではありません。"
       },
       {
         "questionNumber": 10,
-        "question": "D2Cの業務プロセスにおいて、すべてのはじまり（起点）となるものは何か。",
+        "question": "D2C企業の経営者が、不振に陥った際に手を付けがちだが「危険な施策」とされているものは何か。",
         "answerOptions": [
-          { "text": "顧客からのクレーム", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "商品の製造完了", "rationale": "製造の前に計画があります。", "isCorrect": false },
-          { "text": "アクションの計画", "rationale": "D2Cは、何を・いつ・どのように売るかという「アクションの計画」からすべてが始まります。", "isCorrect": true },
-          { "text": "システムのアップデート", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "フルフィルメント業務の外部委託化", "rationale": "これは一般的な業務効率化の一環です。", "isCorrect": false },
+          { "text": "既存顧客向けプロモーションのデジタル化", "rationale": "これも一般的なチャネル最適化です。", "isCorrect": false },
+          { "text": "新規獲得や既存向けの広告・カタログ支出の過剰な削減", "rationale": "コストを削れば短期的に利益は出ますが、将来の成長基盤を破壊する劇薬となります。", "isCorrect": true },
+          { "text": "顧客アンケートに基づく商品ラインナップの絞り込み", "rationale": "マーケティング施策として妥当な場合が多いです。", "isCorrect": false }
         ],
-        "hint": "「ECサイトにアップしただけでは売れない。どう集客するか」という事前の取り決めのことです。"
+        "hint": "「これをやめればすぐにお金が浮く」という目先のコストカットです。"
       },
       {
         "questionNumber": 11,
-        "question": "部門間のつながりにおいて、「計画」を担当する部門として適切な組み合わせはどれか。",
+        "question": "デス・スパイラル（死の連鎖）とは、どのような現象を指すか。",
         "answerOptions": [
-          { "text": "フルフィルメント部門、システム部門", "rationale": "これらは「実行」部門です。", "isCorrect": false },
-          { "text": "マーケティング部門、マーチャンダイジング部門", "rationale": "施策を立案し、商品を調達・企画する「計画」の部門です。", "isCorrect": true },
-          { "text": "物流部門、顧客対応部門", "rationale": "これらは「実行」部門です。", "isCorrect": false },
-          { "text": "経理部門、人事部門", "rationale": "管理部門です。", "isCorrect": false }
+          { "text": "新規獲得投資を増やした結果、CPOが悪化して利益が減少する現象。", "rationale": "これは単なる投資効率の悪化です。", "isCorrect": false },
+          { "text": "投資の過剰な切り捨てにより、一時的に増益となるが、やがて減収減益となる現象。", "rationale": "マーケティング支出を絞ることで短期的には黒字化しても、顧客基盤が先細りして事業が縮小する悪循環を指します。", "isCorrect": true },
+          { "text": "既存顧客への過度な依存により、新規顧客が全く定着しなくなる現象。", "rationale": "デス・スパイラルの定義とは異なります。", "isCorrect": false },
+          { "text": "競合他社との価格競争により、業界全体の利益率が低下する現象。", "rationale": "これは価格競争の弊害です。", "isCorrect": false }
         ],
-        "hint": "「何を売るか」「どうやって売るか」を考える部署です。"
+        "hint": "見せかけの「増益」の後にやってくる、取り返しのつかない衰退です。"
       },
       {
         "questionNumber": 12,
-        "question": "部門間のつながりにおいて、「実行」を担当する部門として適切な組み合わせはどれか。",
+        "question": "マーケティングROI（投資対効果）を考える際、D2C特有の視点として適切なものはどれか。",
         "answerOptions": [
-          { "text": "フルフィルメント部門、システム部門", "rationale": "計画を受けて、実際の受注、入出庫、決済、システム運用を行う「実行」の部門です。", "isCorrect": true },
-          { "text": "マーケティング部門、財務部門", "rationale": "マーケティングは「計画」です。", "isCorrect": false },
-          { "text": "マーチャンダイジング部門、制作部門", "rationale": "これらは「計画」です。", "isCorrect": false },
-          { "text": "経営企画部門、広報部門", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "当該広告経由の初回の売上や利益のみで評価を完結させる。", "rationale": "これはマスマーケティング的な短期評価です。", "isCorrect": false },
+          { "text": "獲得コスト（CPO）の安さだけを基準に媒体を選定する。", "rationale": "CPOだけでは継続的な収益性が図れません。", "isCorrect": false },
+          { "text": "新規顧客の獲得人数と獲得コストに加え、その後のLTVも考慮する。", "rationale": "獲得効率だけでなく、その顧客が将来どれだけ利益をもたらすかを含めて投資を評価します。", "isCorrect": true },
+          { "text": "マスメディアでの露出量（リーチ）を最大の評価基準とする。", "rationale": "露出量だけではROIの評価になりません。", "isCorrect": false }
         ],
-        "hint": "計画されたものを、実際にお客様に「届ける」ための実務を行う部署です。"
+        "hint": "「安く取れた」という入り口の数字だけでなく、出口までの総合的な評価が必要です。"
       },
       {
         "questionNumber": 13,
-        "question": "「サプライチェーン・マネジメント」の考え方がD2Cに馴染まない理由として、テキストで指摘されていることは何か。",
+        "question": "ある広告媒体でCPO（顧客獲得単価）が非常に安く効率が良かった場合でも、無条件に投資を増やすべきではない理由は何か。",
         "answerOptions": [
-          { "text": "コストがかかりすぎるから", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "店頭商品の動向を起点とした発想なので動きが遅すぎるから", "rationale": "D2Cは広告や販促などの「計画」で受注が急変するため、店頭の動きを見てからでは準備が間に合いません。", "isCorrect": true },
-          { "text": "D2Cには物流が存在しないから", "rationale": "物流は存在します。", "isCorrect": false },
-          { "text": "ITシステムとの相性が悪いから", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "獲得人数が多すぎるとフルフィルメントがパンクするため。", "rationale": "業務調整で対応すべき課題であり、投資を止める本質的な理由ではありません。", "isCorrect": false },
+          { "text": "「獲得しやすいが維持しにくい（LTVが低い）」顧客層の可能性があるため。", "rationale": "安く獲得できても、すぐに離脱してしまえば長期的な利益（LTV）が低く、投資として赤字になるためです。", "isCorrect": true },
+          { "text": "CPOの安さは、長期的に広告代理店との関係を悪化させるため。", "rationale": "不適切な理由です。", "isCorrect": false },
+          { "text": "安価な媒体はブランドのイメージ価値を著しく損なうため。", "rationale": "必ずしもそうとは限りません。", "isCorrect": false }
         ],
-        "hint": "「棚から商品が減ったから補充しよう」という後追いの発想では間に合わないということです。"
+        "hint": "「お試し購入」だけですぐに去っていくお客様が多い媒体かもしれません。"
       },
       {
         "questionNumber": 14,
-        "question": "サプライチェーン・マネジメントの発想では、D2Cにおいて何の準備ができないと指摘されているか。",
+        "question": "予算配分の最適化に関して、CE最大化を目指す場合と、新規顧客数の最大化を目指す場合の違いは何か。",
         "answerOptions": [
-          { "text": "顧客の体験価値を創造する準備", "rationale": "広告開始日や訴求内容が決まらないと、受注や出荷の準備（＝体験価値の提供）ができないためです。", "isCorrect": true },
-          { "text": "新入社員の採用準備", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "競合他社の買収準備", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "テレビCMの制作準備", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "最適なマーケティング支出の配分比率が異なる。", "rationale": "目的（人数か資産価値か）が違えば、どの施策にどれだけお金を割り振るかの最適なバランス（配分比率）も異なります。", "isCorrect": true },
+          { "text": "CE最大化の方が常に総予算が少なくなる。", "rationale": "予算総額の問題ではありません。", "isCorrect": false },
+          { "text": "新規顧客最大化の場合は、既存顧客への投資がゼロになる。", "rationale": "ゼロになるわけではありませんが、配分は偏ります。", "isCorrect": false },
+          { "text": "CE最大化の場合は、単一チャネルに予算が集中する。", "rationale": "複数チャネルへの適切な配分が求められます。", "isCorrect": false }
         ],
-        "hint": "お客様に「買ってよかった」と思ってもらうための事前の根回しです。"
+        "hint": "「目先の数」を追うか、「将来の価値」を追うかで、お金の使い道は変わります。"
       },
       {
         "questionNumber": 15,
-        "question": "「アクションを起点にした一連のモノの流れとお金の流れを関係部署間で情報共有・連携し、全体最適を実現する取り組み」を何と呼ぶか。",
+        "question": "D2Cの財務マネジメントの「到達点」として挙げられている項目のうち、個人の顧客に関するものはどれか。",
         "answerOptions": [
-          { "text": "サプライチェーン・マネジメント", "rationale": "これは調達から販売までの生産・流通の管理です。", "isCorrect": false },
-          { "text": "エリアマーケティング", "rationale": "これは商圏の分析です。", "isCorrect": false },
-          { "text": "アクションチェーン・マネジメント", "rationale": "D2Cの業務プロセスはアクション（計画）を起点に鎖のようにつながっているという考え方です。", "isCorrect": true },
-          { "text": "カスタマー・ジャーニー", "rationale": "顧客の体験のプロセスです。", "isCorrect": false }
+          { "text": "個々の顧客のRFMスコアが毎月更新されている。", "rationale": "RFMは有用ですが、到達点の指標としてはLTVが挙げられています。", "isCorrect": false },
+          { "text": "個々の顧客単位でLTVの計算ができている。", "rationale": "一人ひとりの顧客について生涯価値（LTV）が計測できている状態が、到達点の一つです。", "isCorrect": true },
+          { "text": "個々の顧客のSNS上の行動履歴が把握できている。", "rationale": "データの活用例ですが、財務上の到達点ではありません。", "isCorrect": false },
+          { "text": "個々の顧客のクレーム内容が全社員に共有されている。", "rationale": "CRMの課題であり、財務の到達点とは異なります。", "isCorrect": false }
         ],
-        "hint": "「行動（アクション）」の「連鎖（チェーン）」を管理するという意味の造語です。"
+        "hint": "各顧客の「財務的価値」を個別に算出できている状態です。"
       },
       {
         "questionNumber": 16,
-        "question": "アクションチェーン・マネジメントにおいて、顧客の「購入体験の設計～提供～評価～改善のサイクル」を効果的に実現するために不可欠なものは何か。",
+        "question": "D2Cの財務マネジメントの「到達点」における、顧客セグメンテーションの管理方法として適切なものはどれか。",
         "answerOptions": [
-          { "text": "最新のAIの導入", "rationale": "AIだけでは解決しません。", "isCorrect": false },
-          { "text": "各部門のつながり", "rationale": "計画と実行の各部門が情報共有し、連携する「つながり」があってこそ効果的に実現します。", "isCorrect": true },
-          { "text": "全業務の外部委託", "rationale": "外部委託しても、連携の仕組みがなければ実現しません。", "isCorrect": false },
-          { "text": "大幅な人員削減", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "セグメントごとの売上目標の達成率で管理する。", "rationale": "売上のみの評価は不十分です。", "isCorrect": false },
+          { "text": "セグメントごとのCPOの低さで管理する。", "rationale": "CPOは新規獲得時の指標です。", "isCorrect": false },
+          { "text": "当該セグメントに属する顧客のLTVの増減で管理する。", "rationale": "グループごとの収益性が、LTVベースでどう変化しているかで管理されるのが理想です。", "isCorrect": true },
+          { "text": "当該セグメントの直近1年間の購買回数で管理する。", "rationale": "回数（F）だけでは利益が測れません。", "isCorrect": false }
         ],
-        "hint": "部署間の壁を取り払い、バトンを落とさずに繋ぐことです。"
+        "hint": "「この層のお客様は、前の期に比べて価値が上がったか？」を判断する基準です。"
       },
       {
         "questionNumber": 17,
-        "question": "フルフィルメント業務の運営主体（自社で運営しているか、外部にアウトソーシングしているか）の違いは、顧客から見てどのように受け止められるか。",
+        "question": "D2Cの財務マネジメントの「到達点」において、CE（顧客資産価値）はどのような指標として活用されるか。",
         "answerOptions": [
-          { "text": "自社運営の方が必ず高く評価される。", "rationale": "そうとは限りません。", "isCorrect": false },
-          { "text": "外注している企業からは絶対に買わない。", "rationale": "顧客は運営主体を気にしていません。", "isCorrect": false },
-          { "text": "顧客から見ればあずかり知らぬこと（一切関係ない）。", "rationale": "顧客にとって重要なのは、商品や体験に価値を感じるか否かだけであり、誰が作業しているかは関係ありません。", "isCorrect": true },
-          { "text": "外注の方が配送が早いと無条件に信頼される。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "商品開発部の賞与を決定するための評価指標。", "rationale": "一部の評価にはなるかもしれませんが、主目的ではありません。", "isCorrect": false },
+          { "text": "新入社員の採用人数を決定するための基準指標。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "マーケティングやフルフィルメント等に関する各種投資の効果測定指標。", "rationale": "あらゆる投資が「結果としてCEを上げたか」を測る大元のモノサシとして活用されます。", "isCorrect": true },
+          { "text": "中間流通業者への卸売価格を決定するための交渉指標。", "rationale": "D2Cのモデルとは異なります。", "isCorrect": false }
         ],
-        "hint": "お客様にとっては、届いたサービスが良ければ「誰が梱包したか」は問題ではありません。"
+        "hint": "「そのシステム改修やキャンペーンは、本当に会社のためになったのか？」を測る基準です。"
       },
       {
         "questionNumber": 18,
-        "question": "販促企画と媒体制作「だけ」がマーケティングだという考え方は、4Pの要素のうちの何に過ぎないと指摘されているか。",
+        "question": "One to Oneマーケティングの提唱者ドン・ペパーズが、セグメンテーションの代わりに用いた「資産運用の用語」は何か。",
         "answerOptions": [
-          { "text": "Product（製品）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "Price（価格）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "Place（流通）", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "Promotion（プロモーション）", "rationale": "販促や広告制作は、マーケティング全体（4P/4C）の中でPromotionという一部の機能に過ぎません。", "isCorrect": true }
+          { "text": "デリバティブ", "rationale": "金融派生商品のことです。", "isCorrect": false },
+          { "text": "ポートフォリオ", "rationale": "顧客を資産と捉え、その組み合わせを「ポートフォリオ」と呼びました。", "isCorrect": true },
+          { "text": "キャピタルゲイン", "rationale": "売買差益のことです。", "isCorrect": false },
+          { "text": "アセットアロケーション", "rationale": "資産配分のことですが、ペパーズが用いたのはポートフォリオです。", "isCorrect": false }
         ],
-        "hint": "「どう知ってもらうか」という宣伝活動の部分です。"
+        "hint": "リスクを分散しリターンを最大化するための「組み合わせ」のことです。"
       },
       {
         "questionNumber": 19,
-        "question": "4Cの考え方において、フルフィルメント部門の活動はどのように位置づけられるか。",
+        "question": "ドン・ペパーズの考え方に基づく顧客ポートフォリオ作成プロセスにおいて、最初（Step1）に行うことは何か。",
         "answerOptions": [
-          { "text": "マーケティングとは無関係の単なる作業", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "他社と差別化し優位性を確保するマーケティングの一部", "rationale": "顧客に価値や体験を届けるフルフィルメントも立派なマーケティング（ConvenienceやCommunication）の一部です。", "isCorrect": true },
-          { "text": "コスト削減のためだけに存在する部門", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "商品開発を妨害する部門", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "全顧客にアンケートを一斉送付する。", "rationale": "アンケートは後段のステップです。", "isCorrect": false },
+          { "text": "顧客を初回購入チャネル別に分類する。", "rationale": "チャネル分類も後段のステップです。", "isCorrect": false },
+          { "text": "LTV値による優良顧客の抽出を行う。", "rationale": "まず収益性（LTV）の高い上位層を抽出することから始めます。", "isCorrect": true },
+          { "text": "休眠顧客に対する復活キャンペーンを実施する。", "rationale": "施策の実行はポートフォリオ作成後です。", "isCorrect": false }
         ],
-        "hint": "届けるスピードや丁寧な対応も、顧客にとっては「価値」になります。"
+        "hint": "まず「会社に一番利益をもたらしてくれている人たち」を見つけ出します。"
       },
       {
         "questionNumber": 20,
-        "question": "D2C企業において「マーケティング＝販促のみ」という誤解と、部門間の「縦割り意識」が相まって引き起こされがちな問題は何か。",
+        "question": "Step1で抽出する「優良顧客」の規模として、テキストで妥当とされている割合はどれくらいか。",
         "answerOptions": [
-          { "text": "業績の急激な向上", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "要らぬ軋轢やストレス", "rationale": "「現場を知らない企画」「企画に非協力的な現場」といった相互不信や軋轢を生む原因になります。", "isCorrect": true },
-          { "text": "意思決定の迅速化", "rationale": "逆です。", "isCorrect": false },
-          { "text": "顧客満足度の自動的な上昇", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "上位5%程度", "rationale": "少なすぎて全体への影響が限定的になります。", "isCorrect": false },
+          { "text": "上位20%程度", "rationale": "パレートの法則にもあるように、上位20%程度を優良顧客として抽出するのが妥当とされています。", "isCorrect": true },
+          { "text": "上位50%程度", "rationale": "広すぎます。", "isCorrect": false },
+          { "text": "上位80%程度", "rationale": "広すぎます。", "isCorrect": false }
         ],
-        "hint": "お互いの仕事へのリスペクトが欠けることで起こる人間関係のトラブルです。"
+        "hint": "「2：8の法則（売上の8割は2割の顧客が作る）」に基づいた数字です。"
       },
       {
         "questionNumber": 21,
-        "question": "マーケ部門とフルフィル部門が相互理解を深めるために、業務フローと同時に理解してもらう必要があるものは何か。",
+        "question": "Step1において、高度なLTV計算が難しい場合に許容される「簡易的な計算方法」はどれか。",
         "answerOptions": [
-          { "text": "役員の個人的な趣味", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "情報のフロー", "rationale": "「どんな情報を」「いつまでに」「なぜ必要なのか」という情報のフローを理解し合うことが業務の出発点となります。", "isCorrect": true },
-          { "text": "競合他社の給与体系", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "株価の変動理由", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "直近1年間の購入回数を合算する。", "rationale": "利益ベースの指標になりません。", "isCorrect": false },
+          { "text": "累計購入金額から商品原価を差し引く。", "rationale": "精緻なLTVが出せなくても、粗利の累計金額などを用いる程度で代用できるとされています。", "isCorrect": true },
+          { "text": "年齢に購入年数を掛け合わせる。", "rationale": "無意味な計算です。", "isCorrect": false },
+          { "text": "顧客の初回購入金額を10倍にする。", "rationale": "根拠のない計算です。", "isCorrect": false }
         ],
-        "hint": "「誰が、誰に、何を、いつ伝えるか」という流れです。"
+        "hint": "「今までいくら分の利益（粗利）を出してくれたか」というシンプルな計算です。"
       },
       {
         "questionNumber": 22,
-        "question": "マーケティング部門が理解すべき「フルフィルメントの視点（情報）」としてテキストで挙げられていないものはどれか。",
+        "question": "顧客ポートフォリオ作成のStep2では、抽出した優良顧客をどう処理するか。",
         "answerOptions": [
-          { "text": "要員を手配するタイミング", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "新施策が及ぼす影響範囲と解決策", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "新施策の派生業務（キャンセル、欠品対応など）", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "新規獲得用Web広告の入札単価", "rationale": "これはマーケティング部門自身の業務・指標であり、フルフィル側の視点ではありません。", "isCorrect": true }
+          { "text": "優良化パターンや特定の嗜好性、ニーズに合わせて分割する。", "rationale": "優良顧客を一つの塊とせず、属性や行動履歴からさらにいくつかのグループに分割します。", "isCorrect": true },
+          { "text": "共通のVIPプログラムを全員に一律で適用する。", "rationale": "一律の対応は最適化を妨げます。", "isCorrect": false },
+          { "text": "アンケート結果に基づき、優良顧客から除外する。", "rationale": "除外のプロセスではありません。", "isCorrect": false },
+          { "text": "購買金額の低い順に再度ランク付けを行う。", "rationale": "順位付けではなく特性による「分類」を行います。", "isCorrect": false }
         ],
-        "hint": "「現場が受け入れるために必要な準備」に関する情報ではないものです。"
+        "hint": "優良顧客の中にも「ネット派」や「カタログ派」などの違いがあるため、さらに細かく分けます。"
       },
       {
         "questionNumber": 23,
-        "question": "マーケティング担当者が「フルフィルメントの視点」を併せ持つことで得られる効果として適切なものはどれか。",
+        "question": "Step2で優良顧客を分割する際の「分析軸」の例として、テキストに記載がないものはどれか。",
         "answerOptions": [
-          { "text": "自社顧客への想像力を高め、体験価値を創造する基盤が整う。", "rationale": "現場の苦労や実際の顧客の反応を知ることで、想像力が高まりより良い企画が生まれます。", "isCorrect": true },
-          { "text": "広告費を一切かけずに新規顧客を獲得できるようになる。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "商品の原価を劇的に下げることができる。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "フルフィルメント部門の業務を完全にAIで代替できる。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "初回利用チャネル", "rationale": "記載されています。", "isCorrect": false },
+          { "text": "一定の累計購買金額に到達するまでのスピード", "rationale": "記載されています。", "isCorrect": false },
+          { "text": "SNSのフォロワー数", "rationale": "自社データではなく外部情報であり、分割軸の例としては記載されていません。", "isCorrect": true },
+          { "text": "ご意見、クレーム・返品の回数", "rationale": "記載されています。", "isCorrect": false }
         ],
-        "hint": "「机上の空論」ではなく、現場と顧客のリアルを意識した企画が立てられるようになります。"
+        "hint": "自社のデータベースから抽出できる「購買や行動の実績」ではないものです。"
       },
       {
         "questionNumber": 24,
-        "question": "顧客との接点であるフルフィルメント部門に日々集積している「顧客を動かす隠れた心理」を表す言葉はどれか。",
+        "question": "Step2におけるグループ分けの「数」に関して、実務上注意すべき点は何か。",
         "answerOptions": [
-          { "text": "アウトサイト", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "インサイト", "rationale": "顧客対応実績には、顧客自身も気づいていないような「インサイト（顧客を動かす隠れた心理）」の宝庫です。", "isCorrect": true },
-          { "text": "フォアサイト", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "バックサイト", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "統計的有意性を担保するため、最低でも50以上に分ける。", "rationale": "数が多すぎると現場が対応できません。", "isCorrect": false },
+          { "text": "実際のマーケティング施策と連動させるため、オペレーションし分けられる数にしておく。", "rationale": "現場の運用（施策の打ち分け）が可能な数にとどめるべきだと指摘されています。", "isCorrect": true },
+          { "text": "毎年グループの数を半分に減らしていく計画を立てる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社のグループ分けと完全に一致させる。", "rationale": "自社の顧客特性に合わせるべきです。", "isCorrect": false }
         ],
-        "hint": "英語で「洞察」や「直観」を意味する言葉です。"
+        "hint": "細かすぎても現場がパンクしてしまう、という視点です。"
       },
       {
         "questionNumber": 25,
-        "question": "あるD2C企業の経営層が、定期的にコールセンターで自ら電話をとる習慣を継続している理由として適切なものはどれか。",
+        "question": "Step3で行う「アンケートやインタビュー」の目的として適切なものはどれか。",
         "answerOptions": [
-          { "text": "人手不足による人件費削減のため。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "オペレーターの監視と評価のため。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "「ほんの小さな顧客の変化も見逃したくない」という考えのため。", "rationale": "単なるパフォーマンスではなく、生の顧客の声から微細な変化を捉えるために行っています。", "isCorrect": true },
-          { "text": "電話を取ることが社長の趣味だから。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "下位顧客の不満を解消するため。", "rationale": "このステップの対象は優良顧客層です。", "isCorrect": false },
+          { "text": "新商品の価格設定を決定するため。", "rationale": "商品開発調査とは目的が異なります。", "isCorrect": false },
+          { "text": "データ分析で導き出された優良顧客像の再確認・補強を行うため。", "rationale": "データから仮説立てたグループ像が本当に正しいか、生の声を聴いて補完します。", "isCorrect": true },
+          { "text": "コールセンターのオペレーターを評価するため。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "一番現場に近い場所で、お客様の「生の声」の温度感を感じ取るためです。"
+        "hint": "データ（数字）だけでは見えない「お客様の本当の姿」を肉付けする作業です。"
       },
       {
         "questionNumber": 26,
-        "question": "マーケティング担当者を一定期間コールセンターや配送センターに駐在させる企業がある。その目的の一つとして「実績データ」に関してどのような理由があるか。",
+        "question": "Step3のインタビューなどを、マーケティング部門だけでなく顧客対応部門などと合同で行うことのメリットは何か。",
         "answerOptions": [
-          { "text": "データをすべて手入力で書き写させるため。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "データがどのように登録されているのか、集計・分析に値するのかを精査するため。", "rationale": "現場でデータが入力される過程を見ることで、データの正確性やクセを理解し、分析の精度を上げる目的があります。", "isCorrect": true },
-          { "text": "過去のデータをすべて消去させるため。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "データを外部に販売する準備をするため。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "会議の時間を短縮し、効率的に結論を出すことができる。", "rationale": "人数が増えれば時間はかかりますが、それを補うメリットがあります。", "isCorrect": false },
+          { "text": "インタビューの実施コストを各部門で按分できる。", "rationale": "コスト按分が主目的ではありません。", "isCorrect": false },
+          { "text": "顧客像論議に関わる「共通言語」化が容易になり、社内教育の材料となる。", "rationale": "部門の壁を越えて「ウチの優良顧客像」を共有することで、組織全体の方針が統一されます。", "isCorrect": true },
+          { "text": "顧客からの直接のクレームを分散させることができる。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "「数字の裏側」にある、現場の入力作業の実態を知るためです。"
+        "hint": "全社で「あのお客様」という同じイメージを持てるようになります。"
       },
       {
         "questionNumber": 27,
-        "question": "フルフィルメント担当者が理解すべき「マーケティング部門の情報（視点）」としてテキストで挙げられていないものはどれか。",
+        "question": "顧客ポートフォリオ作成のStep4で行う作業はどれか。",
         "answerOptions": [
-          { "text": "次の施策を提案する際に必要な情報やデータ", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "媒体開始後の実績管理と評価指標", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "媒体の手配や販促ツールの制作に要する期間", "rationale": "挙げられています。", "isCorrect": false },
-          { "text": "梱包資材の仕入れ価格の推移", "rationale": "これはフルフィルメント部門自身の情報であり、マーケ側の情報ではありません。", "isCorrect": true }
+          { "text": "下位顧客層を、設定した各グループ（優良化パターン）に紐付ける。", "rationale": "上位20%以外の顧客も「将来どの優良パターンに育つか」という視点で各グループに予備軍として振り分けます。", "isCorrect": true },
+          { "text": "休眠顧客をデータベースから完全に削除する。", "rationale": "育成を放棄することになります。", "isCorrect": false },
+          { "text": "全顧客に対して一律の割引クーポンを発行する。", "rationale": "ポートフォリオの目的に反します。", "isCorrect": false },
+          { "text": "優良顧客向けの専用のコールセンターを新設する。", "rationale": "これは具体的な施策の一つであり、作成プロセスのステップではありません。", "isCorrect": false }
         ],
-        "hint": "「企画を立てて実行するまで」に関する情報ではないものです。"
+        "hint": "「まだ優良ではないけれど、将来こっちのグループに育ちそうだな」と見立てる作業です。"
       },
       {
         "questionNumber": 28,
-        "question": "フルフィルメント担当者がマーケティングの視点を持つことで得られる効果として、テキストで指摘されているものはどれか。",
+        "question": "Step4のように、下位顧客をそれぞれの特性に応じたグループに振り分ける際に用いられる代表的なデータマイニング手法は何か。",
         "answerOptions": [
-          { "text": "自社顧客の理解度が深まり、顧客の購入体験価値を創造する活動に貢献できるようになる。", "rationale": "マーケティングの意図（なぜこの施策を打つのか）を理解することで、業務が円滑になるだけでなく、体験価値の向上に自らアイデアを出せるようになります。", "isCorrect": true },
-          { "text": "マーケティング部門の仕事を奪い、部門を統合できる。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "コールセンターの対応時間を強制的に半分にできる。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "すべてのクレームをゼロにすることができる。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "ロジスティック回帰", "rationale": "確率の予測手法です。", "isCorrect": false },
+          { "text": "クラスタリング", "rationale": "似た特徴を持つデータ同士をグループ（クラスター）に分ける手法が用いられます。", "isCorrect": true },
+          { "text": "コンジョイント分析", "rationale": "商品開発などで要素の重要度を測る手法です。", "isCorrect": false },
+          { "text": "テキストマイニング", "rationale": "文章データの分析手法です。", "isCorrect": false }
         ],
-        "hint": "「言われた作業をこなす」受け身の姿勢から、「一緒に価値を創る」姿勢への変化です。"
+        "hint": "似たもの同士を「房」のように集める分析手法です。"
       },
       {
         "questionNumber": 29,
-        "question": "マーケティングにおいて、顧客が商品を知ってから購入するまでの行動や感情の変化を可視化したものを「カスタマージャーニーマップ」と呼ぶが、D2Cにおいては「購入」をどのように捉えるべきか。",
+        "question": "社内でデータ処理（クラスタリング等）のノウハウが不足している場合、テキストで推奨されている現実的な対応はどれか。",
         "answerOptions": [
-          { "text": "マーケティングの最終ゴール", "rationale": "売り切りのモデルの考え方です。", "isCorrect": false },
-          { "text": "優良顧客化への新たなスタート", "rationale": "D2Cでは購入は終わりではなく、関係構築（LTV向上）の始まりと捉えます。", "isCorrect": true },
-          { "text": "最もコストを削減すべきポイント", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "関係性を断ち切るタイミング", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "手作業で数ヶ月かけて分類を行う。", "rationale": "非効率すぎます。", "isCorrect": false },
+          { "text": "ノウハウが蓄積されるまで施策を延期する。", "rationale": "機会損失になります。", "isCorrect": false },
+          { "text": "専門企業に外注してしまう。", "rationale": "自社で難しい場合は無理せず外注するのも一考だと推奨されています。", "isCorrect": true },
+          { "text": "ランダムに顧客をグループ分けする。", "rationale": "分析の意味がありません。", "isCorrect": false }
         ],
-        "hint": "結婚式がゴールではなく、結婚生活のスタートであるのと同じ考え方です。"
+        "hint": "自社でできないことはプロに任せるという選択です。"
       },
       {
         "questionNumber": 30,
-        "question": "カスタマージャーニーマップに、顧客ランク別の「継続率」や「購買金額」を付加し、顧客が継続化する道のりをさらに明確化したものを何と呼ぶか。",
+        "question": "顧客セグメントの分類が完了した後の最終的なアクションとして適切なものはどれか。",
         "answerOptions": [
-          { "text": "プロダクト・ロードマップ", "rationale": "製品開発の計画表です。", "isCorrect": false },
-          { "text": "カスタマー・サステナブルマップ", "rationale": "継続性（サステナブル）を重視し、顧客ランクの推移を可視化したマップです。", "isCorrect": true },
-          { "text": "セールス・ファネル", "rationale": "一般的な購買プロセスの漏斗図です。", "isCorrect": false },
-          { "text": "バランス・スコアカード", "rationale": "経営評価のフレームワークです。", "isCorrect": false }
+          { "text": "すべてのセグメントに同じ会報誌を送付する。", "rationale": "画一的な対応は意味がありません。", "isCorrect": false },
+          { "text": "セグメントごとのCE向上要素を見極め、個別の施策や投資を行う。", "rationale": "分類したグループの特性に合わせて、それぞれに最適なコミュニケーションや投資を実行します。", "isCorrect": true },
+          { "text": "最もLTVの低いセグメントへの投資を即座にゼロにする。", "rationale": "育成の可能性を断つことになります。", "isCorrect": false },
+          { "text": "セグメントごとの売上目標を全社一律に設定する。", "rationale": "セグメントのポテンシャルを無視しています。", "isCorrect": false }
         ],
-        "hint": "「持続可能な（サステナブル）」という言葉が含まれます。"
+        "hint": "分類した後は、それぞれに「一番効く薬」を処方します。"
       },
       {
         "questionNumber": 31,
-        "question": "一般的に、優良顧客の「返品率」の傾向として知られているものはどれか。",
+        "question": "顧客ポートフォリオにおける各グループの「構成比」についての戦略的な考え方はどれか。",
         "answerOptions": [
-          { "text": "その他顧客と比べ、返品率は完全にゼロである。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "その他顧客と比べ、相対的に返品率が高い。", "rationale": "優良顧客は購入頻度や金額が高いため、サイズ違いなどで返品を利用する機会も相対的に多くなる傾向があります。", "isCorrect": true },
-          { "text": "返品はするが、交換は絶対にしない。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "新規顧客よりも返品率が圧倒的に低い。", "rationale": "逆の傾向が知られています。", "isCorrect": false }
+          { "text": "現在の構成比を維持することが最大の目標である。", "rationale": "市場変化に対応できません。", "isCorrect": false },
+          { "text": "市場の自然な流れに任せて変化するのを待つべきである。", "rationale": "受け身の姿勢です。", "isCorrect": false },
+          { "text": "将来的な成長のため、意図して構成比を変えていく（変化させる）方針を持つ。", "rationale": "「この層を増やそう」という戦略的な意図を持って、理想のポートフォリオへ能動的に変化させます。", "isCorrect": true },
+          { "text": "利益率の低いグループの構成比を短期間でゼロにする。", "rationale": "極端すぎます。", "isCorrect": false }
         ],
-        "hint": "よく買う人ほど、サービス（返品制度など）もよく利用する傾向にあります。"
+        "hint": "資産運用と同じで、リターンを最大化するために「自分で」組み合わせを調整します。"
       },
       {
         "questionNumber": 32,
-        "question": "物流倉庫において、梱包している商品を購入した「顧客のランク」を把握して作業することは、何に大きな変化をもたらすか。",
+        "question": "戦略的ポートフォリオ変更を行うことで、経営上どのような利点が得られると説明されているか。",
         "answerOptions": [
-          { "text": "商品の原価", "rationale": "原価は変わりません。", "isCorrect": false },
-          { "text": "体験価値の提供", "rationale": "「初めてのお客様」と「長年の優良顧客」で同梱物を変えたり、梱包の心遣いを変えたりすることで、体験価値が大きく変わります。", "isCorrect": true },
-          { "text": "配送業者の配送料", "rationale": "配送料は変わりません。", "isCorrect": false },
-          { "text": "梱包資材の重量", "rationale": "直接的な変化ではありません。", "isCorrect": false }
+          { "text": "従業員のモチベーションが均一化される。", "rationale": "関係ありません。", "isCorrect": false },
+          { "text": "構成比の変化による「財務的インパクト」がシミュレーション可能になる。", "rationale": "LTVベースで構成比の変化を追うことで、「A層を〇%増やせば利益が〇億円増える」といった計算が可能になります。", "isCorrect": true },
+          { "text": "競合他社の戦略変更を事前に予測できるようになる。", "rationale": "自社の内部データからの予測です。", "isCorrect": false },
+          { "text": "システム投資のコストを正確に算出できるようになる。", "rationale": "システムコストの算出とは異なります。", "isCorrect": false }
         ],
-        "hint": "「誰に送るか」を知ることで、作業が単なる「作業」から「おもてなし」に変わります。"
+        "hint": "「この顧客層がこれだけ増えたら、会社の利益はいくら増えるか？」という計算ができるようになります。"
       },
       {
         "questionNumber": 33,
-        "question": "「カスタマー・サステナブルマップ」の作成において、望ましい進め方はどれか。",
+        "question": "テキストの「顧客戦略に基づくポートフォリオ変化」の例において、5年後に向けて企業がどのような変化を意図しているか。",
         "answerOptions": [
-          { "text": "マーケティング部門のみで極秘に作成し、現場に指示を下す。", "rationale": "現場の視点が欠け、実行力が伴いません。", "isCorrect": false },
-          { "text": "フルフィルメント部門とマーケ部門が共同作成する。", "rationale": "双方の業務理解と顧客理解を深めるため、共同作成が推奨されています。", "isCorrect": true },
-          { "text": "外部のコンサルタントに完全委託し、社内では考えない。", "rationale": "自社のノウハウになりません。", "isCorrect": false },
-          { "text": "システム部門がデータのみから自動生成する。", "rationale": "定性的な体験やインサイトが反映されません。", "isCorrect": false }
+          { "text": "最も構成比の大きいセグメントAの割合をさらに拡大する。", "rationale": "例ではセグメントAの割合は下がっています。", "isCorrect": false },
+          { "text": "中間層のセグメントBとCを完全に統合する。", "rationale": "統合は示されていません。", "isCorrect": false },
+          { "text": "現在構成比が最も低いセグメントDを積極的に獲得・育成し、割合を増やす。", "rationale": "図では、現状8%のセグメントDを、5年後に23%へと拡大させる意図が示されています。", "isCorrect": true },
+          { "text": "全てのセグメントを均等な割合（25%ずつ）にする。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "計画する人と実行する人が一緒に考えることが大切です。"
+        "hint": "今はまだ小さいけれど、将来の会社の柱として育てようとしている層のことです。"
       },
       {
         "questionNumber": 34,
-        "question": "テキストの「カスタマー・サステナブルマップの例」において、「たまたま巡り合った商品に関心。初回購入企業への期待と不安」という購入前背景を持つ顧客ランクはどれか。",
+        "question": "CPO（顧客獲得単価）を用いた広告評価の限界について、正しい記述はどれか。",
         "answerOptions": [
-          { "text": "新規客", "rationale": "初めて購入する「新規客」の心理状態です。", "isCorrect": true },
-          { "text": "第2新客", "rationale": "これは初回購入時にある程度識別が終わっている状態です。", "isCorrect": false },
-          { "text": "収益客", "rationale": "これはすでに定着している顧客です。", "isCorrect": false },
-          { "text": "離脱客", "rationale": "これは一度離れた顧客です。", "isCorrect": false }
+          { "text": "CPOは広告のクリック率を反映しないため不正確である。", "rationale": "CPOはクリックの先の「獲得」を評価するものです。", "isCorrect": false },
+          { "text": "CPOが安い顧客層は、必ず継続率が高くなる傾向がある。", "rationale": "むしろ逆で、衝動買い等により継続しにくいケースもあります。", "isCorrect": false },
+          { "text": "CPOの評価だけでは、その顧客が将来もたらす利益（LTV）が把握できない。", "rationale": "獲得効率が良くてもリピートしなければ赤字になるため、LTVをセットで評価する必要があります。", "isCorrect": true },
+          { "text": "CPOは季節要因の影響を全く受けないため、柔軟な評価ができない。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "まだブランドのことをよく知らない、最初のお客様です。"
+        "hint": "「安く連れてこられた」ということと「長く買ってくれる」ということは別問題です。"
       },
       {
         "questionNumber": 35,
-        "question": "テキストの「カスタマー・サステナブルマップの例」において、「関心はあるが、マンネリ化の気配やサービスが期待に反すれば離反に転じる」という購入前背景を持つ顧客ランクはどれか。",
+        "question": "予算配分の最適化において、「新規顧客数の最大化」を目標とした場合、CE最大化の配分と比べてどのような傾向が見られるか。",
         "answerOptions": [
-          { "text": "新規客", "rationale": "まだマンネリ化する段階ではありません。", "isCorrect": false },
-          { "text": "収益客", "rationale": "よく買ってくれる「収益客」であっても、マンネリや期待外れの対応で離反するリスクがあることが示されています。", "isCorrect": true },
-          { "text": "休眠客", "rationale": "すでに関心が薄れている状態です。", "isCorrect": false },
-          { "text": "離脱客", "rationale": "すでに離れた状態です。", "isCorrect": false }
+          { "text": "新規獲得のための支出（広告費など）への配分比率が高くなる傾向にある。", "rationale": "目先の人数を追うため、LTVの育成よりも獲得への投資に偏重した配分になります。", "isCorrect": true },
+          { "text": "既存顧客向けのカタログ送付コストへの配分が大幅に増加する。", "rationale": "これは既存維持の施策です。", "isCorrect": false },
+          { "text": "特別キャンペーン費用の配分が最も大きくなる。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "データベース管理費用の配分が他の全てを上回る。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "一番売上に貢献してくれている層ですが、飽きさせない工夫が必要です。"
+        "hint": "「長期的な利益」よりも「目先の人数」を優先した場合のお金の使い方です。"
       },
       {
         "questionNumber": 36,
-        "question": "テキストの「カスタマー・サステナブルマップの例」において、「マイナスあるいはゼロ印象からの再出発。新しい気付きがあれば再購入もありか。」という購入前背景を持つ顧客ランクはどれか。",
+        "question": "ブラットバーグとデイトンのCEの定義において、期待収益率を用いて「現在価値に割り引く」処理を行う理由は何か。",
         "answerOptions": [
-          { "text": "新規客", "rationale": "ゼロ印象はあり得ますが、マイナス印象からの再出発ではありません。", "isCorrect": false },
-          { "text": "第2新客", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "維持客", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "離脱客", "rationale": "一度離れてしまった「離脱客」に対するアプローチの前提です。", "isCorrect": true }
+          { "text": "競合他社との価格差を調整するため。", "rationale": "価格差の調整ではありません。", "isCorrect": false },
+          { "text": "金利や将来のリスク要因を考慮し、将来の収益を現在の価値に換算するため。", "rationale": "将来受け取るお金は今のお金より価値が下がるという経済学的な前提（NPV）に基づいています。", "isCorrect": true },
+          { "text": "マーケティングコストの増減を平準化するため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客の離脱率を統計的に補正するため。", "rationale": "離脱率はLTV計算の他の要素で考慮されます。", "isCorrect": false }
         ],
-        "hint": "一度関係が切れてしまったお客様です。"
+        "hint": "「10年後にもらえる1万円」は、「今もらえる1万円」よりも価値が低いと考えるためです。"
       },
       {
         "questionNumber": 37,
-        "question": "テキストの「カスタマー・サステナブルマップの例」において、「新規客」に対する検討課題として挙げられているものはどれか。",
+        "question": "LTV経営において、「顧客を資産と捉えない」経営判断が引き起こす典型的な失敗はどれか。",
         "answerOptions": [
-          { "text": "趣向に合った提案、新たな発見を促す訴求をどう進めていくか。", "rationale": "これは収益客・維持客の課題です。", "isCorrect": false },
-          { "text": "ほぼ新客同様の関心度。次回購入への動機づけができるか。", "rationale": "これは離脱客の課題です。", "isCorrect": false },
-          { "text": "初回購入時に、次回購入への動機づけができるか、好印象が残せるか。", "rationale": "新規客を次に繋げるための最重要課題です。", "isCorrect": true },
-          { "text": "商品と共に、当社への関心度・好感度をどれだけ残せるか。", "rationale": "これは第2新客などの課題です。", "isCorrect": false }
+          { "text": "長期的な育成を無視し、短期的な利益のために投資を切り詰めること。", "rationale": "デス・スパイラルを引き起こす原因となる、近視眼的なコストカットです。", "isCorrect": true },
+          { "text": "既存顧客を優遇しすぎ、新規獲得を完全に停止すること。", "rationale": "バランスを欠いていますが、典型的な失敗例の文脈とは少し異なります。", "isCorrect": false },
+          { "text": "新商品開発にのみ巨額の予算を投じ、既存商品の販売を停止すること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客データの収集を外部に完全に委託すること。", "rationale": "委託自体が失敗とは限りません。", "isCorrect": false }
         ],
-        "hint": "「次も買おう！」と思ってもらうためのファーストコンタクトの課題です。"
+        "hint": "顧客という「畑」に肥料を撒くのをやめて、収穫だけを急ぐような行為です。"
       },
       {
         "questionNumber": 38,
-        "question": "テキストの「カスタマー・サステナブルマップの例」において、「収益客」に対する改善対策の例として挙げられているものはどれか。",
+        "question": "メーカー（B2B2C）とD2Cの「売上原価率」に関する比較で、D2Cがコントロールしやすい理由として適切なものはどれか。",
         "answerOptions": [
-          { "text": "Welcome キャンペーン", "rationale": "これは新規客向けの対策です。", "isCorrect": false },
-          { "text": "VIPプログラム、趣向商品の紹介、今後の展開予告", "rationale": "マンネリを防ぎ特別感を提供するための、収益客（優良顧客）向けの対策です。", "isCorrect": true },
-          { "text": "会社としての取り組み紹介のみ", "rationale": "新規客や第2新客向けのアプローチです。", "isCorrect": false },
-          { "text": "大幅な値引きクーポンの乱発", "rationale": "マップの例には記載されていません。", "isCorrect": false }
+          { "text": "製品の品質を段階的に下げる手法が確立されているため。", "rationale": "品質低下はコントロールの正当な理由ではありません。", "isCorrect": false },
+          { "text": "顧客データを活用して生産と在庫を最適化できるため。", "rationale": "直接繋がることで需要を正確に予測し、無駄な製造コストを抑えられます。", "isCorrect": true },
+          { "text": "中間流通業者がマージンを負担してくれるため。", "rationale": "D2Cには中間流通業者がいません。", "isCorrect": false },
+          { "text": "大量生産による規模の経済がメーカー以上に働くため。", "rationale": "規模の経済はメーカーの方が働きます。", "isCorrect": false }
         ],
-        "hint": "特別扱いをして、ブランドに飽きさせないための施策です。"
+        "hint": "「どれくらい売れそうか」が事前にデータで分かるからです。"
       },
       {
         "questionNumber": 39,
-        "question": "アクションチェーン・マネジメントの導入イメージ図において、「計画決定」が行われた後、マーケティング部門と制作部門が並行して行う「準備」のステップはどれか。",
+        "question": "D2Cのマネジメント層が、事業計画上の目標（1億円の売上増加など）を達成するために策定すべき「顧客戦略」のアプローチはどれか。",
         "answerOptions": [
-          { "text": "販売動向確認 と 在庫確認", "rationale": "これは施策開始「後」の動きです。", "isCorrect": false },
-          { "text": "施策手配・施策開始準備 と 制作計画・ツール制作", "rationale": "計画が決まった後、実際に施策を動かすための準備（手配や制作）に入ります。", "isCorrect": true },
-          { "text": "結果総括", "rationale": "これはプロセスの最後です。", "isCorrect": false },
-          { "text": "半期計画策定", "rationale": "これは一番最初です。", "isCorrect": false }
+          { "text": "どのチャネルの予算を削減すれば1億円捻出できるかを計算する。", "rationale": "コストカットの視点のみです。", "isCorrect": false },
+          { "text": "どのセグメントの顧客にどのような価値を提供し、どれだけの収益を上げるかを明確にする。", "rationale": "顧客ポートフォリオとLTVの視点から、各グループからの収益目標を組み立てます。", "isCorrect": true },
+          { "text": "すべての商品価格を一律で引き上げ、1億円の増収を図る。", "rationale": "乱暴なアプローチであり顧客戦略ではありません。", "isCorrect": false },
+          { "text": "新規の広告代理店を契約し、プロモーションを全面委託する。", "rationale": "自社の戦略ではありません。", "isCorrect": false }
         ],
-        "hint": "GOサインが出た後、実際に広告枠を押さえたりクリエイティブを作ったりする段階です。"
+        "hint": "「誰に」「何を」して目標金額を達成するかを逆算することです。"
       },
       {
         "questionNumber": 40,
-        "question": "アクションチェーン・マネジメントの導入イメージ図において、システム部門が「計画説明」を受けた後に行う準備作業はどれか。",
+        "question": "RFM分析で用いられる「F」の指標が持つ特性として適切なものはどれか。",
         "answerOptions": [
-          { "text": "調達計画、調達手配", "rationale": "これは商品部門の役割です。", "isCorrect": false },
-          { "text": "改修計画、設計・開発・テスト", "rationale": "新しい施策に合わせてシステムが対応できるよう、開発やテストを行います。", "isCorrect": true },
-          { "text": "倉庫計画、運用準備", "rationale": "これは物流部門の役割です。", "isCorrect": false },
-          { "text": "回収計画、運用準備", "rationale": "これは債権管理部門の役割です。", "isCorrect": false }
+          { "text": "DM反応率との相関はR（直近購買日）ほど明確ではないが、回数が多いほど反応率は良くなる傾向にある。", "rationale": "F（頻度）はRに次いで重要であり、回数が多い顧客は優良である傾向が示されています。", "isCorrect": true },
+          { "text": "購買回数が多い顧客は、R（直近購買日）が古くても常に高い反応率を示す。", "rationale": "Rが古いとFが高くても反応は落ちます。", "isCorrect": false },
+          { "text": "Fの数値は、顧客の経済的余裕（購買力）を正確に表す指標である。", "rationale": "購買力を表すのはM（金額）です。", "isCorrect": false },
+          { "text": "Fが1（初回購入）の顧客は、Fが2の顧客よりも定着率が圧倒的に高い。", "rationale": "逆です。F1顧客は定着しないリスクが高いです。", "isCorrect": false }
         ],
-        "hint": "ITシステムを新しいキャンペーンなどに適応させるための作業です。"
+        "hint": "何回も買ってくれている人は、やはり次も買ってくれやすいという傾向です。"
       },
       {
         "questionNumber": 41,
-        "question": "アクションチェーン・マネジメントの考え方に基づく時、「システムの対応が間に合わない場合」に発生してしまう問題は何か。",
+        "question": "RFM分析の「M（累計購買金額）」の指標に関する記述として、正しいものはどれか。",
         "answerOptions": [
-          { "text": "売上の急増", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "「属人的な運用」の発生", "rationale": "システムで自動化できないため、人が手作業でカバーする「属人的な運用（ミスや遅延の温床）」が発生します。", "isCorrect": true },
-          { "text": "完全な自動化の実現", "rationale": "逆です。", "isCorrect": false },
-          { "text": "顧客の絶賛", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "Mが大きければ大きいほど、DM反応率も比例して必ず高くなる。", "rationale": "Mと反応率の相関は限定的です。", "isCorrect": false },
+          { "text": "Mの大きさは、RやFに比べてDM反応率に与える影響が限定的である。", "rationale": "購買力の高さは分かっても、次に買ってくれる確率（反応率）への影響はRやFほど強くありません。", "isCorrect": true },
+          { "text": "Mが高い顧客は、利益率も常に高いため、最も重要なターゲットとなる。", "rationale": "売上（M）が高くても利益が高いとは限りません。", "isCorrect": false },
+          { "text": "Mは個々の購買サイクルを正確に予測するための唯一の指標である。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "機械ができないことを、現場のスタッフが「気合いと根性（手作業）」でカバーする状態です。"
+        "hint": "「お金持ち」だからといって、毎回DMに反応してくれるとは限らないということです。"
       },
       {
         "questionNumber": 42,
-        "question": "「顧客獲得はゴールではなくスタート」の図において、新規顧客のループ（認知→調査→選択→購入）と既存顧客のループ（受取→使用→継続→推奨）が交わる「起点」となるアクションは何か。",
+        "question": "D2C企業が「顧客の経済価値を売上ではなく利益で評価する」ために用いるべき指標はどれか。",
         "answerOptions": [
-          { "text": "認知/興味", "rationale": "これは新規獲得の入り口です。", "isCorrect": false },
-          { "text": "商品受取（初回）", "rationale": "「購入」の後、実際に商品を受け取ることで既存顧客としての体験（ループ）が始まります。", "isCorrect": true },
-          { "text": "休眠", "rationale": "ループから外れるアクションです。", "isCorrect": false },
-          { "text": "他者への推奨", "rationale": "これは既存顧客ループの最終段階です。", "isCorrect": false }
+          { "text": "RFMスコアの合計値", "rationale": "RFMは売上や頻度の指標です。", "isCorrect": false },
+          { "text": "客単価の年間平均", "rationale": "売上の指標です。", "isCorrect": false },
+          { "text": "LTV（顧客生涯価値）", "rationale": "LTVは売上からコストを差し引いた利益ベースで顧客価値を評価します。", "isCorrect": true },
+          { "text": "CPA（顧客獲得単価）", "rationale": "コストの指標です。", "isCorrect": false }
         ],
-        "hint": "注文した品物が、初めてお客様の手元に届く瞬間です。"
+        "hint": "顧客一人ひとりが生涯にもたらす「儲け」の総額です。"
       },
       {
         "questionNumber": 43,
-        "question": "フルフィルメント部門が「決定された企画の実行面のみを担当する」という状態から脱却し、マーケ部門と「つながり」を持つことで生まれるポジティブな変化は何か。",
+        "question": "ドン・ペパーズが提唱する手法において、顧客をグルーピングする際にベースとするものは何か。",
         "answerOptions": [
-          { "text": "それぞれが顧客のために何ができるか知恵を出し合う風土の醸成", "rationale": "双方が理解を深めることで、単なる作業者から価値の創造者（共創）へと変化し、良い風土が醸成されます。", "isCorrect": true },
-          { "text": "責任のなすりつけ合いの増加", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "企画の立案から実行までのスピードの極端な遅延", "rationale": "情報共有によりむしろスムーズになります。", "isCorrect": false },
-          { "text": "マニュアルの完全撤廃", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "顧客の居住地域", "rationale": "ジオグラフィックな分類のみでは不十分です。", "isCorrect": false },
+          { "text": "顧客の年齢と性別の組み合わせ", "rationale": "デモグラフィックな分類のみでは不十分です。", "isCorrect": false },
+          { "text": "特定のニーズや嗜好性（優良化パターン）", "rationale": "購入チャネルやスピード、行動履歴などから読み取れる「優良化のパターン」に基づいてグループ分けを行います。", "isCorrect": true },
+          { "text": "クレームの深刻度", "rationale": "これだけではグルーピングのベースになりません。", "isCorrect": false }
         ],
-        "hint": "お互いの視点を持つことで「やらされる仕事」から「一緒に創る仕事」に変わります。"
+        "hint": "「どういう風に商品を楽しんでくれているか」という行動の特徴です。"
       },
       {
         "questionNumber": 44,
-        "question": "第4章のタイトルは「( )の視点で見た価値の創造/伝達/提供」である。( )に入る言葉は何か。",
+        "question": "ポートフォリオ作成のStep4で、下位顧客を各グループに紐づけることの最大の目的は何か。",
         "answerOptions": [
-          { "text": "顧客管理", "rationale": "これは第3章です。", "isCorrect": false },
-          { "text": "財務管理", "rationale": "これは第5章です。", "isCorrect": false },
-          { "text": "オペレーション管理", "rationale": "第4章は「オペレーション管理」の視点から解説されています。", "isCorrect": true },
-          { "text": "組織管理", "rationale": "これは第6章です。", "isCorrect": false }
+          { "text": "下位顧客をリストから一斉に削除するための基準とするため。", "rationale": "育成を放棄することになります。", "isCorrect": false },
+          { "text": "それぞれの下位顧客が、将来どの優良顧客のパターンに成長し得るか（育成の道筋）を見立てるため。", "rationale": "現状は優良でなくても、将来的にAグループになるかBグループになるかを見極め、適切な育成投資を行うためです。", "isCorrect": true },
+          { "text": "下位顧客に対してのみ、コストのかからないメール広告に限定するため。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "競合他社にリストを売却する際の価値を算定するため。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "事業を「どう回していくか（実務の運用）」という視点です。"
+        "hint": "まだ種の状態のお客様が、将来どんな花を咲かせるかを予測して育てるためです。"
       },
       {
         "questionNumber": 45,
-        "question": "カスタマー・サステナブルマップにおいて、「顧客ランク」ごとに設定されている定量的な指標の例（図に記載されているもの）は何か。",
+        "question": "CE（カスタマー・エクイティ）を向上させるために、チャネル間の連携が必要となる背景の例として適切なものはどれか。",
         "answerOptions": [
-          { "text": "年齢と性別", "rationale": "デモグラフィック情報です。", "isCorrect": false },
-          { "text": "6ヶ月継続率 と 6ヶ月客単価", "rationale": "マップの例では、ランクごとに人数、継続率、客単価などの数値が記載され、明確な目標として機能します。", "isCorrect": true },
-          { "text": "居住地と職業", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "クリック率と直帰率", "rationale": "Webサイトの単一の指標です。", "isCorrect": false }
+          { "text": "顧客は通常1つのチャネルしか利用しないため、他のチャネルを廃止する必要がある。", "rationale": "複数チャネル利用が一般的です。", "isCorrect": false },
+          { "text": "複数チャネルを併用する顧客の方がLTVが向上する傾向にあるが、部門ごとの評価だと囲い込みが起きるため。", "rationale": "チャネルをまたいだ利用を促すことがCE向上に繋がりますが、縦割り評価ではそれを阻害してしまうためです。", "isCorrect": true },
+          { "text": "各チャネルのシステムが完全に統合されているため、個別の管理が不要になるため。", "rationale": "システムが統合されてもマネジメントは必要です。", "isCorrect": false },
+          { "text": "オフラインチャネルの顧客はオンラインチャネルに誘導してはならないため。", "rationale": "むしろ誘導することが推奨される場合があります。", "isCorrect": false }
         ],
-        "hint": "「どれくらい続けてくれているか」と「どれくらい買ってくれているか」の数字です。"
+        "hint": "「店舗の売上」ではなく「会社全体の利益」を優先させるための連携です。"
       },
       {
         "questionNumber": 46,
-        "question": "D2Cと一般流通小売の「商品調達〜販売」までのリードタイム（時間）の感覚の違いとして、正しいものはどれか。",
+        "question": "「顧客を資産と捉える」という言葉の真意は何か。",
         "answerOptions": [
-          { "text": "一般流通の方が、広告を打ってから売れるまでの反応が圧倒的に早い。", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "D2Cの方が、企画から販売開始までのリードタイムを長く取る必要がある。", "rationale": "D2Cの方が機動的に動ける傾向があります。", "isCorrect": false },
-          { "text": "D2Cは広告・販促の訴求次第で受注が急変動するため、店頭（一般流通）の動向を待つサプライチェーン発想では遅すぎる。", "rationale": "D2Cはアクション（計画）で需要を創り出すため、素早い連携（アクションチェーン）が必要です。", "isCorrect": true },
-          { "text": "両者に時間の感覚の違いは全く無い。", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "顧客の個人情報を売買して収益を得ること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客基盤（リスト）が将来に渡ってもたらす利益の総額を会社の価値として評価すること。", "rationale": "顧客との関係性が生み出す将来の利益（CE）を、工場や設備と同じように会社の重要な資産として見なす考え方です。", "isCorrect": true },
+          { "text": "顧客からの預かり金を自社の運転資金として運用すること。", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客に高額な商品を押し付けて短期的な売上を確保すること。", "rationale": "関係構築に反します。", "isCorrect": false }
         ],
-        "hint": "お店に人が来るのを待つ商売と、自分から仕掛けて注文を取る商売の違いです。"
+        "hint": "工場や機械と同じように、会社に利益を生み出し続けてくれる「宝」だということです。"
       },
       {
         "questionNumber": 47,
-        "question": "部門間の「縦割り意識」が強い組織において、コールセンター（フルフィルメント側）からマーケティング（企画側）に対してよく持たれる不満の例はどれか。",
+        "question": "新規顧客獲得のための投資判断において、「CPOが安い媒体」と「CPOは高いがLTVが高い媒体」がある場合、LTV経営の視点からどう判断すべきか。",
         "answerOptions": [
-          { "text": "「企画部門はいつも同じアイデアしか出さない」", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "「受注システムをよく知らない企画が原因で、ミス入力が増えた」", "rationale": "現場のオペレーションやシステムの都合を知らずに企画が走ることへの不満の典型例です。", "isCorrect": true },
-          { "text": "「企画部門の電話応対スキルが低すぎる」", "rationale": "企画部門は通常電話応対をしません。", "isCorrect": false },
-          { "text": "「商品の梱包が雑だ」", "rationale": "これは企画に対する不満ではありません。", "isCorrect": false }
+          { "text": "常にCPOが安い媒体に予算を全額投下する。", "rationale": "安くても離脱されれば赤字になります。", "isCorrect": false },
+          { "text": "獲得効率と長期的な収益性（LTV）の両方を加味し、最終的な投資対効果（ROI）が高い方に予算を配分する。", "rationale": "入り口のコストだけでなく、出口の利益までを含めた全体最適で判断します。", "isCorrect": true },
+          { "text": "広告投資自体が赤字の原因となるため、両方とも出稿を停止する。", "rationale": "投資を止めると成長が止まります。", "isCorrect": false },
+          { "text": "CPOとLTVの平均値を出し、他社の基準に合わせて判断する。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "「現場の苦労も知らないで、無茶なキャンペーンを打たないでくれ」という声です。"
+        "hint": "目先の安さよりも、最終的にどちらが儲かるかで判断します。"
       },
       {
         "questionNumber": 48,
-        "question": "部門間の「縦割り意識」が強い組織において、マーケティング（企画側）からコールセンターや物流（フルフィルメント側）に対してよく持たれる不満の例はどれか。",
+        "question": "最適なマーケティング支出を求める「最適化」のアプローチにおいて、近年企業が活用しているものは何か。",
         "answerOptions": [
-          { "text": "「細かい作業のことにしか関心がなく、新しい企画に非協力的だ」", "rationale": "現場が「今の作業を回すこと」で手一杯になり、新しい挑戦を拒むように見えることへの不満の典型例です。", "isCorrect": true },
-          { "text": "「広告のデザインセンスが古すぎる」", "rationale": "デザインはマーケ側の担当です。", "isCorrect": false },
-          { "text": "「商品の原価計算が間違っている」", "rationale": "フルフィル側の責任ではありません。", "isCorrect": false },
-          { "text": "「次々と新しいアイデアを出してきて対応しきれない」", "rationale": "これは現場から企画への不満です。", "isCorrect": false }
+          { "text": "現場担当者の長年の直感", "rationale": "直感だけでは最適化は困難です。", "isCorrect": false },
+          { "text": "コンサルタントが作成した固定のテンプレート", "rationale": "企業ごとに状況は異なります。", "isCorrect": false },
+          { "text": "データ・サイエンティストによる分析やAI技術", "rationale": "複雑な変数（CPO、LTV、維持率など）を計算し最適解を導くために、データサイエンスやAIが活用されます。", "isCorrect": true },
+          { "text": "顧客への直接の多数決アンケート", "rationale": "予算配分を顧客に聞くのは不適切です。", "isCorrect": false }
         ],
-        "hint": "「せっかく面白いキャンペーンを考えたのに、現場が『無理だ』と突っぱねる」という声です。"
+        "hint": "膨大な数字の計算を人間以上のスピードでこなす専門職や技術です。"
       },
       {
         "questionNumber": 49,
-        "question": "アクションチェーン・マネジメントにおいて、各実務の「鎖」をしっかり連携させ、事業の一貫性を構築した結果、顧客に対して何を提供できるとされているか。",
+        "question": "顧客ポートフォリオの作成において、ミドル・マネジメント層（部門・チームの責任者）が果たすべき役割はどれか。",
         "answerOptions": [
-          { "text": "業界最安値の商品", "rationale": "安さが目的ではありません。", "isCorrect": false },
-          { "text": "圧倒的な体験価値", "rationale": "部門が連携してシームレスに動くことで、顧客の期待を超える圧倒的な体験価値を提供できます。", "isCorrect": true },
-          { "text": "一切の遅延のない配送", "rationale": "体験価値の一部ですが、それだけではありません。", "isCorrect": false },
-          { "text": "永遠に壊れない商品", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "抽出されたデータをシステム部門にすべて任せ、関与しない。", "rationale": "現場を知るマネジャーの関与が必要です。", "isCorrect": false },
+          { "text": "経営層の指示を待って、決められたセグメント通りにDMを送る。", "rationale": "受け身の姿勢は推奨されません。", "isCorrect": false },
+          { "text": "実務で運用可能なセグメントの設計や、他部門との連携（共通言語化）を主導する。", "rationale": "データサイエンティスト任せにせず、現場で使えるセグメント分けや他部署との調整をリードすることが求められます。", "isCorrect": true },
+          { "text": "予算削減のため、ポートフォリオ作成プロジェクト自体を中止させる。", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "「買ってよかった！また買いたい！」と思わせる感動のことです。"
+        "hint": "データ分析を「現場で使える仕組み」に落とし込むためのまとめ役です。"
       },
       {
         "questionNumber": 50,
-        "question": "顧客が休眠や離脱に至るタイミングは、カスタマー・ジャーニー（サステナブルマップ）においていつ発生する可能性があるか。",
+        "question": "LTVの構造において、計算結果の精度を上げるために加味されることがある「CRV」とは何か。",
         "answerOptions": [
-          { "text": "商品を購入する前だけ", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "購入後、商品を受け取った直後だけ", "rationale": "不適切です。", "isCorrect": false },
-          { "text": "認知から購入、使用開始、使用継続に至るすべてのステップ（接点）", "rationale": "図に示されているように、すべてのステップで「休眠・離脱」に分岐する矢印が描かれています。", "isCorrect": true },
-          { "text": "定期購入を解約した後だけ", "rationale": "不適切です。", "isCorrect": false }
+          { "text": "顧客からのクレームによる損失価値", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客が他者を紹介することによってもたらされる価値（顧客紹介価値）", "rationale": "Customer Referral Valueの略で、本人が買うだけでなく、他者を連れてきてくれる価値をLTVに加算する考え方です。", "isCorrect": true },
+          { "text": "商品の返品に伴う返金価値", "rationale": "不適切です。", "isCorrect": false },
+          { "text": "顧客が競合他社へ乗り換えることによる流出価値", "rationale": "不適切です。", "isCorrect": false }
         ],
-        "hint": "お客様が「もういいや」と思う瞬間は、旅の途中のどこにでも潜んでいます。"
+        "hint": "口コミやSNSでの推奨による、間接的な売上貢献効果のことです。"
       }
     ];
 
@@ -643,7 +643,7 @@
               <BookOpen className="w-8 h-8 text-blue-600" />
               <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">D2Cエキスパート検定1級</h1>
             </div>
-            <p className="text-slate-500">第4章：オペレーション管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
+            <p className="text-slate-500">第5章：財務管理の視点で見た価値の創造/伝達/提供 対策クイズ（全50問）</p>
           </header>
 
           {/* Main Content Area */}
@@ -657,8 +657,10 @@
                 </div>
                 <h2 className="text-2xl font-bold mb-4">検定本番に向けた腕試し！</h2>
                 <p className="text-slate-600 mb-8 max-w-lg">
-                  テキスト第4章「オペレーション管理」の知識を網羅した、全50問の特大ボリュームクイズです。
-                  アクションチェーンや部門間連携の重要項目が詰まっています。合格ラインは70%（35問正解）です！
+                  テキスト第5章「財務管理」の知識を網羅した、全50問の特大ボリュームクイズです。
+                  LTV、カスタマー・エクイティ(CE)、顧客ポートフォリオの作成手順など超重要項目が詰まっています。<br />
+                  <span className="text-red-500 font-bold text-sm">※問題と選択肢の難易度を本番レベルに引き上げた改訂版です。</span><br />
+                  合格ラインは70%（35問正解）です！
                 </p>
                 <button
                   onClick={startQuiz}
